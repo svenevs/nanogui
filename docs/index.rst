@@ -64,7 +64,7 @@ Contents
    usage
    compilation
    examples
-   generated_api/library_root
+   api/library_root
    contributing
 
 
