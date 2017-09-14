@@ -78,7 +78,7 @@ void CheckBox::draw(NVGcontext *ctx) {
     nvgFill(ctx);
 
     if (mChecked) {
-        nvgFontSize(ctx, 1.8 * mSize.y());
+        nvgFontSize(ctx, detail::__icon_scale * mSize.y());
         nvgFontFace(ctx, "icons");
         nvgFillColor(ctx, mEnabled ? mTheme->mIconColor
                                    : mTheme->mDisabledTextColor);

@@ -497,4 +497,9 @@ extern NANOGUI_EXPORT std::vector<std::pair<int, std::string>>
 /// Helper function used by nvgImageIcon
 extern NANOGUI_EXPORT int __nanogui_get_image(NVGcontext *ctx, const std::string &name, uint8_t *data, uint32_t size);
 
+namespace detail {
+    /// Used for scaling icons (primarily Entypo) in widget draw calls.
+    static constexpr float __icon_scale = 0.77f;
+}
+
 NAMESPACE_END(nanogui)

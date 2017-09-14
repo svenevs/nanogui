@@ -410,7 +410,7 @@ void TabHeader::drawControls(NVGcontext* ctx) {
     auto iconLeft = utf8(ENTYPO_ICON_LEFT);
     int fontSize = mFontSize == -1 ? mTheme->mButtonFontSize : mFontSize;
     float ih = fontSize;
-    ih *= 1.5f;
+    ih *= detail::__icon_scale;
     nvgFontSize(ctx, ih);
     nvgFontFace(ctx, "icons");
     NVGcolor arrowColor;
@@ -432,7 +432,7 @@ void TabHeader::drawControls(NVGcontext* ctx) {
     auto iconRight = utf8(ENTYPO_ICON_RIGHT);
     fontSize = mFontSize == -1 ? mTheme->mButtonFontSize : mFontSize;
     ih = fontSize;
-    ih *= 1.5f;
+    ih *= detail::__icon_scale;
     nvgFontSize(ctx, ih);
     nvgFontFace(ctx, "icons");
     float rightWidth = nvgTextBounds(ctx, 0, 0, iconRight.data(), nullptr, nullptr);

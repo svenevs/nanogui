@@ -15,6 +15,10 @@
 
 #include <nanogui/common.h>
 
+// The Entypo PLUS and MINUS icons are 43 and 45 respectively, which needs to
+// be checked manually.
+#include <nanogui/entypo.h>
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 #if defined(NANOGUI_GLAD)
     #if defined(NANOGUI_SHARED) && !defined(GLAD_GLAPI_EXPORT)
@@ -52,9 +56,13 @@ inline Color::operator const NVGcolor &() const {
 }
 
 /// Determine whether an icon ID is a texture loaded via nvgImageIcon
-inline bool nvgIsImageIcon(int value) { return value < 1024; }
+inline bool nvgIsImageIcon(int value) {
+    return value < 1024 && value != ENTYPO_ICON_PLUS && value != ENTYPO_ICON_MINUS;
+}
 
 /// Determine whether an icon ID is a font-based icon (e.g. from the entypo.ttf font)
-inline bool nvgIsFontIcon(int value) { return value >= 1024; }
+inline bool nvgIsFontIcon(int value) {
+    return value >= 1024 || value == ENTYPO_ICON_PLUS || value == ENTYPO_ICON_MINUS;
+}
 
 NAMESPACE_END(nanogui)
