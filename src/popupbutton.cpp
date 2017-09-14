@@ -19,7 +19,7 @@ NAMESPACE_BEGIN(nanogui)
 
 PopupButton::PopupButton(Widget *parent, const std::string &caption, int buttonIcon)
     : Button(parent, caption, buttonIcon),
-      mChevronIcon(ENTYPO_ICON_CHEVRON_SMALL_RIGHT) {
+      mChevronIcon(ENTYPO_ICON_RIGHT_OPEN_MINI) {
 
     setFlags(Flags::ToggleButton | Flags::PopupButton);
 
@@ -76,11 +76,11 @@ void PopupButton::performLayout(NVGcontext *ctx) {
 
 void PopupButton::setSide(Popup::Side side) {
     if (mPopup->side() == Popup::Right &&
-        mChevronIcon == ENTYPO_ICON_CHEVRON_SMALL_RIGHT)
-        setChevronIcon(ENTYPO_ICON_CHEVRON_SMALL_LEFT);
+        mChevronIcon == ENTYPO_ICON_RIGHT_OPEN_MINI)
+        setChevronIcon(ENTYPO_ICON_LEFT_OPEN_MINI);
     else if (mPopup->side() == Popup::Left &&
-             mChevronIcon == ENTYPO_ICON_CHEVRON_SMALL_LEFT)
-        setChevronIcon(ENTYPO_ICON_CHEVRON_SMALL_RIGHT);
+             mChevronIcon == ENTYPO_ICON_LEFT_OPEN_MINI)
+        setChevronIcon(ENTYPO_ICON_RIGHT_OPEN_MINI);
     mPopup->setSide(side);
 }
 

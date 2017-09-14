@@ -158,7 +158,7 @@ void TextBox::draw(NVGcontext* ctx) {
         /* up button */ {
             bool hover = mMouseFocus && spinArea(mMousePos) == SpinArea::Top;
             nvgFillColor(ctx, (mEnabled && (hover || spinning)) ? mTheme->mTextColor : mTheme->mDisabledTextColor);
-            auto icon = utf8(ENTYPO_ICON_CHEVRON_UP);
+            auto icon = utf8(ENTYPO_ICON_UP_OPEN);
             nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
             Vector2f iconPos(mPos.x() + 4.f,
                              mPos.y() + mSize.y()/2.f - xSpacing/2.f);
@@ -168,7 +168,7 @@ void TextBox::draw(NVGcontext* ctx) {
         /* down button */ {
             bool hover = mMouseFocus && spinArea(mMousePos) == SpinArea::Bottom;
             nvgFillColor(ctx, (mEnabled && (hover || spinning)) ? mTheme->mTextColor : mTheme->mDisabledTextColor);
-            auto icon = utf8(ENTYPO_ICON_CHEVRON_DOWN);
+            auto icon = utf8(ENTYPO_ICON_DOWN_OPEN);
             nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
             Vector2f iconPos(mPos.x() + 4.f,
                              mPos.y() + mSize.y()/2.f + xSpacing/2.f + 1.5f);

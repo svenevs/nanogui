@@ -30,9 +30,9 @@ MessageDialog::MessageDialog(Widget *parent, Type type, const std::string &title
                                     Alignment::Middle, 10, 15));
     int icon = 0;
     switch (type) {
-        case Type::Information: icon = ENTYPO_ICON_CIRCLED_INFO; break;
-        case Type::Question: icon = ENTYPO_ICON_CIRCLED_HELP; break;
-        case Type::Warning: icon = ENTYPO_ICON_WARNING; break;
+        case Type::Information: icon = ENTYPO_ICON_INFO_CIRCLED; break;
+        case Type::Question: icon = ENTYPO_ICON_HELP_CIRCLED; break;
+        case Type::Warning: icon = ENTYPO_ICON_ATTENTION; break;
     }
     Label *iconLabel = new Label(panel1, std::string(utf8(icon).data()), "icons");
     iconLabel->setFontSize(50);
@@ -43,7 +43,7 @@ MessageDialog::MessageDialog(Widget *parent, Type type, const std::string &title
                                     Alignment::Middle, 0, 15));
 
     if (altButton) {
-        Button *button = new Button(panel2, altButtonText, ENTYPO_ICON_CIRCLED_CROSS);
+        Button *button = new Button(panel2, altButtonText, ENTYPO_ICON_CANCEL_CIRCLED);
         button->setCallback([&] { if (mCallback) mCallback(1); dispose(); });
     }
     Button *button = new Button(panel2, buttonText, ENTYPO_ICON_CHECK);
