@@ -85,22 +85,23 @@ if __name__ == "__main__":
         else:
             good[key] = cdef_val
 
+    print("# Old to New Comparisons\n")
+    print("#### Num good: `{0}`\n".format(len(good)))
+    print("#### Num bad:  `{0}`\n".format(len(bad)))
     if bad:
         for key in bad:
-            print("Error for [{0}]: new := [{1}] ; old := {2}".format(
+            print("- Error for `{0}`: new := `{1}` ; old := `{2}`".format(
                 key, *bad[key]
             ))
 
-    print("\nNum good: {0}".format(len(good)))
-
-    print("\nMissing keys: [{0}]".format(len(missing)))
+    print("\n# Missing keys: `{0}`\n".format(len(missing)))
     for key in missing:
         val = legacy_cdefs[key]
-        print("{0}: {1}".format(key, val))
+        print("- `{0}`: `{1}`".format(key, val))
         for key in cdefs:
             new_val = cdefs[key]
             if new_val == val:
-                print("  - mismatch: new def is [{0}]".format(key))
+                print("    - mismatch, human is dead: new def is `{0}`".format(key))
                 break
 
 
