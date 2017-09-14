@@ -9,7 +9,7 @@
 /**
  * \file nanogui/button.h
  *
- * Defines the [Normal/Toggle/Radio/Popup] Button widget.
+ * \brief Defines the [Normal/Toggle/Radio/Popup] \ref nanogui::Button widget.
  */
 
 #pragma once
@@ -50,8 +50,10 @@ public:
      *     The name of the button (default ``"Untitled"``).
      *
      * \param icon
+     *     \rst
      *     The icon to display with this Button.  If not ``0``, assumed to be
-     *     one of the icons enumerated in \ref nanogui/entypo.h
+     *     one of the icons enumerated in :ref:`file_nanogui_entypo.h`.
+     *     \endrst
      */
     Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0);
 

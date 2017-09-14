@@ -480,7 +480,7 @@ extern NANOGUI_EXPORT void chdir_to_bundle_parent();
  *
  * \rst
  * NanoGUI uses this to convert the icon character codes
- * defined in :ref:`file_include_nanogui_entypo.h`.
+ * defined in :ref:`file_nanogui_entypo.h`.
  * \endrst
  *
  * \param c

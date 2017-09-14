@@ -123,8 +123,16 @@ if __name__ == "__main__":
 
     entypo_h = open("entypo.h", "w")
     entypo_h.write(textwrap.dedent(r'''
+        /*
+             NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
+             The widget drawing code is based on the NanoVG demo application
+             by Mikko Mononen.
+
+             All rights reserved. Use of this source code is governed by a
+             BSD-style license that can be found in the LICENSE.txt file.
+         */
         /**
-         * \file
+         * \file nanogui/entypo.h
          *
          * \brief This is a list of icon codes for the ``entypo.ttf`` font by Daniel Bruce.
          *
@@ -291,7 +299,7 @@ if __name__ == "__main__":
         int main(int /* argc */, char ** /* argv */) {
             nanogui::init();
 
-            {
+            /* scoped variables */ {
                 static constexpr int width      = 800;
                 static constexpr int half_width = width / 2;
                 static constexpr int height     = 800;

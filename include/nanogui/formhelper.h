@@ -33,21 +33,21 @@ NAMESPACE_BEGIN(detail)
  * \rst
  * The partial template specializations are:
  *
- * - Inheritance from :ref:`class_nanogui__ComboBox` for ``enum`` types:
+ * - Inheritance from :class:`nanogui::ComboBox` for ``enum`` types:
  *
  *   .. code-block:: cpp
  *
  *      template <typename T>
  *      class FormWidget<T, typename std::is_enum<T>::type> : public ComboBox
  *
- * - Inheritance from :ref:`class_nanogui__IntBox` for integral types:
+ * - Inheritance from :class:`nanogui::IntBox` for integral types:
  *
  *   .. code-block:: cpp
  *
  *      template <typename T>
  *      class FormWidget<T, typename std::is_integral<T>::type> : public IntBox<T>
  *
- * - Inheritance from :ref:`class_nanogui__FloatBox` for floating point types:
+ * - Inheritance from :class:`nanogui::FloatBox` for floating point types:
  *
  *   .. code-block:: cpp
  *
@@ -56,28 +56,28 @@ NAMESPACE_BEGIN(detail)
  *
  * The full template specializations are:
  *
- * - Inheritance from :ref:`class_nanogui__CheckBox` for booleans:
+ * - Inheritance from :class:`nanogui::CheckBox` for booleans:
  *
  *   .. code-block:: cpp
  *
  *      template <>
  *      class FormWidget<bool, std::true_type> : public CheckBox
  *
- * - Inheritance from :ref:`class_nanogui__TextBox` for strings:
+ * - Inheritance from :class:`nanogui::TextBox` for strings:
  *
  *   .. code-block:: cpp
  *
  *      template <>
  *      class FormWidget<std::string, std::true_type> : public TextBox
  *
- * - Inheritance from :ref:`class_nanogui__ColorPicker` for `Color` types:
+ * - Inheritance from :class:`nanogui::ColorPicker` for :class:`nanogui::Color` types:
  *
  *   .. code-block:: cpp
  *
  *      template <>
  *      class FormWidget<Color, std::true_type> : public ColorPicker
  *
- * Please refer to the bottom of :ref:`program_listing_file_include_nanogui_formhelper.h`
+ * Please refer to the bottom of :ref:`program_listing_file_nanogui_formhelper.h`
  * for the implementation details.
  * \endrst
  */

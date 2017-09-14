@@ -25,7 +25,7 @@ using namespace nanogui;
 int main(int /* argc */, char ** /* argv */) {
     nanogui::init();
 
-    {
+    /* scoped variables */ {
         static constexpr int width      = 800;
         static constexpr int half_width = width / 2;
         static constexpr int height     = 800;
