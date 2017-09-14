@@ -33,3 +33,6 @@ resources/update_entypo/*
 !resources/update_entypo/README.md
 !resources/update_entypo/generate.py
 !resources/update_entypo/do_copy.py
+!resources/update_entypo/compare.py
+!resources/update_entypo/legacy_entypo.h
+!resources/update_entypo/clean.sh

@@ -6,6 +6,7 @@ from io import BytesIO
 import re
 import textwrap
 
+
 def download(url, local_filename):
     ''' Downloads url to local_filename; caller must try-catch. '''
     print("Downloading [{0}] to [{1}].".format(url, local_filename))
@@ -20,6 +21,11 @@ def download(url, local_filename):
         f.write(buff.getvalue())
 
     buff.close()
+
+
+# entypo's website claims 411, but both the CSS and test html page have 284
+# this is used in `compare.py` as well
+EXPECTED_NUM_ICONS = 284
 
 
 if __name__ == "__main__":
@@ -52,7 +58,6 @@ if __name__ == "__main__":
     # Generate entypo.h
     cdefs = []
     num_matches = 0
-    expected_matches = 284
     longest = 0
     # .icon-location:before { content: "\e724"; } /* '\e724' */
     # we have to avoid the one inside   ^^^^^^ and use ****
@@ -72,12 +77,12 @@ if __name__ == "__main__":
                 longest = max(longest, len(icon_def))
 
 
-    if num_matches == expected_matches:
+    if num_matches == EXPECTED_NUM_ICONS:
         print("Found exactly [{0}] icons, as expected.".format(num_matches))
     else:
         raise RuntimeError(
             "Found [{0}] icons, expected [{1}]".format(num_matches,
-                                                       expected_matches)
+                                                       EXPECTED_NUM_ICONS)
         )
 
     # Write out the cdef file and associated testing index.html and python bindings
