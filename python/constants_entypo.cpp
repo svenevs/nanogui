@@ -262,8 +262,8 @@ void register_constants_entypo(py::module &m) {
         C(TUMBLR_CIRCLED);
         C(LINKEDIN);
         C(LINKEDIN_CIRCLED);
-        C(DRIBBBLE);
-        C(DRIBBBLE_CIRCLED);
+        C(DRIBBLE);
+        C(DRIBBLE_CIRCLED);
         C(STUMBLEUPON);
         C(STUMBLEUPON_CIRCLED);
         C(LASTFM);
@@ -273,7 +273,7 @@ void register_constants_entypo(py::module &m) {
         C(SPOTIFY);
         C(SPOTIFY_CIRCLED);
         C(QQ);
-        C(INSTAGREM);
+        C(INSTAGRAM);
         C(DROPBOX);
         C(EVERNOTE);
         C(FLATTR);

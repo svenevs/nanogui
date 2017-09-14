@@ -20,11 +20,13 @@ if __name__ == "__main__":
     #     include/
     #         nanogui/
     #     python/
+    #     src/
     #     resources/
     #         update_entypo/  <<< you are here
     nanogui_root    = os.path.abspath("../..")
     docs_static     = os.path.join(nanogui_root, "docs", "_static")
     include_nanogui = os.path.join(nanogui_root, "include", "nanogui")
+    src             = os.path.join(nanogui_root, "src")
     python          = os.path.join(nanogui_root, "python")
     resources       = os.path.join(nanogui_root, "resources")
 
@@ -36,6 +38,8 @@ if __name__ == "__main__":
     entypo_svg           = os.path.join(file_loc, "entypo.svg")
     entypo_ttf           = os.path.join(file_loc, "entypo.ttf")
     entypo_woff          = os.path.join(file_loc, "entypo.woff")
+    cpp_example          = os.path.join(file_loc, "exampleIcons.cpp")
+    py_example           = os.path.join(file_loc, "exampleIcons.py")
 
     sources = [
         entypo_h,
@@ -44,7 +48,9 @@ if __name__ == "__main__":
         entypo_eot,
         entypo_svg,
         entypo_ttf,
-        entypo_woff
+        entypo_woff,
+        cpp_example,
+        py_example
     ]
 
     for s in sources:
@@ -66,3 +72,9 @@ if __name__ == "__main__":
     statics = [entypo_css, entypo_eot, entypo_svg, entypo_ttf, entypo_woff]
     for s in statics:
         shutil.copy(s, docs_static)
+
+    # cpp example -> src/
+    shutil.copy(cpp_example, src)
+
+    # py example -> python/
+    shutil.copy(py_example, python)

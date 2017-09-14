@@ -282,8 +282,8 @@
 .icon-tumblr-circled:before { content: "\f316"; } /* '\f316' */
 .icon-linkedin:before { content: "\f318"; } /* '\f318' */
 .icon-linkedin-circled:before { content: "\f319"; } /* '\f319' */
-.icon-dribbble:before { content: "\f31b"; } /* '\f31b' */
-.icon-dribbble-circled:before { content: "\f31c"; } /* '\f31c' */
+.icon-dribble:before { content: "\f31b"; } /* '\f31b' */
+.icon-dribble-circled:before { content: "\f31c"; } /* '\f31c' */
 .icon-stumbleupon:before { content: "\f31e"; } /* '\f31e' */
 .icon-stumbleupon-circled:before { content: "\f31f"; } /* '\f31f' */
 .icon-lastfm:before { content: "\f321"; } /* '\f321' */
@@ -293,7 +293,7 @@
 .icon-spotify:before { content: "\f327"; } /* '\f327' */
 .icon-spotify-circled:before { content: "\f328"; } /* '\f328' */
 .icon-qq:before { content: "\f32a"; } /* '\f32a' */
-.icon-instagrem:before { content: "\f32d"; } /* '\f32d' */
+.icon-instagram:before { content: "\f32d"; } /* '\f32d' */
 .icon-dropbox:before { content: "\f330"; } /* '\f330' */
 .icon-evernote:before { content: "\f333"; } /* '\f333' */
 .icon-flattr:before { content: "\f336"; } /* '\f336' */

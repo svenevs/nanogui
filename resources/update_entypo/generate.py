@@ -2,6 +2,7 @@
 
 import os
 import pycurl
+import codecs
 from io import BytesIO
 import re
 import textwrap
@@ -14,8 +15,17 @@ def download(url, local_filename):
     curl = pycurl.Curl()
     curl.setopt(curl.URL, url)
     curl.setopt(curl.WRITEDATA, buff)
+    # follow redirects, important for github raw and binary files it appears
+    curl.setopt(curl.FOLLOWLOCATION, True)
     curl.perform()
+
+    status = curl.getinfo(curl.RESPONSE_CODE)
     curl.close()
+
+    if status != 200:
+        raise RuntimeError(
+            "Non-200 response of [{0}] downloading [{1}]".format(status, url)
+        )
 
     with open(local_filename, "wb") as f:
         f.write(buff.getvalue())
@@ -40,12 +50,14 @@ if __name__ == "__main__":
         )
 
     # Download the files
-    raw_baseurl = "https://raw.githubusercontent.com/danielbruce/entypo/master/font"
-    entypo_ttf  = "{0}/enytpo.ttf".format(raw_baseurl)
-    entypo_css  = "{0}/entypo.css".format(raw_baseurl)
-    entypo_eot  = "{0}/entypo.eot".format(raw_baseurl)
-    entypo_svg  = "{0}/entypo.svg".format(raw_baseurl)
-    entypo_woff = "{0}/entypo.woff".format(raw_baseurl)
+    entypo_css  = "https://raw.githubusercontent.com/danielbruce/entypo/f94e077449daa87321aa0df5643889460ba8291b/font/entypo.css"
+    # Using old NanoGUI ttf file, seems to have all the icons we want, but the new one
+    # seems to be a larger font or something...
+    entypo_ttf  = "https://github.com/danielbruce/entypo/raw/f94e077449daa87321aa0df5643889460ba8291b/font/entypo.ttf"
+    # entypo_ttf  = "https://github.com/wjakob/nanogui/raw/0ebdddf4e42d47099868cd44ead99c305b06e606/resources/entypo.ttf"
+    entypo_eot  = "https://github.com/danielbruce/entypo/raw/f94e077449daa87321aa0df5643889460ba8291b/font/entypo.eot"
+    entypo_svg  = "https://github.com/danielbruce/entypo/raw/f94e077449daa87321aa0df5643889460ba8291b/font/entypo.svg"
+    entypo_woff = "https://github.com/danielbruce/entypo/raw/f94e077449daa87321aa0df5643889460ba8291b/font/entypo.woff"
     try:
         download(entypo_ttf,  "entypo.ttf")
         download(entypo_css,  "entypo.css")
@@ -54,6 +66,14 @@ if __name__ == "__main__":
         download(entypo_woff, "entypo.woff")
     except Exception as e:
         raise RuntimeError("Unable to download necessary files:\n{0}".format(e))
+
+    # Fix the two spelling errors I found
+    with codecs.open("entypo.css", "r", "utf-8") as css:
+        css_contents = css.read()
+
+    css_contents = css_contents.replace("dribbble", "dribble").replace("instagrem", "instagram")
+    with codecs.open("entypo.css", "w", "utf-8") as css:
+        css.write(css_contents)
 
     # Generate entypo.h
     cdefs = []
@@ -72,7 +92,10 @@ if __name__ == "__main__":
                 icon_def = "#define ENTYPO_ICON_{0}".format(
                     icon_name.replace("-", "_").upper()
                 )
-                icon_code = "0x{0}".format(icon_code.upper())
+                # {code:0>8} format spec says using code variable, align it to
+                # the right and make it a fixed width of 8 characters, padding
+                # with a 0.  AKA zero-fill on the left until 8 char long
+                icon_code = "0x{code:0>8}".format(code=icon_code.upper())
                 cdefs.append((icon_name, icon_def, icon_code))
                 longest = max(longest, len(icon_def))
 
@@ -112,6 +135,18 @@ if __name__ == "__main__":
          * on the web, your browser may display the icons differentaly than what they
          * look like in NanoGUI.
          *
+         * .. warning::
+         *
+         *    Constants you may have used in the past e.g. ``ENTYPO_ICON_CHEVRON_*`` no
+         *    longer exist with the updated entypo icons.  Search for
+         *    ``ENTYPO_ICON_DOWN_OPEN`` to see the new names of the ``CHEVRON`` icons.
+         *
+         * .. tip::
+         *
+         *    In C++, ``#include <nanogui/entypo.h>`` to gain access to the ``#define``
+         *    shown in these docs.  In Python, ``entypo.ICON_DOWN_OPEN`` means that the
+         *    ``ICON_DOWN_OPEN`` constant is defined in the ``nanogui.entypo`` module.
+         *
          * The following icons are available:
          *
          * .. raw:: html
@@ -121,12 +156,12 @@ if __name__ == "__main__":
          *        <colgroup>
          *          <col width="40%" />
          *          <col width="40%" />
-         *          <col width="20%" />
+         *          <col width="20%" align="center" />
          *        </colgroup>
          *        <thead valign="bottom">
          *          <tr class="row-odd">
-         *            <th class="head">NanoGUI Def</th>
-         *            <th class="head">Entypo Description</th>
+         *            <th class="head">C++ Definition</th>
+         *            <th class="head">Python Definition</th>
          *            <th class="head">Icon</th>
          *          </tr>
          *        </thead>
@@ -160,18 +195,21 @@ if __name__ == "__main__":
         flip = not flip
 
         # icon_def is `#define ENTYPO_ICON_X`
-        code_def = icon_def.split(" ")[1]
-        pybind = "C({0});".format(code_def.split("ENTYPO_ICON_")[1])
+        cpp_def = icon_def.split(" ")[1]
+        py_def  = cpp_def.split("ENTYPO_ICON_")[1]
+        pybind  = "C({0});".format(py_def)
+        py_name = "entypo.ICON_{0}".format(py_def)
 
         entypo_h.write(textwrap.dedent('''
             *          <tr class="{row_kind}">
-            *            <td><code>{code_def}</code></td>
-            *            <td>The "{name}" Icon.</td>
+            *            <td><code>{cpp_def}</code></td>
+            *            <td><code>{py_name}</code></td>
             *            <td><span class="icon-{name}"></span></td>
             *          </tr>
         '''.format(
             row_kind=row_kind,
-            code_def=code_def,
+            cpp_def=cpp_def,
+            py_name=py_name,
             name=icon_name
         )).replace("\n*", "\n *").replace("\n", "", 1).rstrip())
         entypo_h.write("\n")  # rstrip removed two, we need 1
@@ -221,4 +259,145 @@ if __name__ == "__main__":
     entypo_h.close()
     constants_entypo.close()
 
+    # generate the example icon programs
+    cpp_example = open("exampleIcons.cpp", "w")
 
+    # write the header of the cpp example
+    cpp_example.write(textwrap.dedent(r'''
+        /*
+            src/exampleIcons.cpp -- C++ version of an example application that shows
+            all available Entypo icons as they would appear in NanoGUI itself.  For a Python
+            implementation, see '../python/exampleIcons.py'.
+
+            NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
+            The widget drawing code is based on the NanoVG demo application
+            by Mikko Mononen.
+
+            All rights reserved. Use of this source code is governed by a
+            BSD-style license that can be found in the LICENSE.txt file.
+        */
+
+        #include <nanogui/nanogui.h>
+        using namespace nanogui;
+
+        // add a button to the wrapper with a fixed size
+        // `icon` should be the defined constant in nanogui/entypo.h
+        // the button label will be the string that represents this
+        #define ADD_BUTTON(icon)                                   \
+            auto b_##icon = new Button(wrapper, #icon, icon);      \
+            b_##icon->setIconPosition(Button::IconPosition::Left); \
+            b_##icon->setFixedWidth(half_width);
+
+        int main(int /* argc */, char ** /* argv */) {
+            nanogui::init();
+
+            {
+                static constexpr int width      = 800;
+                static constexpr int half_width = width / 2;
+                static constexpr int height     = 800;
+
+                // create a fixed size screen with one window
+                Screen *screen = new Screen({width, height}, "NanoGUI Icons", false);
+                Window *window = new Window(screen, "All Icons");
+                window->setPosition({0, 0});
+                window->setFixedSize({width, height});
+
+                // attach a vertical scroll panel
+                auto vscroll = new VScrollPanel(window);
+                vscroll->setFixedSize({width, height});
+
+                // vscroll should only have *ONE* child. this is what `wrapper` is for
+                auto wrapper = new Widget(vscroll);
+                wrapper->setFixedSize({width, height});
+                wrapper->setLayout(new GridLayout());// defaults: 2 columns
+
+                ////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////
+    ''').lstrip())
+
+    for icon_name, icon_def, icon_code in cdefs:
+        # icon_def is `#define ENTYPO_ICON_X`
+        cpp_def = icon_def.split(" ")[1]
+        cpp_example.write("        ADD_BUTTON({cpp_def})\n".format(cpp_def=cpp_def))
+
+    # close out the cpp example
+    cpp_example.write(textwrap.dedent('''
+                ////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////
+
+                screen->performLayout();
+                screen->setVisible(true);
+
+                nanogui::mainloop();
+            }
+
+            nanogui::shutdown();
+            return 0;
+        }
+    ''').replace("\n", "", 1))
+    cpp_example.close()
+
+    # <3 python
+    with open("exampleIcons.py", "w") as py_example:
+        py_example.write(textwrap.dedent('''
+            # python/exampleIcons.py -- Python version of an example application that shows
+            # all available Entypo icons as they would appear in NanoGUI itself.  For a C++
+            # implementation, see '../src/exampleIcons.cpp'.
+            #
+            # NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
+            # The widget drawing code is based on the NanoVG demo application
+            # by Mikko Mononen.
+            #
+            # All rights reserved. Use of this source code is governed by a
+            # BSD-style license that can be found in the LICENSE.txt file.
+
+            import gc
+
+            import nanogui
+            from nanogui import Screen, Window, Widget, GridLayout, VScrollPanel, Button
+            from nanogui import entypo
+
+            if __name__ == "__main__":
+                nanogui.init()
+
+                width      = 800
+                half_width = width // 2
+                height     = 800
+
+                # create a fixed size screen with one window
+                screen = Screen((width, height), "NanoGUI Icons", False)
+                window = Window(screen, "All Icons")
+                window.setPosition((0, 0))
+                window.setFixedSize((width, height))
+
+                # attach a vertical scroll panel
+                vscroll = VScrollPanel(window)
+                vscroll.setFixedSize((width, height))
+
+                # vscroll should only have *ONE* child. this is what `wrapper` is for
+                wrapper = Widget(vscroll)
+                wrapper.setFixedSize((width, height))
+                wrapper.setLayout(GridLayout())  # defaults: 2 columns
+
+                # NOTE: don't __dict__ crawl in real code!
+                # this is just because it's more convenient to do this for enumerating all
+                # of the icons -- see cpp example for alternative...
+                for key in entypo.__dict__.keys():
+                    if key.startswith("ICON_"):
+                        b = Button(wrapper, key, entypo.__dict__[key])
+                        b.setIconPosition(Button.IconPosition.Left)
+                        b.setFixedWidth(half_width)
+
+                screen.performLayout()
+                screen.drawAll()
+                screen.setVisible(True)
+
+                nanogui.mainloop()
+
+                del screen
+                gc.collect()
+
+                nanogui.shutdown()
+        ''').lstrip())
