@@ -433,7 +433,8 @@ if (NANOGUI_BUILD_PYTHON)
   include_directories("ext/pybind11/include" ${PYTHON_INCLUDE_DIR})
   add_library(nanogui-python-obj OBJECT
     python/main.cpp
-    python/constants.cpp
+    python/constants_glfw.cpp
+    python/constants_entypo.cpp
     python/eigen.cpp
     python/widget.cpp
     python/layout.cpp

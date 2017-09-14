@@ -27,3 +27,9 @@ libnanogui.dylib
 docs/_build
 docs/doxyoutput
 docs/api
+
+# entypo update generation
+resources/update_entypo/*
+!resources/update_entypo/README.md
+!resources/update_entypo/generate.py
+!resources/update_entypo/do_copy.py

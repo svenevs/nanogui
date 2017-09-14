@@ -1,6 +1,4 @@
 /*
-    nanogui/button.h -- [Normal/Toggle/Radio/Popup] Button widget
-
     NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
     The widget drawing code is based on the NanoVG demo application
     by Mikko Mononen.
@@ -8,7 +6,11 @@
     All rights reserved. Use of this source code is governed by a
     BSD-style license that can be found in the LICENSE.txt file.
 */
-/** \file */
+/**
+ * \file nanogui/button.h
+ *
+ * Defines the [Normal/Toggle/Radio/Popup] Button widget.
+ */
 
 #pragma once
 
@@ -38,6 +40,19 @@ public:
         Right
     };
 
+    /**
+     * \brief Creates a button attached to the specified parent.
+     *
+     * \param parent
+     *     The \ref nanogui::Widget this Button will be attached to.
+     *
+     * \param caption
+     *     The name of the button (default ``"Untitled"``).
+     *
+     * \param icon
+     *     The icon to display with this Button.  If not ``0``, assumed to be
+     *     one of the icons enumerated in \ref nanogui/entypo.h
+     */
     Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0);
 
     const std::string &caption() const { return mCaption; }
