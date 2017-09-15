@@ -11,6 +11,11 @@
     BSD-style license that can be found in the LICENSE.txt file.
 */
 
+/* Developer note: need to make a change to this file?
+ * Please raise an Issue on GitHub describing what needs to change.  This file
+ * was generated, so the scripts that generated it needs to update as well.
+ */
+
 #include <nanogui/nanogui.h>
 using namespace nanogui;
 
@@ -229,11 +234,11 @@ int main(int /* argc */, char ** /* argv */) {
         ADD_BUTTON(ENTYPO_ICON_GITHUB)
         ADD_BUTTON(ENTYPO_ICON_GITHUB_WITH_CIRCLE)
         ADD_BUTTON(ENTYPO_ICON_GLOBE)
-        ADD_BUTTON(ENTYPO_ICON_GOOGLE_)
-        ADD_BUTTON(ENTYPO_ICON_GOOGLE__WITH_CIRCLE)
         ADD_BUTTON(ENTYPO_ICON_GOOGLE_DRIVE)
         ADD_BUTTON(ENTYPO_ICON_GOOGLE_HANGOUTS)
         ADD_BUTTON(ENTYPO_ICON_GOOGLE_PLAY)
+        ADD_BUTTON(ENTYPO_ICON_GOOGLE_PLUS)
+        ADD_BUTTON(ENTYPO_ICON_GOOGLE_PLUS_WITH_CIRCLE)
         ADD_BUTTON(ENTYPO_ICON_GRADUATION_CAP)
         ADD_BUTTON(ENTYPO_ICON_GRID)
         ADD_BUTTON(ENTYPO_ICON_GROOVESHARK)
@@ -354,7 +359,7 @@ int main(int /* argc */, char ** /* argv */) {
         ADD_BUTTON(ENTYPO_ICON_RENREN)
         ADD_BUTTON(ENTYPO_ICON_REPLY)
         ADD_BUTTON(ENTYPO_ICON_REPLY_ALL)
-        ADD_BUTTON(ENTYPO_ICON_RESIZE_100_)
+        ADD_BUTTON(ENTYPO_ICON_RESIZE_100_PERCENT)
         ADD_BUTTON(ENTYPO_ICON_RESIZE_FULL_SCREEN)
         ADD_BUTTON(ENTYPO_ICON_RETWEET)
         ADD_BUTTON(ENTYPO_ICON_ROCKET)

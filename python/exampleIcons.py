@@ -9,6 +9,10 @@
 # All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE.txt file.
 
+# Developer note: need to make a change to this file?
+# Please raise an Issue on GitHub describing what needs to change.  This file
+# was generated, so the scripts that generated it needs to update as well.
+
 import gc
 
 import nanogui
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     # of the icons -- see cpp example for alternative...
     for key in entypo.__dict__.keys():
         if key.startswith("ICON_"):
-            b = Button(wrapper, key, entypo.__dict__[key])
+            b = Button(wrapper, "entypo.{0}".format(key), entypo.__dict__[key])
             b.setIconPosition(Button.IconPosition.Left)
             b.setFixedWidth(half_width)
 

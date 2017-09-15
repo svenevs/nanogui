@@ -3,6 +3,11 @@
 
 #include "python.h"
 
+/* Developer note: need to make a change to this file?
+ * Please raise an Issue on GitHub describing what needs to change.  This file
+ * was generated, so the scripts that generated it needs to update as well.
+ */
+
 void register_constants_entypo(py::module &m) {
     /* Entypo constants */
     {
@@ -189,11 +194,11 @@ void register_constants_entypo(py::module &m) {
         C(GITHUB);
         C(GITHUB_WITH_CIRCLE);
         C(GLOBE);
-        C(GOOGLE_);
-        C(GOOGLE__WITH_CIRCLE);
         C(GOOGLE_DRIVE);
         C(GOOGLE_HANGOUTS);
         C(GOOGLE_PLAY);
+        C(GOOGLE_PLUS);
+        C(GOOGLE_PLUS_WITH_CIRCLE);
         C(GRADUATION_CAP);
         C(GRID);
         C(GROOVESHARK);
@@ -314,7 +319,7 @@ void register_constants_entypo(py::module &m) {
         C(RENREN);
         C(REPLY);
         C(REPLY_ALL);
-        C(RESIZE_100_);
+        C(RESIZE_100_PERCENT);
         C(RESIZE_FULL_SCREEN);
         C(RETWEET);
         C(ROCKET);

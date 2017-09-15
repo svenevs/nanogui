@@ -26,18 +26,18 @@ class NANOGUI_EXPORT Button : public Widget {
 public:
     /// Flags to specify the button behavior (can be combined with binary OR)
     enum Flags {
-        NormalButton = (1 << 0), ///< A normal button
-        RadioButton  = (1 << 1), ///< A radio button
-        ToggleButton = (1 << 2), ///< A toggle button
-        PopupButton  = (1 << 3)  ///< A popup button
+        NormalButton = (1 << 0), ///< A normal Button.
+        RadioButton  = (1 << 1), ///< A radio Button.
+        ToggleButton = (1 << 2), ///< A toggle Button.
+        PopupButton  = (1 << 3)  ///< A popup Button.
     };
 
     /// The available icon positions.
     enum class IconPosition {
-        Left,         ///< Icon on the far left
-        LeftCentered, ///< Icon on the left, centered (depends on caption text length)
-        RightCentered,///< Icon on the right, centered (depends on caption text length)
-        Right         ///< Icon on the far right
+        Left,         ///< Button icon on the far left.
+        LeftCentered, ///< Button icon on the left, centered (depends on caption text length).
+        RightCentered,///< Button icon on the right, centered (depends on caption text length).
+        Right         ///< Button icon on the far right.
     };
 
     /**
@@ -50,7 +50,7 @@ public:
      *     The name of the button (default ``"Untitled"``).
      *
      * \param icon
-     *     The icon to display with this Button.  See \ref nanogui::Button::mIcon
+     *     The icon to display with this Button.  See \ref nanogui::Button::mIcon.
      */
     Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0);
 
@@ -72,10 +72,10 @@ public:
     /// Sets the text color of the caption of this Button.
     void setTextColor(const Color &textColor) { mTextColor = textColor; }
 
-    /// Returns the icon of this Button.  See \ref nanogui::Button::mIcon
+    /// Returns the icon of this Button.  See \ref nanogui::Button::mIcon.
     int icon() const { return mIcon; }
 
-    /// Sets the icon of this Button.  See \ref nanogui::Button::mIcon
+    /// Sets the icon of this Button.  See \ref nanogui::Button::mIcon.
     void setIcon(int icon) { mIcon = icon; }
 
     /// The current flags of this Button (see \ref nanogui::Button::Flags for options).
@@ -87,7 +87,7 @@ public:
     /// The position of the icon for this Button.
     IconPosition iconPosition() const { return mIconPosition; }
 
-    /// Sets the position of the icon for this button.
+    /// Sets the position of the icon for this Button.
     void setIconPosition(IconPosition iconPosition) { mIconPosition = iconPosition; }
 
     /// Whether or not this Button is currently pushed.
@@ -139,7 +139,7 @@ protected:
      * \rst
      * The icon to display with this Button.  If not ``0``, may either be a
      * picture icon, or one of the icons enumerated in
-     * :ref:`file_nanogui_entypo.h`.  The kind of button (image or Entypo)
+     * :ref:`file_nanogui_entypo.h`.  The kind of icon (image or Entypo)
      * is determined by the functions :func:`nanogui::nvgIsImageIcon` and its
      * reciprocal counterpart :func:`nanogui::nvgIsFontIcon`.
      * \endrst
