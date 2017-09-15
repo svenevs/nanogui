@@ -407,7 +407,7 @@ void TabHeader::drawControls(NVGcontext* ctx) {
 
     // Draw the arrow.
     nvgBeginPath(ctx);
-    auto iconLeft = utf8(ENTYPO_ICON_LEFT_BOLD);
+    auto iconLeft = utf8(ENTYPO_ICON_ARROW_BOLD_LEFT);
     int fontSize = mFontSize == -1 ? mTheme->mButtonFontSize : mFontSize;
     float ih = fontSize;
     ih *= detail::__icon_scale;
@@ -429,7 +429,7 @@ void TabHeader::drawControls(NVGcontext* ctx) {
     active = mVisibleEnd != tabCount();
     // Draw the arrow.
     nvgBeginPath(ctx);
-    auto iconRight = utf8(ENTYPO_ICON_RIGHT_BOLD);
+    auto iconRight = utf8(ENTYPO_ICON_ARROW_BOLD_RIGHT);
     fontSize = mFontSize == -1 ? mTheme->mButtonFontSize : mFontSize;
     ih = fontSize;
     ih *= detail::__icon_scale;
