@@ -61,16 +61,6 @@ inline Color::operator const NVGcolor &() const {
  * \rst
  * The implementation defines all ``value < 1024`` as image icons, and
  * everything ``>= 1024`` as an Entypo icon (see :ref:`file_nanogui_entypo.h`).
- *
- * .. note::
- *
- *    There are two "special" case values:
- *
- *    1. ``ENTYPO_ICON_PLUS`` (which is ``43``), and
- *    2. ``ENTYPO_ICON_MINUS`` (which is ``45``).
- *
- *    Where embedding image icon resources is concerned, take care to avoid
- *    these two specific values!
  * \endrst
  *
  * \param value
@@ -79,16 +69,13 @@ inline Color::operator const NVGcolor &() const {
  * \return
  *     Whether or not this is an image icon.
  */
-inline bool nvgIsImageIcon(int value) {
-    return value < 1024 && value != ENTYPO_ICON_PLUS && value != ENTYPO_ICON_MINUS;
-}
+inline bool nvgIsImageIcon(int value) { return value < 1024; }
 
 /**
  * \brief Determine whether an icon ID is a font-based icon (e.g. from ``entypo.ttf``).
  *
  * \rst
- * See :func:`nanogui::nvgIsImageIcon` for details of inputs, return value, and
- * two special case values to be aware of.
+ * See :func:`nanogui::nvgIsImageIcon` for details.
  * \endrst
  *
  * \param value
@@ -97,8 +84,6 @@ inline bool nvgIsImageIcon(int value) {
  * \return
  *     Whether or not this is a font icon (from ``entypo.ttf``).
  */
-inline bool nvgIsFontIcon(int value) {
-    return value >= 1024 || value == ENTYPO_ICON_PLUS || value == ENTYPO_ICON_MINUS;
-}
+inline bool nvgIsFontIcon(int value) { return value >= 1024; }
 
 NAMESPACE_END(nanogui)

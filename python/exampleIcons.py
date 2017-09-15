@@ -18,7 +18,7 @@ from nanogui import entypo
 if __name__ == "__main__":
     nanogui.init()
 
-    width      = 800
+    width      = 1000
     half_width = width // 2
     height     = 800
 

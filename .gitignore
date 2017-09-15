@@ -29,8 +29,7 @@ docs/doxyoutput
 docs/api
 
 # entypo update generation
-resources/update_entypo/*
-!resources/update_entypo/README.md
-!resources/update_entypo/generate.py
-!resources/update_entypo/do_copy.py
-!resources/update_entypo/clean.sh
+# this is it's own repo: https://github.com/svenevs/nanogui-entypo
+# should not ever be needed again unless there are new
+# icons added :)
+resources/nanogui-entypo

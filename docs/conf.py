@@ -110,7 +110,7 @@ primary_domain = 'cpp'
 highlight_language = 'cpp'
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+# templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -365,3 +365,8 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# auto-magically called by sphinx-build
+def setup(app):
+    # this looks in html_static_path (_static directory as set above)
+    app.add_stylesheet("entypo.css")
