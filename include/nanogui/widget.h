@@ -256,7 +256,20 @@ protected:
     std::string mId;
     Vector2i mPos, mSize, mFixedSize;
     std::vector<Widget *> mChildren;
-    bool mVisible, mEnabled;
+
+    /**
+     * Whether or not this Widget is currently visible.  When a Widget is not
+     * currently visible, no time is wasted executing its drawing method.
+     */
+    bool mVisible;
+
+    /**
+     * Whether or not this Widget is currently enabled.  Various different kinds
+     * of derived types use this to determine whether or not user input will be
+     * accepted.  For example, when ``mEnabled == false``, the state of a
+     * CheckBox cannot be changed, or a TextBox will not allow new input.
+     */
+    bool mEnabled;
     bool mFocused, mMouseFocus;
     std::string mTooltip;
     int mFontSize;
