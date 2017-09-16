@@ -220,6 +220,8 @@ public:
 
     /// Access the currently active \ref Window instance
     Window *window() { return mWindow; }
+
+    /// Set the active \ref Window instance.
     void setWindow(Window *window) {
         mWindow = window;
         mLayout = dynamic_cast<AdvancedGridLayout *>(window->layout());
