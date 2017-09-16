@@ -22,7 +22,8 @@ NAMESPACE_BEGIN(nanogui)
 /**
  * \class ColorPicker colorpicker.h nanogui/colorpicker.h
  *
- * \brief Push button with a popup to tweak a color value.
+ * \brief Push button with a popup to tweak a color value.  This widget was
+ *        contributed by Christian Schueller.
  */
 class NANOGUI_EXPORT ColorPicker : public PopupButton {
 public:
