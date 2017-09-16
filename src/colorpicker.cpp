@@ -42,7 +42,7 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
     mResetButton->setFixedSize(Vector2i(100, 20));
 
     PopupButton::setChangeCallback([&](bool) {
-        if(this->mPickButton->pushed()) {
+        if (this->mPickButton->pushed()) {
             setColor(backgroundColor());
             mCallback(backgroundColor());
         }
@@ -54,7 +54,7 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
     });
 
     mPickButton->setCallback([this]() {
-        if(mPushed) {
+        if (mPushed) {
             Color value = mColorWheel->color();
             setPushed(false);
             setColor(value);
