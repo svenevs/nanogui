@@ -14,7 +14,7 @@ import math
 import time
 import gc
 
-from nanogui import Color, Screen, Window, GroupLayout, BoxLayout, \
+from nanogui import Color, ColorPicker, Screen, Window, GroupLayout, BoxLayout, \
                     ToolButton, Label, Button, Widget, \
                     PopupButton, CheckBox, MessageDialog, VScrollPanel, \
                     ImagePanel, ImageView, ComboBox, ProgressBar, Slider, \
@@ -278,32 +278,19 @@ class TestApp(Screen):
         cobo.setFontSize(16)
         cobo.setFixedSize((100, 20))
 
-        Label(window, "Color button :", "sans-bold")
-        popupBtn = PopupButton(window, "", 0)
-        popupBtn.setBackgroundColor(Color(1, 0.47, 0, 1))
-        popupBtn.setFontSize(16)
-        popupBtn.setFixedSize((100, 20))
-        popup = popupBtn.popup()
-        popup.setLayout(GroupLayout())
+        Label(window, "Color picker :", "sans-bold");
+        cp = ColorPicker(window, Color(255, 120, 0, 255));
+        cp.setFixedSize((100, 20));
 
-        colorwheel = ColorWheel(popup)
-        colorwheel.setColor(popupBtn.backgroundColor())
+        def cp_cb(color):
+            print(
+                "ColorPicker: [{0}, {1}, {2}, {3}]".format(color.r,
+                                                           color.g,
+                                                           color.b,
+                                                           color.w)
+            )
 
-        colorBtn = Button(popup, "Pick")
-        colorBtn.setFixedSize((100, 25))
-        c = colorwheel.color()
-        colorBtn.setBackgroundColor(c)
-
-        def cb(value):
-            colorBtn.setBackgroundColor(value)
-
-        colorwheel.setCallback(cb)
-
-        def cb(pushed):
-            if (pushed):
-                popupBtn.setBackgroundColor(colorBtn.backgroundColor())
-                popupBtn.setPushed(False)
-        colorBtn.setChangeCallback(cb)
+        cp.setCallback(cp_cb)
 
         self.performLayout()
 

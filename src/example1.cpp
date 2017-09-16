@@ -31,6 +31,7 @@
 #include <nanogui/imageview.h>
 #include <nanogui/vscrollpanel.h>
 #include <nanogui/colorwheel.h>
+#include <nanogui/colorpicker.h>
 #include <nanogui/graph.h>
 #include <nanogui/tabwidget.h>
 #include <iostream>
@@ -458,31 +459,15 @@ public:
         cobo->setFontSize(16);
         cobo->setFixedSize(Vector2i(100,20));
 
-        new Label(window, "Color button :", "sans-bold");
-        popupBtn = new PopupButton(window, "", 0);
-        popupBtn->setBackgroundColor(Color(255, 120, 0, 255));
-        popupBtn->setFontSize(16);
-        popupBtn->setFixedSize(Vector2i(100, 20));
-        popup = popupBtn->popup();
-        popup->setLayout(new GroupLayout());
-
-        ColorWheel *colorwheel = new ColorWheel(popup);
-        colorwheel->setColor(popupBtn->backgroundColor());
-
-        Button *colorBtn = new Button(popup, "Pick");
-        colorBtn->setFixedSize(Vector2i(100, 25));
-        Color c = colorwheel->color();
-        colorBtn->setBackgroundColor(c);
-
-        colorwheel->setCallback([colorBtn](const Color &value) {
-            colorBtn->setBackgroundColor(value);
-        });
-
-        colorBtn->setChangeCallback([colorBtn, popupBtn](bool pushed) {
-            if (pushed) {
-                popupBtn->setBackgroundColor(colorBtn->backgroundColor());
-                popupBtn->setPushed(false);
-            }
+        new Label(window, "Color picker :", "sans-bold");
+        auto cp = new ColorPicker(window, {255, 120, 0, 255});
+        cp->setFixedSize({100, 20});
+        cp->setCallback([](const Color &c) {
+            std::cout << "ColorPicker: ["
+                      << c.r() << ", "
+                      << c.g() << ", "
+                      << c.b() << ", "
+                      << c.w() << "]" << std::endl;
         });
 
         performLayout();
