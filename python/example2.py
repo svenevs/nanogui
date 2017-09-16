@@ -55,7 +55,16 @@ gui.addDoubleVariable("double", *make_accessors("dvar"))
 gui.addGroup("Complex types")
 gui.addEnumVariable("Enumeration", *make_accessors("enumvar")) \
    .setItems(["Item 1", "Item 2", "Item 3"])
-gui.addColorVariable("Color", *make_accessors("colvar"))
+
+def cp_cb(color):
+    print(
+        "ColorPicker: [{0}, {1}, {2}, {3}]".format(color.r,
+                                                   color.g,
+                                                   color.b,
+                                                   color.w)
+    )
+
+gui.addColorVariable("Color", *make_accessors("colvar")).setCallback(cp_cb)
 
 gui.addGroup("Other widgets")
 

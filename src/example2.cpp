@@ -63,7 +63,14 @@ int main(int /* argc */, char ** /* argv */) {
         gui->addGroup("Complex types");
         gui->addVariable("Enumeration", enumval, enabled)
            ->setItems({"Item 1", "Item 2", "Item 3"});
-        gui->addVariable("Color", colval);
+        gui->addVariable("Color", colval)
+           ->setCallback([](const Color &c) {
+                 std::cout << "ColorPicker: ["
+                           << c.r() << ", "
+                           << c.g() << ", "
+                           << c.b() << ", "
+                           << c.w() << "]" << std::endl;
+             });
 
         gui->addGroup("Other widgets");
         gui->addButton("A button", []() { std::cout << "Button pressed." << std::endl; });
