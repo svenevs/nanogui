@@ -1,6 +1,4 @@
 /*
-    nanogui/imageview.h -- Widget used to display images.
-
     The image view widget was contributed by Stefan Ivanov.
 
     NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
@@ -10,7 +8,11 @@
     All rights reserved. Use of this source code is governed by a
     BSD-style license that can be found in the LICENSE.txt file.
 */
-/** \file */
+/**
+ * \file nanogui/imageview.h
+ *
+ * \brief Widget used to display images.
+ */
 
 #pragma once
 
@@ -24,14 +26,38 @@ NAMESPACE_BEGIN(nanogui)
  * \class ImageView imageview.h nanogui/imageview.h
  *
  * \brief Widget used to display images.
+ *
+ * \rst
+ * .. tip::
+ *
+ *    See :ref:`nanogui_example_1` for an example of how to use this Widget.
+ *    In particular, ``example1`` demonstrates an intriguing application of the
+ *    setting :func:`nanogui::ImageView::setPixelInfoCallback` to show pixel data
+ *    (scroll up with your mouse to observe in the demo).
+ * \endrst
  */
 class NANOGUI_EXPORT ImageView : public Widget {
 public:
+    /**
+     * Creates an ImageView attached to the specified parent corresponding to
+     * the provided texture id.
+     *
+     * \param parent
+     *     The Widget to attach this ImageView to.
+     *
+     * \param imageID
+     *     The *already allocated* ``GLuint`` associated with the texture this
+     *     ImageView should render.
+     */
     ImageView(Widget* parent, GLuint imageID);
+
+    /// Frees resources associated with this widget's shader.
     ~ImageView();
 
+    /// Informs this ImageView to render the specified ``imageId``.
     void bindImage(GLuint imageId);
 
+    /// The shader being used to render the image texture.
     GLShader& imageShader() { return mShader; }
 
     Vector2f positionF() const { return mPos.cast<float>(); }
@@ -61,14 +87,12 @@ public:
     float pixelInfoThreshold() const { return mPixelInfoThreshold; }
     void setPixelInfoThreshold(float pixelInfoThreshold) { mPixelInfoThreshold = pixelInfoThreshold; }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
     void setPixelInfoCallback(const std::function<std::pair<std::string, Color>(const Vector2i&)>& callback) {
         mPixelInfoCallback = callback;
     }
     const std::function<std::pair<std::string, Color>(const Vector2i&)>& pixelInfoCallback() const {
         return mPixelInfoCallback;
     }
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
     void setFontScaleFactor(float fontScaleFactor) { mFontScaleFactor = fontScaleFactor; }
     float fontScaleFactor() const { return mFontScaleFactor; }
