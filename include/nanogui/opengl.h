@@ -1,7 +1,4 @@
 /*
-    nanogui/opengl.h -- Pulls in OpenGL, GLAD (if needed), GLFW, and
-    NanoVG header files
-
     NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
     The widget drawing code is based on the NanoVG demo application
     by Mikko Mononen.
@@ -9,13 +6,17 @@
     All rights reserved. Use of this source code is governed by a
     BSD-style license that can be found in the LICENSE.txt file.
 */
-/** \file */
+/**
+ * \file nanogui/opengl.h
+ *
+ * \brief Pulls in OpenGL, GLAD (if needed), GLFW, and NanoVG header files.
+ */
 
 #pragma once
 
 #include <nanogui/common.h>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
 #if defined(NANOGUI_GLAD)
     #if defined(NANOGUI_SHARED) && !defined(GLAD_GLAPI_EXPORT)
         #define GLAD_GLAPI_EXPORT
