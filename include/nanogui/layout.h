@@ -127,10 +127,10 @@ public:
     void setSpacing(int spacing) { mSpacing = spacing; }
 
     /* Implementation of the layout interface */
-    /// See \ref Layout::preferredSize
+    /// See \ref Layout::preferredSize.
     virtual Vector2i preferredSize(NVGcontext *ctx, const Widget *widget) const override;
 
-    /// See \ref Layout::performLayout
+    /// See \ref Layout::performLayout.
     virtual void performLayout(NVGcontext *ctx, Widget *widget) const override;
 
 protected:
@@ -206,10 +206,10 @@ public:
     void setGroupSpacing(int groupSpacing) { mGroupSpacing = groupSpacing; }
 
     /* Implementation of the layout interface */
-    /// See \ref Layout::preferredSize
+    /// See \ref Layout::preferredSize.
     virtual Vector2i preferredSize(NVGcontext *ctx, const Widget *widget) const override;
 
-    /// See \ref Layout::performLayout
+    /// See \ref Layout::performLayout.
     virtual void performLayout(NVGcontext *ctx, Widget *widget) const override;
 
 protected:
@@ -318,10 +318,10 @@ public:
     void setRowAlignment(const std::vector<Alignment> &value) { mAlignment[1] = value; }
 
     /* Implementation of the layout interface */
-    /// See \ref Layout::preferredSize
+    /// See \ref Layout::preferredSize.
     virtual Vector2i preferredSize(NVGcontext *ctx, const Widget *widget) const override;
 
-    /// See \ref Layout::performLayout
+    /// See \ref Layout::performLayout.
     virtual void performLayout(NVGcontext *ctx, Widget *widget) const override;
 
 protected:
@@ -465,10 +465,10 @@ public:
     }
 
     /* Implementation of the layout interface */
-    /// See \ref Layout::preferredSize
+    /// See \ref Layout::preferredSize.
     virtual Vector2i preferredSize(NVGcontext *ctx, const Widget *widget) const override;
 
-    /// See \ref Layout::performLayout
+    /// See \ref Layout::performLayout.
     virtual void performLayout(NVGcontext *ctx, Widget *widget) const override;
 
 protected:

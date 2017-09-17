@@ -15,10 +15,6 @@
 
 #include <nanogui/common.h>
 
-// The Entypo PLUS and MINUS icons are 43 and 45 respectively, which needs to
-// be checked manually.
-#include <nanogui/entypo.h>
-
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 #if defined(NANOGUI_GLAD)
     #if defined(NANOGUI_SHARED) && !defined(GLAD_GLAPI_EXPORT)
