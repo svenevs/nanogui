@@ -146,6 +146,13 @@ if (NANOGUI_BUILD_SHARED)
         set(LTO_LINKER_FLAGS "-flto")
       endif()
 
+      # Enforce that LTO doesn't strip out the serializer
+      set(NANOGUI_SERIALIZER_SYMBOLS "Serializer;~Serializer;isSerializedFile;size;push;pop;keys;setCompatibility;compatibility;set;get;set_base;get_base;writeTOC;readTOC;read;write;seek")
+      foreach (symbol ${NANOGUI_SERIALIZER_SYMBOLS})
+        set(LTO_CXX_FLAGS "${LTO_CXX_FLAGS} -exported-symbol=nanogui::Serializer::${symbol}")
+      endforeach()
+      # set(LTO_CXX_FLAGS "${LTO_CXX_FLAGS} -exported-symbol=nanogui::Serializer -exported-symbol=nanogui::Serializer::pop")
+
       CHECK_CXX_COMPILER_AND_LINKER_FLAGS(HAS_LTO ${LTO_CXX_FLAGS} ${LTO_LINKER_FLAGS})
 
       if (HAS_LTO)
@@ -400,11 +407,13 @@ if(NANOGUI_BUILD_EXAMPLE)
   add_executable(example2     src/example2.cpp)
   add_executable(example3     src/example3.cpp)
   add_executable(example4     src/example4.cpp)
+  add_executable(example5     src/example5.cpp)
   add_executable(exampleIcons src/exampleIcons.cpp)
   target_link_libraries(example1     nanogui ${NANOGUI_EXTRA_LIBS})
   target_link_libraries(example2     nanogui ${NANOGUI_EXTRA_LIBS})
   target_link_libraries(example3     nanogui ${NANOGUI_EXTRA_LIBS})
   target_link_libraries(example4     nanogui ${NANOGUI_EXTRA_LIBS})
+  target_link_libraries(example5     nanogui ${NANOGUI_EXTRA_LIBS})
   target_link_libraries(exampleIcons nanogui ${NANOGUI_EXTRA_LIBS})
 
   # Copy icons for example application
