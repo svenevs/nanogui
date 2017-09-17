@@ -251,6 +251,8 @@ protected:
 
 protected:
     Widget *mParent;
+
+    /// The Theme being used for this Widget.
     ref<Theme> mTheme;
     ref<Layout> mLayout;
     std::string mId;
@@ -272,6 +274,16 @@ protected:
     bool mEnabled;
     bool mFocused, mMouseFocus;
     std::string mTooltip;
+
+    /**
+     * The font size.  If not specified explicitly, the default value is ``-1``.
+     * This (or any other negative value) indicates that the font size for this
+     * Widget is determined by \ref nanogui::Widget::mTheme, by way of the
+     * theme's \ref nanogui::Theme::mStandardFontSize.  So if you wish to
+     * override the font size for a specific Widget, set this member using
+     * \ref nanogui::Widget::setFontSize.  For global changes, change
+     * the Theme you are using.
+     */
     int mFontSize;
     Cursor mCursor;
 public:

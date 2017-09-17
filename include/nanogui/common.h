@@ -198,7 +198,7 @@ public:
      * Makes an exact copy of the data represented by the input parameter.
      *
      * \param color
-     * The four dimensional float vector being copied.
+     *     The four dimensional float vector being copied.
      */
     Color(const Eigen::Vector4f &color) : Eigen::Vector4f(color) { }
 
@@ -207,10 +207,10 @@ public:
      * the ``alpha`` parameter for this Color object's alpha component.
      *
      * \param color
-     * The three dimensional float vector being copied.
+     *     The three dimensional float vector being copied.
      *
      * \param alpha
-     * The value to set this object's alpha component to.
+     *     The value to set this object's alpha component to.
      */
     Color(const Eigen::Vector3f &color, float alpha)
         : Color(color(0), color(1), color(2), alpha) { }
@@ -222,10 +222,10 @@ public:
      * Color object's alpha component.
      *
      * \param color
-     * The three dimensional integer vector being copied, will be divided by ``255.0``.
+     *     The three dimensional integer vector being copied, will be divided by ``255.0``.
      *
      * \param alpha
-     * The value to set this object's alpha component to, will be divided by ``255.0``.
+     *     The value to set this object's alpha component to, will be divided by ``255.0``.
      */
     Color(const Eigen::Vector3i &color, int alpha)
         : Color(color.cast<float>() / 255.f, alpha / 255.f) { }
@@ -235,7 +235,7 @@ public:
      * to be ``1.0``.
      *
      * \param color
-     * The three dimensional float vector being copied.
+     *     The three dimensional float vector being copied.
      */
     Color(const Eigen::Vector3f &color) : Color(color, 1.0f) {}
 
@@ -244,7 +244,7 @@ public:
      * ``255.0``.  The alpha of this color will be set to ``1.0``.
      *
      * \param color
-     * The three dimensional integer vector being copied, will be divided by ``255.0``.
+     *     The three dimensional integer vector being copied, will be divided by ``255.0``.
      */
     Color(const Eigen::Vector3i &color)
         : Color((Vector3f)(color.cast<float>() / 255.f)) { }
@@ -254,7 +254,7 @@ public:
      * by ``255.0``.
      *
      * \param color
-     * The three dimensional integer vector being copied, will be divided by ``255.0``.
+     *     The three dimensional integer vector being copied, will be divided by ``255.0``.
      */
     Color(const Eigen::Vector4i &color)
         : Color((Vector4f)(color.cast<float>() / 255.f)) { }
@@ -263,10 +263,10 @@ public:
      * Creates the Color ``(intensity, intensity, intensity, alpha)``.
      *
      * \param intensity
-     * The value to be used for red, green, and blue.
+     *     The value to be used for red, green, and blue.
      *
      * \param alpha
-     * The alpha component of the color.
+     *     The alpha component of the color.
      */
     Color(float intensity, float alpha)
         : Color(Vector3f::Constant(intensity), alpha) { }
@@ -276,10 +276,10 @@ public:
      * Values are casted to floats before division.
      *
      * \param intensity
-     * The value to be used for red, green, and blue, will be divided by ``255.0``.
+     *     The value to be used for red, green, and blue, will be divided by ``255.0``.
      *
      * \param alpha
-     * The alpha component of the color, will be divided by ``255.0``.
+     *     The alpha component of the color, will be divided by ``255.0``.
      */
     Color(int intensity, int alpha)
         : Color(Vector3i::Constant(intensity), alpha) { }
@@ -288,16 +288,16 @@ public:
      * Explicit constructor: creates the Color ``(r, g, b, a)``.
      *
      * \param r
-     * The red component of the color.
+     *     The red component of the color.
      *
      * \param g
-     * The green component of the color.
+     *     The green component of the color.
      *
      * \param b
-     * The blue component of the color.
+     *     The blue component of the color.
      *
      * \param a
-     * The alpha component of the color.
+     *     The alpha component of the color.
      */
     Color(float r, float g, float b, float a) : Color(Vector4f(r, g, b, a)) { }
 
@@ -306,16 +306,16 @@ public:
      * Values are casted to floats before division.
      *
      * \param r
-     * The red component of the color, will be divided by ``255.0``.
+     *     The red component of the color, will be divided by ``255.0``.
      *
      * \param g
-     * The green component of the color, will be divided by ``255.0``.
+     *     The green component of the color, will be divided by ``255.0``.
      *
      * \param b
-     * The blue component of the color, will be divided by ``255.0``.
+     *     The blue component of the color, will be divided by ``255.0``.
      *
      * \param a
-     * The alpha component of the color, will be divided by ``255.0``.
+     *     The alpha component of the color, will be divided by ``255.0``.
      */
     Color(int r, int g, int b, int a) : Color(Vector4i(r, g, b, a)) { }
 
