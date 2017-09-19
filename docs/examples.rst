@@ -74,8 +74,8 @@ Run the ``exampleIcon`` executable to see what the icons look like in NanoGUI.  
 setup of this file may also be helpful in understanding how to control the
 :class:`nanogui::VScrollPanel`.
 
-- `Example Icons in C++ <https://github.com/wjakob/nanogui/blob/master/src/exampleIcons.cpp>`_
-- `Example Icons in Python <https://github.com/wjakob/nanogui/blob/master/python/exampleIcons.py>`_
+- `Example Icons in C++ <https://github.com/wjakob/nanogui/blob/master/src/example_icons.cpp>`_
+- `Example Icons in Python <https://github.com/wjakob/nanogui/blob/master/python/example_icons.py>`_
 
 
 .. _nanogui_example_repository:

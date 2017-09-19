@@ -1,6 +1,6 @@
-# python/exampleIcons.py -- Python version of an example application that shows
+# python/example_icons.py -- Python version of an example application that shows
 # all available Entypo icons as they would appear in NanoGUI itself.  For a C++
-# implementation, see '../src/exampleIcons.cpp'.
+# implementation, see '../src/example_icons.cpp'.
 #
 # NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch>.
 # The widget drawing code is based on the NanoVG demo application
