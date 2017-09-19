@@ -22,6 +22,11 @@ NAMESPACE_BEGIN(nanogui)
  * \class CheckBox checkbox.h nanogui/checkbox.h
  *
  * \brief Two-state check box widget.
+ *
+ * \remark
+ *     This class overrides \ref nanogui::Widget::mIconExtraScale to be ``1.2f``,
+ *     which affects all subclasses of this Widget.  Subclasses must explicitly
+ *     set a different value if needed (e.g., in their constructor).
  */
 class NANOGUI_EXPORT CheckBox : public Widget {
 public:

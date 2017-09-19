@@ -21,6 +21,8 @@ Theme::Theme(NVGcontext *ctx) {
     mStandardFontSize                 = 16;
     mButtonFontSize                   = 20;
     mTextBoxFontSize                  = 20;
+    mIconScale                        = 0.77f;
+
     mWindowCornerRadius               = 2;
     mWindowHeaderHeight               = 30;
     mWindowDropShadowSize             = 10;

@@ -19,7 +19,7 @@ NAMESPACE_BEGIN(nanogui)
 
 PopupButton::PopupButton(Widget *parent, const std::string &caption, int buttonIcon)
     : Button(parent, caption, buttonIcon),
-      mChevronIcon(ENTYPO_ICON_CHEVRON_SMALL_RIGHT) {
+      mChevronIcon(ENTYPO_ICON_CHEVRON_RIGHT) {
 
     setFlags(Flags::ToggleButton | Flags::PopupButton);
 
@@ -27,6 +27,8 @@ PopupButton::PopupButton(Widget *parent, const std::string &caption, int buttonI
     mPopup = new Popup(parentWindow->parent(), window());
     mPopup->setSize(Vector2i(320, 250));
     mPopup->setVisible(false);
+
+    mIconExtraScale = 0.8f;// widget override
 }
 
 Vector2i PopupButton::preferredSize(NVGcontext *ctx) const {
@@ -45,7 +47,7 @@ void PopupButton::draw(NVGcontext* ctx) {
         NVGcolor textColor =
             mTextColor.w() == 0 ? mTheme->mTextColor : mTextColor;
 
-        nvgFontSize(ctx, (mFontSize < 0 ? mTheme->mButtonFontSize : mFontSize) * detail::__icon_scale);
+        nvgFontSize(ctx, (mFontSize < 0 ? mTheme->mButtonFontSize : mFontSize) * icon_scale());
         nvgFontFace(ctx, "icons");
         nvgFillColor(ctx, mEnabled ? textColor : mTheme->mDisabledTextColor);
         nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);

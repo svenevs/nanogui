@@ -190,10 +190,18 @@ public:
         popup->setLayout(new GroupLayout());
         new Label(popup, "Arbitrary widgets can be placed here");
         new CheckBox(popup, "A check box");
+        // popup right
         popupBtn = new PopupButton(popup, "Recursive popup", ENTYPO_ICON_FLASH);
-        popup = popupBtn->popup();
-        popup->setLayout(new GroupLayout());
-        new CheckBox(popup, "Another check box");
+        Popup *popupRight = popupBtn->popup();
+        popupRight->setLayout(new GroupLayout());
+        new CheckBox(popupRight, "Another check box");
+        // popup left
+        popupBtn = new PopupButton(popup, "Recursive popup", ENTYPO_ICON_FLASH);
+        popupBtn->setSide(Popup::Side::Left);
+        popupBtn->setChevronIcon(ENTYPO_ICON_CHEVRON_LEFT);
+        Popup *popupLeft = popupBtn->popup();
+        popupLeft->setLayout(new GroupLayout());
+        new CheckBox(popupLeft, "Another check box");
 
         window = new Window(this, "Basic widgets");
         window->setPosition(Vector2i(200, 15));

@@ -46,6 +46,7 @@ TextBox::TextBox(Widget *parent,const std::string &value)
       mTextOffset(0),
       mLastClick(0) {
     if (mTheme) mFontSize = mTheme->mTextBoxFontSize;
+    mIconExtraScale = 0.8f;// widget override
 }
 
 void TextBox::setEditable(bool editable) {
@@ -151,7 +152,7 @@ void TextBox::draw(NVGcontext* ctx) {
         spinArrowsWidth = 14.f;
 
         nvgFontFace(ctx, "icons");
-        nvgFontSize(ctx, ((mFontSize < 0) ? mTheme->mButtonFontSize : mFontSize) * detail::__icon_scale);
+        nvgFontSize(ctx, ((mFontSize < 0) ? mTheme->mButtonFontSize : mFontSize) * icon_scale());
 
         bool spinning = mMouseDownPos.x() != -1;
 
