@@ -114,8 +114,8 @@ int main(int /* argc */, char ** /* argv */) {
     gui->addGroup("Complex types");
     gui->addVariable("Enumeration", enumval, enabled)->setItems({ "Item 1", "Item 2", "Item 3" });
     gui->addVariable("Color", colval)
-       ->setCallback([](const Color &c) {
-             std::cout << "ColorPicker: ["
+       ->setFinalCallback([](const Color &c) {
+             std::cout << "ColorPicker Final Callback: ["
                        << c.r() << ", "
                        << c.g() << ", "
                        << c.b() << ", "

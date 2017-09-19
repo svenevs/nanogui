@@ -38,17 +38,33 @@ public:
      */
     ColorPicker(Widget *parent, const Color& color = Color(1.0f, 0.0f, 0.0f, 1.0f));
 
-    /**
-     * The callback to execute when a new Color is selected on the ColorWheel
-     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton.
-     */
+    /// The callback executed when the ColorWheel changes.
     std::function<void(const Color &)> callback() const { return mCallback; }
 
     /**
-     * The callback to execute when a new Color is selected on the ColorWheel
-     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton.
+     * Sets the callback is executed as the ColorWheel itself is changed.  Set
+     * this callback if you need to receive updates for the ColorWheel changing
+     * before the user clicks \ref nanogui::ColorPicker::mPickButton or
+     * \ref nanogui::ColorPicker::mPickButton.
      */
-    void setCallback(const std::function<void(const Color &)> &callback) { mCallback = callback; }
+    void setCallback(const std::function<void(const Color &)> &callback) {
+        mCallback = callback;
+        mCallback(backgroundColor());
+    }
+
+    /**
+     * The callback to execute when a new Color is selected on the ColorWheel
+     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton or
+     * \ref nanogui::ColorPicker::mResetButton.
+     */
+    std::function<void(const Color &)> finalCallback() const { return mFinalCallback; }
+
+    /**
+     * The callback to execute when a new Color is selected on the ColorWheel
+     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton or
+     * \ref nanogui::ColorPicker::mResetButton.
+     */
+    void setFinalCallback(const std::function<void(const Color &)> &callback) { mFinalCallback = callback; }
 
     /// Get the current Color selected for this ColorPicker.
     Color color() const;
@@ -69,11 +85,15 @@ public:
     void setResetButtonCaption(const std::string &caption) { mResetButton->setCaption(caption); }
 
 protected:
+    /// The "fast" callback executed when the ColorWheel has changed.
+    std::function<void(const Color &)> mCallback;
+
     /**
      * The callback to execute when a new Color is selected on the ColorWheel
-     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton.
+     * **and** the user clicks the \ref nanogui::ColorPicker::mPickButton or
+     * \ref nanogui::ColorPicker::mResetButton.
      */
-    std::function<void(const Color &)> mCallback;
+    std::function<void(const Color &)> mFinalCallback;
 
     /// The ColorWheel for this ColorPicker (the actual widget allowing selection).
     ColorWheel *mColorWheel;

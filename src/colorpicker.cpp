@@ -25,6 +25,7 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
     // initialize callback to do nothing; this is for users to hook into
     // receiving a new color value
     mCallback = [](const Color &) {};
+    mFinalCallback = [](const Color &) {};
 
     // set the color wheel to the specified color
     mColorWheel = new ColorWheel(popup, color);
@@ -44,13 +45,14 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
     PopupButton::setChangeCallback([&](bool) {
         if (this->mPickButton->pushed()) {
             setColor(backgroundColor());
-            mCallback(backgroundColor());
+            mFinalCallback(backgroundColor());
         }
     });
 
     mColorWheel->setCallback([&](const Color &value) {
         mPickButton->setBackgroundColor(value);
         mPickButton->setTextColor(value.contrastingColor());
+        mCallback(value);
     });
 
     mPickButton->setCallback([this]() {
@@ -58,7 +60,7 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
             Color value = mColorWheel->color();
             setPushed(false);
             setColor(value);
-            mCallback(value);
+            mFinalCallback(value);
         }
     });
 
@@ -69,6 +71,9 @@ ColorPicker::ColorPicker(Widget *parent, const Color& color) : PopupButton(paren
         mColorWheel->setColor(bg);
         mPickButton->setBackgroundColor(bg);
         mPickButton->setTextColor(fg);
+
+        mCallback(bg);
+        mFinalCallback(bg);
     });
 }
 

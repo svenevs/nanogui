@@ -470,12 +470,49 @@ public:
         new Label(window, "Color picker :", "sans-bold");
         auto cp = new ColorPicker(window, {255, 120, 0, 255});
         cp->setFixedSize({100, 20});
-        cp->setCallback([](const Color &c) {
-            std::cout << "ColorPicker: ["
+        cp->setFinalCallback([](const Color &c) {
+            std::cout << "ColorPicker Final Callback: ["
                       << c.r() << ", "
                       << c.g() << ", "
                       << c.b() << ", "
                       << c.w() << "]" << std::endl;
+        });
+        // setup a fast callback for the color picker widget on a new window
+        // for demonstrative purposes
+        window = new Window(this, "Color Picker Fast Callback");
+        layout =
+            new GridLayout(Orientation::Horizontal, 2,
+                           Alignment::Middle, 15, 5);
+        layout->setColAlignment(
+            { Alignment::Maximum, Alignment::Fill });
+        layout->setSpacing(0, 10);
+        window->setLayout(layout);
+        window->setPosition(Vector2i(425, 500));
+        new Label(window, "Combined: ");
+        b = new Button(window, "ColorWheel", ENTYPO_ICON_500PX);
+        new Label(window, "Red: ");
+        auto redIntBox = new IntBox<int>(window);
+        redIntBox->setEditable(false);
+        new Label(window, "Green: ");
+        auto greenIntBox = new IntBox<int>(window);
+        greenIntBox->setEditable(false);
+        new Label(window, "Blue: ");
+        auto blueIntBox = new IntBox<int>(window);
+        blueIntBox->setEditable(false);
+        new Label(window, "Alpha: ");
+        auto alphaIntBox = new IntBox<int>(window);
+        cp->setCallback([b,redIntBox,blueIntBox,greenIntBox,alphaIntBox](const Color &c) {
+            b->setBackgroundColor(c);
+            b->setTextColor(c.contrastingColor());
+            int red = (int) (c.r() * 255.0f);
+            redIntBox->setValue(red);
+            int green = (int) (c.g() * 255.0f);
+            greenIntBox->setValue(green);
+            int blue = (int) (c.b() * 255.0f);
+            blueIntBox->setValue(blue);
+            int alpha = (int) (c.w() * 255.0f);
+            alphaIntBox->setValue(alpha);
+
         });
 
         performLayout();

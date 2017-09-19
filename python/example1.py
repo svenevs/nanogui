@@ -23,6 +23,8 @@ from nanogui import Color, ColorPicker, Screen, Window, GroupLayout, BoxLayout, 
 
 from nanogui import gl, glfw, entypo
 
+# A simple counter, used for dynamic tab creation with TabWidget callback
+counter = 1
 
 class TestApp(Screen):
     def __init__(self):
@@ -235,6 +237,35 @@ class TestApp(Screen):
         graph.setValues(values)
         tabWidget.setActiveTab(0)
 
+        # Dummy tab used to represent the last tab button.
+        tabWidget.createTab("+")
+
+        def tab_cb(index):
+            if index == (tabWidget.tabCount()-1):
+                global counter
+                # When the "+" tab has been clicked, simply add a new tab.
+                tabName  = "Dynamic {0}".format(counter)
+                layerDyn = tabWidget.createTab(index, tabName)
+                layerDyn.setLayout(GroupLayout())
+                Label(layerDyn, "Function graph widget", "sans-bold")
+                graphDyn = Graph(layerDyn, "Dynamic function")
+
+                graphDyn.setHeader("E = 2.35e-3")
+                graphDyn.setFooter("Iteration {0}".format(index*counter))
+                valuesDyn = [0.5 * abs((0.5 * math.sin(i / 10.0 + counter)) +
+                                       (0.5 * math.cos(i / 23.0 + 1 + counter)))
+                             for i in range(100)]
+                graphDyn.setValues(valuesDyn)
+                counter += 1
+                # We must invoke perform layout from the screen instance to keep everything in order.
+                # This is essential when creating tabs dynamically.
+                self.performLayout()
+                # Ensure that the newly added header is visible on screen
+                tabWidget.ensureTabVisible(index)
+
+        tabWidget.setCallback(tab_cb)
+        tabWidget.setActiveTab(0);
+
         window = Window(self, "Grid of small widgets")
         window.setPosition((425, 300))
         layout = GridLayout(Orientation.Horizontal, 2,
@@ -282,15 +313,54 @@ class TestApp(Screen):
         cp = ColorPicker(window, Color(255, 120, 0, 255));
         cp.setFixedSize((100, 20));
 
-        def cp_cb(color):
+        def cp_final_cb(color):
             print(
-                "ColorPicker: [{0}, {1}, {2}, {3}]".format(color.r,
-                                                           color.g,
-                                                           color.b,
-                                                           color.w)
+                "ColorPicker Final Callback: [{0}, {1}, {2}, {3}]".format(color.r,
+                                                                          color.g,
+                                                                          color.b,
+                                                                          color.w)
             )
 
-        cp.setCallback(cp_cb)
+        cp.setFinalCallback(cp_final_cb)
+
+        # setup a fast callback for the color picker widget on a new window
+        # for demonstrative purposes
+        window = Window(self, "Color Picker Fast Callback")
+        window.setPosition((425, 300))
+        layout = GridLayout(Orientation.Horizontal, 2,
+                            Alignment.Middle, 15, 5)
+        layout.setColAlignment(
+            [Alignment.Maximum, Alignment.Fill])
+        layout.setSpacing(0, 10)
+        window.setLayout(layout)
+        window.setPosition((425, 500))
+        Label(window, "Combined: ");
+        b = Button(window, "ColorWheel", entypo.ICON_500PX)
+        Label(window, "Red: ")
+        redIntBox = IntBox(window)
+        redIntBox.setEditable(False)
+        Label(window, "Green: ")
+        greenIntBox = IntBox(window)
+        greenIntBox.setEditable(False)
+        Label(window, "Blue: ")
+        blueIntBox = IntBox(window)
+        blueIntBox.setEditable(False)
+        Label(window, "Alpha: ")
+        alphaIntBox = IntBox(window)
+
+        def cp_fast_cb(color):
+            b.setBackgroundColor(color)
+            b.setTextColor(color.contrastingColor())
+            red = int(color.r * 255.0)
+            redIntBox.setValue(red)
+            green = int(color.g * 255.0)
+            greenIntBox.setValue(green)
+            blue = int(color.b * 255.0)
+            blueIntBox.setValue(blue)
+            alpha = int(color.w * 255.0)
+            alphaIntBox.setValue(alpha)
+
+        cp.setCallback(cp_fast_cb)
 
         self.performLayout()
 
