@@ -200,21 +200,21 @@ library Foo was looking for ``glfw`` like this:
    find_package(GLFW3)
    if(GLFW3_FOUND)
      include_directories(${GLFW3_INCLUDE_DIRS})
-     target_link_libraries(${GLFW3_LIBRARIES})
+     target_link_libraries(foo ${GLFW3_LIBRARIES})
    endif()
 
 You can cheat around this pretty easily.  For the modification to library Foo's build
 system, all we do is wrap ``find_package``:
 
-.. code-block:: cmake
+.. code-block:: diff
 
-   if(NOT GLFW3_FOUND)
-     find_package(GLFW3)
-   endif()
-   if(GLFW3_FOUND)
-     include_directories(${GLFW3_INCLUDE_DIRS})
-     target_link_libraries(${GLFW3_LIBRARIES})
-   endif()
+   + if(NOT GLFW3_FOUND)
+       find_package(GLFW3)
+   + endif()
+     if(GLFW3_FOUND)
+       include_directories(${GLFW3_INCLUDE_DIRS})
+       target_link_libraries(foo ${GLFW3_LIBRARIES})
+     endif()
 
 Now that ``find_package`` will only execute if ``NOT GLFW3_FOUND``, in your build system
 you make sure to set all three ``glfw`` variables (found, include, and libraries).  It
