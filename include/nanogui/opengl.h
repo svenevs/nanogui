@@ -57,6 +57,8 @@ inline Color::operator const NVGcolor &() const {
  * \rst
  * The implementation defines all ``value < 1024`` as image icons, and
  * everything ``>= 1024`` as an Entypo icon (see :ref:`file_nanogui_entypo.h`).
+ * The value ``1024`` exists to provide a generous buffer on how many images
+ * may have been loaded by NanoVG.
  * \endrst
  *
  * \param value

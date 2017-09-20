@@ -12,7 +12,6 @@
 #include <nanogui/checkbox.h>
 #include <nanogui/opengl.h>
 #include <nanogui/theme.h>
-#include <nanogui/entypo.h>
 #include <nanogui/serializer/core.h>
 
 NAMESPACE_BEGIN(nanogui)
@@ -87,7 +86,7 @@ void CheckBox::draw(NVGcontext *ctx) {
                                    : mTheme->mDisabledTextColor);
         nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
         nvgText(ctx, mPos.x() + mSize.y() * 0.5f + 1,
-                mPos.y() + mSize.y() * 0.5f, utf8(ENTYPO_ICON_CHECK).data(),
+                mPos.y() + mSize.y() * 0.5f, utf8(mTheme->mCheckBoxIcon).data(),
                 nullptr);
     }
 }

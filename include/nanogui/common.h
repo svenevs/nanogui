@@ -133,31 +133,31 @@ enum class Cursor {
 
 /* Import some common Eigen types */
 /// Type alias to allow ``Eigen::Vector2f`` to be used as ``nanogui::Vector2f``.
-typedef Eigen::Vector2f Vector2f;
+using Vector2f = Eigen::Vector2f;
 /// Type alias to allow ``Eigen::Vector3f`` to be used as ``nanogui::Vector3f``.
-typedef Eigen::Vector3f Vector3f;
+using Vector3f = Eigen::Vector3f;
 /// Type alias to allow ``Eigen::Vector4f`` to be used as ``nanogui::Vector4f``.
-typedef Eigen::Vector4f Vector4f;
+using Vector4f = Eigen::Vector4f;
 /// Type alias to allow ``Eigen::Vector2i`` to be used as ``nanogui::Vector2i``.
-typedef Eigen::Vector2i Vector2i;
+using Vector2i = Eigen::Vector2i;
 /// Type alias to allow ``Eigen::Vector3i`` to be used as ``nanogui::Vector3i``.
-typedef Eigen::Vector3i Vector3i;
+using Vector3i = Eigen::Vector3i;
 /// Type alias to allow ``Eigen::Vector4i`` to be used as ``nanogui::Vector4i``.
-typedef Eigen::Vector4i Vector4i;
+using Vector4i = Eigen::Vector4i;
 /// Type alias to allow ``Eigen::Matrix3f`` to be used as ``nanogui::Matrix3f``.
-typedef Eigen::Matrix3f Matrix3f;
+using Matrix3f = Eigen::Matrix3f;
 /// Type alias to allow ``Eigen::Matrix4f`` to be used as ``nanogui::Matrix4f``.
-typedef Eigen::Matrix4f Matrix4f;
+using Matrix4f = Eigen::Matrix4f;
 /// Type alias to allow ``Eigen::VectorXf`` to be used as ``nanogui::VectorXf``.
-typedef Eigen::VectorXf VectorXf;
+using VectorXf = Eigen::VectorXf;
 /// Type alias to allow ``Eigen::MatrixXf`` to be used as ``nanogui::MatrixXf``.
-typedef Eigen::MatrixXf MatrixXf;
+using MatrixXf = Eigen::MatrixXf;
 
 /**
  * Convenience typedef for things like index buffers.  You would use it the same
  * as ``Eigen::MatrixXf``, only it is storing ``uint32_t`` instead of ``float``.
  */
-typedef Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic> MatrixXu;
+using MatrixXu = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>;
 
 /**
  * \class Color common.h nanogui/common.h

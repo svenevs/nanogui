@@ -365,6 +365,12 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+import datetime
+rst_epilog = textwrap.dedent('''
+    .. |year| replace:: {year}
+'''.format(
+    year=datetime.datetime.now().year
+))
 
 # auto-magically called by sphinx-build
 def setup(app):

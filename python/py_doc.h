@@ -3115,6 +3115,8 @@ static const char *__doc_nanogui_Theme_mButtonGradientTopUnfocused =
 R"doc(The top gradient color for buttons not in focus (default:
 intensity=``74``, alpha=``255``; see nanogui::Color::Color(int,int)).)doc";
 
+static const char *__doc_nanogui_Theme_mCheckBoxIcon = R"doc(Icon to use for CheckBox widgets (default: ``ENTYPO_ICON_CHECK``).)doc";
+
 static const char *__doc_nanogui_Theme_mDisabledTextColor =
 R"doc(The disable dtext color (default: intensity=``255``, alpha=``80``; see
 nanogui::Color::Color(int,int)).)doc";
@@ -3142,6 +3144,34 @@ R"doc(The amount of scaling that is applied to each icon to fit the size of
 NanoGUI widgets. The default value is ``0.77f``, setting to e.g.
 higher than ``1.0f`` is generally discouraged.)doc";
 
+static const char *__doc_nanogui_Theme_mMessageAltButtonIcon =
+R"doc(Icon to use on MessageDialog alt button (default:
+``ENTYPO_ICON_CIRCLE_WITH_CROSS``).)doc";
+
+static const char *__doc_nanogui_Theme_mMessageInformationIcon =
+R"doc(Icon to use for informational MessageDialog widgets (default:
+``ENTYPO_ICON_INFO_WITH_CIRCLE``).)doc";
+
+static const char *__doc_nanogui_Theme_mMessagePrimaryButtonIcon =
+R"doc(Icon to use on MessageDialog primary button (default:
+``ENTYPO_ICON_CHECK``).)doc";
+
+static const char *__doc_nanogui_Theme_mMessageQuestionIcon =
+R"doc(Icon to use for interrogative MessageDialog widgets (default:
+``ENTYPO_ICON_HELP_WITH_CIRCLE``).)doc";
+
+static const char *__doc_nanogui_Theme_mMessageWarningIcon =
+R"doc(Icon to use for warning MessageDialog widgets (default:
+``ENTYPO_ICON_WARNING``).)doc";
+
+static const char *__doc_nanogui_Theme_mPopupChevronLeftIcon =
+R"doc(Icon to use for PopupButton widgets opening to the left (default:
+``ENTYPO_ICON_CHEVRON_LEFT``).)doc";
+
+static const char *__doc_nanogui_Theme_mPopupChevronRightIcon =
+R"doc(Icon to use for PopupButton widgets opening to the right (default:
+``ENTYPO_ICON_CHEVRON_RIGHT``).)doc";
+
 static const char *__doc_nanogui_Theme_mStandardFontSize =
 R"doc(The font size for all widgets other than buttons and textboxes
 (default: `` 16``).)doc";
@@ -3160,13 +3190,29 @@ static const char *__doc_nanogui_Theme_mTabControlWidth =
 R"doc(Used to help specify what lies "in bound" for a TabHeader widget
 (default: ``20``).)doc";
 
+static const char *__doc_nanogui_Theme_mTabHeaderLeftIcon =
+R"doc(Icon to indicate hidden tabs to the left on a TabHeader (default:
+``ENTYPO_ICON_ARROW_BOLD_LEFT``).)doc";
+
+static const char *__doc_nanogui_Theme_mTabHeaderRightIcon =
+R"doc(Icon to indicate hidden tabs to the right on a TabHeader (default:
+``ENTYPO_ICON_ARROW_BOLD_RIGHT``).)doc";
+
 static const char *__doc_nanogui_Theme_mTabInnerMargin = R"doc(The inner margin on a TabHeader widget (default: ``5``).)doc";
 
 static const char *__doc_nanogui_Theme_mTabMaxButtonWidth = R"doc(The maximum size for buttons on a TabHeader widget (default: ``160``).)doc";
 
 static const char *__doc_nanogui_Theme_mTabMinButtonWidth = R"doc(The minimum size for buttons on a TabHeader widget (default: ``20``).)doc";
 
+static const char *__doc_nanogui_Theme_mTextBoxDownIcon =
+R"doc(Icon to use when a TextBox has a down toggle (e.g. IntBox) (default:
+``ENTYPO_ICON_CHEVRON_DOWN``).)doc";
+
 static const char *__doc_nanogui_Theme_mTextBoxFontSize = R"doc(The font size for text boxes (default: ``20``).)doc";
+
+static const char *__doc_nanogui_Theme_mTextBoxUpIcon =
+R"doc(Icon to use when a TextBox has an up toggle (e.g. IntBox) (default:
+``ENTYPO_ICON_CHEVRON_UP``).)doc";
 
 static const char *__doc_nanogui_Theme_mTextColor =
 R"doc(The text color (default: intensity=``255``, alpha=``160``; see
@@ -3995,6 +4041,8 @@ R"doc(Determine whether an icon ID is a texture loaded via ``nvgImageIcon``.
 ```
 The implementation defines all ``value < 1024`` as image icons, and
 everything ``>= 1024`` as an Entypo icon (see :ref:`file_nanogui_entypo.h`).
+The value ``1024`` exists to provide a generous buffer on how many images
+may have been loaded by NanoVG.
 
 ```
 
