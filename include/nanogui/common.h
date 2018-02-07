@@ -132,32 +132,33 @@ enum class Cursor {
 };
 
 /* Import some common Eigen types */
-/// Type alias to allow ``Eigen::Vector2f`` to be used as ``nanogui::Vector2f``.
-using Vector2f = Eigen::Vector2f;
-/// Type alias to allow ``Eigen::Vector3f`` to be used as ``nanogui::Vector3f``.
-using Vector3f = Eigen::Vector3f;
-/// Type alias to allow ``Eigen::Vector4f`` to be used as ``nanogui::Vector4f``.
-using Vector4f = Eigen::Vector4f;
-/// Type alias to allow ``Eigen::Vector2i`` to be used as ``nanogui::Vector2i``.
-using Vector2i = Eigen::Vector2i;
-/// Type alias to allow ``Eigen::Vector3i`` to be used as ``nanogui::Vector3i``.
-using Vector3i = Eigen::Vector3i;
-/// Type alias to allow ``Eigen::Vector4i`` to be used as ``nanogui::Vector4i``.
-using Vector4i = Eigen::Vector4i;
-/// Type alias to allow ``Eigen::Matrix3f`` to be used as ``nanogui::Matrix3f``.
-using Matrix3f = Eigen::Matrix3f;
-/// Type alias to allow ``Eigen::Matrix4f`` to be used as ``nanogui::Matrix4f``.
-using Matrix4f = Eigen::Matrix4f;
-/// Type alias to allow ``Eigen::VectorXf`` to be used as ``nanogui::VectorXf``.
-using VectorXf = Eigen::VectorXf;
-/// Type alias to allow ``Eigen::MatrixXf`` to be used as ``nanogui::MatrixXf``.
-using MatrixXf = Eigen::MatrixXf;
-
-/**
- * Convenience typedef for things like index buffers.  You would use it the same
- * as ``Eigen::MatrixXf``, only it is storing ``uint32_t`` instead of ``float``.
- */
-using MatrixXu = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>;
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
+    /// Type alias to allow ``Eigen::Vector2f`` to be used as ``nanogui::Vector2f``.
+    using Vector2f = Eigen::Vector2f;
+    /// Type alias to allow ``Eigen::Vector3f`` to be used as ``nanogui::Vector3f``.
+    using Vector3f = Eigen::Vector3f;
+    /// Type alias to allow ``Eigen::Vector4f`` to be used as ``nanogui::Vector4f``.
+    using Vector4f = Eigen::Vector4f;
+    /// Type alias to allow ``Eigen::Vector2i`` to be used as ``nanogui::Vector2i``.
+    using Vector2i = Eigen::Vector2i;
+    /// Type alias to allow ``Eigen::Vector3i`` to be used as ``nanogui::Vector3i``.
+    using Vector3i = Eigen::Vector3i;
+    /// Type alias to allow ``Eigen::Vector4i`` to be used as ``nanogui::Vector4i``.
+    using Vector4i = Eigen::Vector4i;
+    /// Type alias to allow ``Eigen::Matrix3f`` to be used as ``nanogui::Matrix3f``.
+    using Matrix3f = Eigen::Matrix3f;
+    /// Type alias to allow ``Eigen::Matrix4f`` to be used as ``nanogui::Matrix4f``.
+    using Matrix4f = Eigen::Matrix4f;
+    /// Type alias to allow ``Eigen::VectorXf`` to be used as ``nanogui::VectorXf``.
+    using VectorXf = Eigen::VectorXf;
+    /// Type alias to allow ``Eigen::MatrixXf`` to be used as ``nanogui::MatrixXf``.
+    using MatrixXf = Eigen::MatrixXf;
+    /**
+    * Convenience typedef for things like index buffers.  You would use it the same
+    * as ``Eigen::MatrixXf``, only it is storing ``uint32_t`` instead of ``float``.
+    */
+    using MatrixXu = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>;
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 /**
  * \class Color common.h nanogui/common.h
@@ -460,20 +461,22 @@ extern NANOGUI_EXPORT void leave();
 /// Return whether or not a main loop is currently active
 extern NANOGUI_EXPORT bool active();
 
-/**
- * \brief Open a native file open/save dialog.
- *
- * \param filetypes
- *     Pairs of permissible formats with descriptions like
- *     ``("png", "Portable Network Graphics")``.
- *
- * \param save
- *     Set to ``true`` if you would like subsequent file dialogs to open
- *     at whatever folder they were in when they close this one.
- */
-extern NANOGUI_EXPORT std::string
-file_dialog(const std::vector<std::pair<std::string, std::string>> &filetypes,
-            bool save);
+#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
+    /**
+     * \brief Open a native file open/save dialog.
+     *
+     * \param filetypes
+     *     Pairs of permissible formats with descriptions like
+     *     ``("png", "Portable Network Graphics")``.
+     *
+     * \param save
+     *     Set to ``true`` if you would like subsequent file dialogs to open
+     *     at whatever folder they were in when they close this one.
+     */
+    extern NANOGUI_EXPORT std::string
+    file_dialog(const std::vector<std::pair<std::string, std::string>> &filetypes,
+                bool save);
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 /**
  * \brief Open a native file open dialog, which allows multiple selection.
