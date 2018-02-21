@@ -468,6 +468,7 @@ if (NANOGUI_BUILD_PYTHON)
     python/constants_glfw.cpp
     python/constants_entypo.cpp
     python/eigen.cpp
+    python/theme.cpp
     python/widget.cpp
     python/layout.cpp
     python/basics.cpp
