@@ -2658,6 +2658,8 @@ static const char *__doc_nanogui_Screen_mResizeCallback = R"doc()doc";
 
 static const char *__doc_nanogui_Screen_mShutdownGLFWOnDestruct = R"doc()doc";
 
+static const char *__doc_nanogui_Screen_mTooltipFont = R"doc(The font to draw child widget's tool tips with (default: ``"sans"``).)doc";
+
 static const char *__doc_nanogui_Screen_mouseButtonCallbackEvent = R"doc()doc";
 
 static const char *__doc_nanogui_Screen_mousePos = R"doc(Return the last observed mouse position value)doc";
@@ -2714,9 +2716,15 @@ static const char *__doc_nanogui_Screen_setShutdownGLFWOnDestruct = R"doc()doc";
 
 static const char *__doc_nanogui_Screen_setSize = R"doc(Set window size)doc";
 
+static const char *__doc_nanogui_Screen_setTooltipFont =
+R"doc(Set the font to be used to draw tool tips for child widgets (2 are
+available by default: 'sans' and 'sans-bold'))doc";
+
 static const char *__doc_nanogui_Screen_setVisible = R"doc(Set the top-level window visibility (no effect on full-screen windows))doc";
 
 static const char *__doc_nanogui_Screen_shutdownGLFWOnDestruct = R"doc()doc";
+
+static const char *__doc_nanogui_Screen_tooltipFont = R"doc(Get the font name being used to draw tool tips for child widgets)doc";
 
 static const char *__doc_nanogui_Screen_updateFocus = R"doc()doc";
 
