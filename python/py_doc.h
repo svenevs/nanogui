@@ -397,7 +397,10 @@ Parameter ``caption``:
     The name of the button (default ``"Untitled"``).
 
 Parameter ``icon``:
-    The icon to display with this Button. See nanogui::Button::mIcon.)doc";
+    The icon to display with this Button. See nanogui::Button::mIcon.
+
+Parameter ``font``:
+    The font to use for this Button (default: ``"sans-bold"``).)doc";
 
 static const char *__doc_nanogui_Button_Flags = R"doc(Flags to specify the button behavior (can be combined with binary OR))doc";
 
@@ -553,7 +556,10 @@ Parameter ``callback``:
     If provided, the callback to execute when the CheckBox is checked
     or unchecked. Default parameter function does nothing. See
     nanogui::CheckBox::mPushed for the difference between "pushed" and
-    "checked".)doc";
+    "checked".
+
+Parameter ``font``:
+    The font to use for this CheckBox (default: ``"sans"``).)doc";
 
 static const char *__doc_nanogui_CheckBox_callback = R"doc(Returns the current callback of this CheckBox.)doc";
 
@@ -1161,6 +1167,91 @@ static const char *__doc_nanogui_FloatBox_setValue = R"doc()doc";
 static const char *__doc_nanogui_FloatBox_setValueIncrement = R"doc()doc";
 
 static const char *__doc_nanogui_FloatBox_value = R"doc()doc";
+
+static const char *__doc_nanogui_FontWidget = R"doc(The base class for all widgets that draw text (e.g., Label or Button).)doc";
+
+static const char *__doc_nanogui_FontWidget_FontWidget =
+R"doc(Constructs a FontWidget.
+
+Parameter ``parent``:
+    The parent of this FontWidget.
+
+Parameter ``font``:
+    The font face to start with. All widgets that inherit from this
+    class default this parameter to the empty string (``""``). By
+    using the empty string, when ``parent`` is not ``nullptr``, the
+    Theme is queried for the font to use. When anything other than the
+    empty string, this implies that a user has explicitly requested a
+    specific font face. For example, ``new Label(parent, "text",
+    "sans-bold")``. That is, sub-classes should always provide an
+    explicit ``font`` parameter in their constructor, with a default
+    value of ``""``. The ``fontDefaultIsBold`` parameter defines the
+    behavior when the empty string is supplied here.
+
+Parameter ``fontDefaultIsBold``:
+    Different sub-classes may prefer a different default font face.
+    When ``font`` is ``""`` and ``fontDefaultIsBold=false``,
+    Theme::defaultFont is used to populate mFont. When ``True``,
+    Theme::defaultBoldFont is used instead. Lastly, in the rare
+    occurrence that ``parent`` is ``nullptr`` (and therefore no Theme
+    instance is available at the time of construction), the static
+    Theme methods are called instead. When
+    ``fontDefaultIsBold=false``, Theme::globalDefaultFont is used.
+    When ``True``, Theme::globalDefaultBoldFont is used.)doc";
+
+static const char *__doc_nanogui_FontWidget_font = R"doc(Get the font used to draw the text for this FontWidget.)doc";
+
+static const char *__doc_nanogui_FontWidget_fontSize =
+R"doc(Return current font size. If not set the default of the current theme
+will be returned)doc";
+
+static const char *__doc_nanogui_FontWidget_hasFontSize = R"doc(Return whether the font size is explicitly specified for this widget)doc";
+
+static const char *__doc_nanogui_FontWidget_load = R"doc(Sets the state of this FontWidget from the specified Serializer.)doc";
+
+static const char *__doc_nanogui_FontWidget_mFont = R"doc(The current font face being used to draw text.)doc";
+
+static const char *__doc_nanogui_FontWidget_mFontDefaultIsBold =
+R"doc(There are two default fonts in NanoGUI: ``"sans"`` and ``"sans-
+bold"``. When this variable is ``True``, the bold font will be used.
+When ``False``, the regular font face will be used. Subclasses are
+responsible for specifying this behavior when calling the parent class
+constructor (FontWidget::FontWidget). For example, nanogui::Label will
+always set this to ``False``, whereas nanogui::Button will always set
+this to ``True``.)doc";
+
+static const char *__doc_nanogui_FontWidget_mFontExplicit =
+R"doc(When the font is specified either via the constructor or setFont, this
+is set to ``True`` to indicate that setTheme should not overwrite the
+user-specified default. Otherwise, when setTheme is called, the
+theme's default window font will be used.)doc";
+
+static const char *__doc_nanogui_FontWidget_mFontSize =
+R"doc(Used to set the font size of a widget explicitly. The initial value is
+``-1``, and a negative number indicates that the theme's font size
+should be used instead. Specifically, fontSize will return
+Theme::mStandardFontSize when ``mFontSize < 0``.)doc";
+
+static const char *__doc_nanogui_FontWidget_save = R"doc(Saves the state of this FontWidget to the specified Serializer.)doc";
+
+static const char *__doc_nanogui_FontWidget_setDefaultFont =
+R"doc(Sets mFont accordingly. Called in both the constructor, as well as
+from setTheme.)doc";
+
+static const char *__doc_nanogui_FontWidget_setFont =
+R"doc(Set the font used to draw the text for this FontWidget.
+
+There are four font faces available by default:
+
+1. ``"sans"`` (Theme::mFontNormal). 2. ``"sans-bold"``
+(Theme::mFontBold). 3. ``"mono"`` (Theme::mFontMonoNormal). 4.
+``"mono-bold"`` (Theme::mFontMonoBold).)doc";
+
+static const char *__doc_nanogui_FontWidget_setFontSize = R"doc(Set the font size of this widget)doc";
+
+static const char *__doc_nanogui_FontWidget_setTheme =
+R"doc(Set the Theme used to draw this FontWidget (updates mFont if
+applicable).)doc";
 
 static const char *__doc_nanogui_FormHelper =
 R"doc(Convenience class to create simple AntTweakBar-style layouts that
@@ -2191,15 +2282,11 @@ static const char *__doc_nanogui_Label_color = R"doc(Get the label color)doc";
 
 static const char *__doc_nanogui_Label_draw = R"doc(Draw the label)doc";
 
-static const char *__doc_nanogui_Label_font = R"doc(Get the currently active font)doc";
-
 static const char *__doc_nanogui_Label_load = R"doc()doc";
 
 static const char *__doc_nanogui_Label_mCaption = R"doc()doc";
 
 static const char *__doc_nanogui_Label_mColor = R"doc()doc";
-
-static const char *__doc_nanogui_Label_mFont = R"doc()doc";
 
 static const char *__doc_nanogui_Label_operator_delete = R"doc()doc";
 
@@ -2232,10 +2319,6 @@ static const char *__doc_nanogui_Label_save = R"doc()doc";
 static const char *__doc_nanogui_Label_setCaption = R"doc(Set the label's text caption)doc";
 
 static const char *__doc_nanogui_Label_setColor = R"doc(Set the label color)doc";
-
-static const char *__doc_nanogui_Label_setFont =
-R"doc(Set the currently active font (2 are available by default: 'sans' and
-'sans-bold'))doc";
 
 static const char *__doc_nanogui_Label_setTheme = R"doc(Set the Theme used to draw this widget)doc";
 
@@ -2924,8 +3007,6 @@ specified index is visible. The tab with the specified index will
 either be the first or last visible one depending on the position
 relative to the old visible range.)doc";
 
-static const char *__doc_nanogui_TabHeader_font = R"doc()doc";
-
 static const char *__doc_nanogui_TabHeader_isTabVisible = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_locateClick = R"doc()doc";
@@ -2933,8 +3014,6 @@ static const char *__doc_nanogui_TabHeader_locateClick = R"doc()doc";
 static const char *__doc_nanogui_TabHeader_mActiveTab = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_mCallback = R"doc()doc";
-
-static const char *__doc_nanogui_TabHeader_mFont = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_mOverflowing = R"doc()doc";
 
@@ -2992,8 +3071,6 @@ static const char *__doc_nanogui_TabHeader_setCallback =
 R"doc(Sets the callable objects which is invoked when a tab button is
 pressed. The argument provided to the callback is the index of the
 tab.)doc";
-
-static const char *__doc_nanogui_TabHeader_setFont = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_tabCount = R"doc()doc";
 
@@ -3376,7 +3453,7 @@ nanogui::Button).)doc";
 static const char *__doc_nanogui_Theme_defaultCheckBoxIconExtraScale =
 R"doc(For the default theme, ``1.2f`` is used in conjunction with
 ``ENTYPO_ICON_CHECK``. If overriding, mCheckBoxIcon, make sure
-mCheckboxIconExtraScale is set appropriately for the new icon choice.
+mCheckBoxIconExtraScale is set appropriately for the new icon choice.
 
 This method exists for the rare occurence that a Theme instance is not
 available upon construction.
@@ -3394,7 +3471,7 @@ static const char *__doc_nanogui_Theme_defaultIconFont = R"doc(The default icon 
 static const char *__doc_nanogui_Theme_defaultPopupIconExtraScale =
 R"doc(For the default theme, ``0.8f`` is used in conjunction with
 ``ENTYPO_ICON_CHEVRON_{LEFT,RIGHT}``. If overriding,
-mPopupChevronRight and mPopupChevronLeft, make sure
+mPopupChevronRightIcon and mPopupChevronLeftIcon, make sure
 mPopupIconExtraScale is set appropriately for the new icon choice.
 
 This method exists for the rare occurence that a Theme instance is not
@@ -3556,7 +3633,7 @@ R"doc(Icon to use for PopupButton widgets opening to the right (default:
 
 static const char *__doc_nanogui_Theme_mPopupIconExtraScale =
 R"doc(Extra scaling needed for mPopupChevronRightIcon and
-mPopupChevronIconLeft (default: defaultPopupIconExtraScale).)doc";
+mPopupChevronLeftIcon (default: defaultPopupIconExtraScale).)doc";
 
 static const char *__doc_nanogui_Theme_mStandardFontSize =
 R"doc(The font size for all widgets other than buttons and textboxes
@@ -3838,17 +3915,18 @@ status, but do nothing))doc";
 
 static const char *__doc_nanogui_Widget_focused = R"doc(Return whether or not this widget is currently focused)doc";
 
-static const char *__doc_nanogui_Widget_fontSize =
-R"doc(Return current font size. If not set the default of the current theme
-will be returned)doc";
-
-static const char *__doc_nanogui_Widget_hasFontSize = R"doc(Return whether the font size is explicitly specified for this widget)doc";
-
 static const char *__doc_nanogui_Widget_height = R"doc(Return the height of the widget)doc";
 
 static const char *__doc_nanogui_Widget_iconExtraScale =
 R"doc(The amount of extra scaling applied to *icon* fonts. See
 nanogui::Widget::mIconExtraScale.)doc";
+
+static const char *__doc_nanogui_Widget_iconFont =
+R"doc(The icon font being used by this widget.
+
+Will be ``"icons"`` (Entypo+), unless user has embedded additional
+icon fonts **and** created a custom Theme class to override
+Theme::defaultIconFont)doc";
 
 static const char *__doc_nanogui_Widget_icon_scale =
 R"doc(Convenience definition for subclasses to get the full icon scale for
@@ -3887,8 +3965,6 @@ static const char *__doc_nanogui_Widget_mFixedSize = R"doc()doc";
 
 static const char *__doc_nanogui_Widget_mFocused = R"doc()doc";
 
-static const char *__doc_nanogui_Widget_mFontSize = R"doc()doc";
-
 static const char *__doc_nanogui_Widget_mIconExtraScale =
 R"doc(The amount of extra icon scaling used in addition the the theme's
 default icon font scale. Default value is ``1.0``, which implies that
@@ -3919,6 +3995,8 @@ the :func:`nanogui::Widget::icon_scale` function.  Expected usage when
    }
 
 ```)doc";
+
+static const char *__doc_nanogui_Widget_mIconFont = R"doc(The icon font being used (typically: ``"icons"`` for Entypo+).)doc";
 
 static const char *__doc_nanogui_Widget_mId = R"doc()doc";
 
@@ -4023,13 +4101,15 @@ static const char *__doc_nanogui_Widget_setFixedWidth = R"doc(Set the fixed widt
 
 static const char *__doc_nanogui_Widget_setFocused = R"doc(Set whether or not this widget is currently focused)doc";
 
-static const char *__doc_nanogui_Widget_setFontSize = R"doc(Set the font size of this widget)doc";
-
 static const char *__doc_nanogui_Widget_setHeight = R"doc(Set the height of the widget)doc";
 
 static const char *__doc_nanogui_Widget_setIconExtraScale =
 R"doc(Sets the amount of extra scaling applied to *icon* fonts. See
 nanogui::Widget::mIconExtraScale.)doc";
+
+static const char *__doc_nanogui_Widget_setIconFont =
+R"doc(Sets the icon font for this Widget (assumes this font is valid /
+already loaded).)doc";
 
 static const char *__doc_nanogui_Widget_setId = R"doc(Associate this widget with an ID value (optional))doc";
 
@@ -4073,7 +4153,18 @@ static const char *__doc_nanogui_Widget_window = R"doc(Walk up the hierarchy and
 
 static const char *__doc_nanogui_Window = R"doc(Top-level window widget.)doc";
 
-static const char *__doc_nanogui_Window_Window = R"doc()doc";
+static const char *__doc_nanogui_Window_Window =
+R"doc(Creates a Window with the specified parent.
+
+Parameter ``parent``:
+    The parent of this Window (typically a nanogui::Screen class).
+
+Parameter ``title``:
+    The title of the this Window.
+
+Parameter ``font``:
+    The font face to draw the Window title with. If empty (``""``),
+    ``"sans-bold"`` will be used.)doc";
 
 static const char *__doc_nanogui_Window_buttonPanel = R"doc(Return the panel used to house window buttons)doc";
 

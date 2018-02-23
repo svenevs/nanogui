@@ -236,7 +236,7 @@ public:
     int mCheckBoxIcon;
     /**
      * For the default theme, ``1.2f`` is used in conjunction with ``ENTYPO_ICON_CHECK``.
-     * If overriding, \ref mCheckBoxIcon, make sure \ref mCheckboxIconExtraScale is set
+     * If overriding, \ref mCheckBoxIcon, make sure \ref mCheckBoxIconExtraScale is set
      * appropriately for the new icon choice.
      *
      * This method exists for the rare occurence that a Theme instance is not available
@@ -263,7 +263,7 @@ public:
     int mPopupChevronLeftIcon;
     /**
      * For the default theme, ``0.8f`` is used in conjunction with ``ENTYPO_ICON_CHEVRON_{LEFT,RIGHT}``.
-     * If overriding, \ref mPopupChevronRight and \ref mPopupChevronLeft, make sure
+     * If overriding, \ref mPopupChevronRightIcon and \ref mPopupChevronLeftIcon, make sure
      * \ref mPopupIconExtraScale is set appropriately for the new icon choice.
      *
      * This method exists for the rare occurence that a Theme instance is not available
@@ -280,7 +280,7 @@ public:
      * \sa Widget::mIconExtraScale
      */
     static float defaultPopupIconExtraScale() { return 0.8f; }
-    /// Extra scaling needed for \ref mPopupChevronRightIcon and \ref mPopupChevronIconLeft (default: \ref defaultPopupIconExtraScale).
+    /// Extra scaling needed for \ref mPopupChevronRightIcon and \ref mPopupChevronLeftIcon (default: \ref defaultPopupIconExtraScale).
     float mPopupIconExtraScale;
     /// Icon to indicate hidden tabs to the left on a TabHeader (default: ``ENTYPO_ICON_ARROW_BOLD_LEFT``).
     int mTabHeaderLeftIcon;
