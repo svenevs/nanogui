@@ -3014,11 +3014,44 @@ static const char *__doc_nanogui_TabHeader_visibleEnd_2 = R"doc()doc";
 
 static const char *__doc_nanogui_TabWidget =
 R"doc(A wrapper around the widgets TabHeader and StackedWidget which hooks
-the two classes together.)doc";
+the two classes together.
+
+```
+Warning:
+Unlike other widgets, children may **not** be added *directly* to a
+TabWidget.  For example, the following code will raise an exception:
+   // `this` might be say a nanogui::Screen instance
+   Window *window = new Window(this, "Window Title");
+   TabWidget *tabWidget = window->add<TabWidget>();
+   // this label would be a direct child of tabWidget,
+   // which is forbidden, so an exception will be raised
+   new Label(tabWidget, "Some Label");
+Instead, you are expected to be creating tabs and adding widgets to those.
+   // `this` might be say a nanogui::Screen instance
+   Window *window = new Window(this, "Window Title");
+   TabWidget *tabWidget = window->add<TabWidget>();
+   // Create a tab first
+   auto *layer = tabWidget->createTab("Tab Name");
+   // Add children to the created tabs
+   layer->setLayout(new GroupLayout());
+   new Label(layer, "Some Label");
+A slightly more involved example of creating a TabWidget can also be found
+in :ref:`nanogui_example_1` (search for ``tabWidget`` in the file).
+
+```)doc";
 
 static const char *__doc_nanogui_TabWidget_TabWidget = R"doc()doc";
 
 static const char *__doc_nanogui_TabWidget_activeTab = R"doc()doc";
+
+static const char *__doc_nanogui_TabWidget_addChild =
+R"doc(Forcibly prevent mis-use of the class by throwing an exception.
+Children are not to be added directly to the TabWidget, see the class
+level documentation (TabWidget) for an example.
+
+Throws:
+    std::runtime_error An exception is always thrown, as children are
+    not allowed to be added directly to this Widget.)doc";
 
 static const char *__doc_nanogui_TabWidget_addTab =
 R"doc(Inserts a tab at the end of the tabs collection and associates it with
@@ -3092,7 +3125,16 @@ static const char *__doc_nanogui_TabWidget_setCallback =
 R"doc(Sets the callable objects which is invoked when a tab is changed. The
 argument provided to the callback is the index of the new active tab.)doc";
 
-static const char *__doc_nanogui_TabWidget_tab = R"doc()doc";
+static const char *__doc_nanogui_TabWidget_tab =
+R"doc(Returns a ``const`` pointer to the Widget associated with the
+specified label.
+
+Parameter ``label``:
+    The label used to create the tab.
+
+Returns:
+    The Widget associated with this label, or ``nullptr`` if not
+    found.)doc";
 
 static const char *__doc_nanogui_TabWidget_tabCount = R"doc()doc";
 
@@ -3106,7 +3148,36 @@ static const char *__doc_nanogui_TabWidget_tabLabelIndex =
 R"doc(Retrieves the index of a specific tab using its tab label. Returns -1
 if there is no such tab.)doc";
 
-static const char *__doc_nanogui_TabWidget_tab_2 = R"doc()doc";
+static const char *__doc_nanogui_TabWidget_tab_2 =
+R"doc(Returns a pointer to the Widget associated with the specified label.
+
+Parameter ``label``:
+    The label used to create the tab.
+
+Returns:
+    The Widget associated with this label, or ``nullptr`` if not
+    found.)doc";
+
+static const char *__doc_nanogui_TabWidget_tab_3 =
+R"doc(Returns a ``const`` pointer to the Widget associated with the
+specified index.
+
+Parameter ``index``:
+    The current index of the desired Widget.
+
+Returns:
+    The Widget at the specified index, or ``nullptr`` if ``index`` is
+    not a valid index.)doc";
+
+static const char *__doc_nanogui_TabWidget_tab_4 =
+R"doc(Returns a pointer to the Widget associated with the specified index.
+
+Parameter ``index``:
+    The current index of the desired Widget.
+
+Returns:
+    The Widget at the specified index, or ``nullptr`` if ``index`` is
+    not a valid index.)doc";
 
 static const char *__doc_nanogui_TextBox =
 R"doc(Fancy text box with builtin regular expression-based validation.
@@ -3289,6 +3360,83 @@ static const char *__doc_nanogui_Theme = R"doc(Storage class for basic theme-rel
 
 static const char *__doc_nanogui_Theme_Theme = R"doc()doc";
 
+static const char *__doc_nanogui_Theme_defaultBoldFont =
+R"doc(The ``"sans-bold"`` font. Override in sub-classes to use a different
+font-face for widgets that use bold fonts by default (e.g.,
+nanogui::Button).)doc";
+
+static const char *__doc_nanogui_Theme_defaultCheckBoxIconExtraScale =
+R"doc(For the default theme, ``1.2f`` is used in conjunction with
+``ENTYPO_ICON_CHECK``. If overriding, mCheckBoxIcon, make sure
+mCheckboxIconExtraScale is set appropriately for the new icon choice.
+
+This method exists for the rare occurence that a Theme instance is not
+available upon construction.
+
+See also:
+    Widget::mIconExtraScale)doc";
+
+static const char *__doc_nanogui_Theme_defaultFont =
+R"doc(The ``"sans"`` font. Override in sub-classes to use a different font-
+face for widgets that use normal fonts by default (e.g.,
+nanogui::Label).)doc";
+
+static const char *__doc_nanogui_Theme_defaultIconFont = R"doc(The default icon font, override if embedding additional icon fonts.)doc";
+
+static const char *__doc_nanogui_Theme_defaultPopupIconExtraScale =
+R"doc(For the default theme, ``0.8f`` is used in conjunction with
+``ENTYPO_ICON_CHEVRON_{LEFT,RIGHT}``. If overriding,
+mPopupChevronRight and mPopupChevronLeft, make sure
+mPopupIconExtraScale is set appropriately for the new icon choice.
+
+This method exists for the rare occurence that a Theme instance is not
+available upon construction.
+
+```
+Note:
+Observe that there is only one scale variable (instead of one for left and
+right).  This means that you need to choose an icon pair for left / right
+that are the same original size.
+
+```
+
+See also:
+    Widget::mIconExtraScale)doc";
+
+static const char *__doc_nanogui_Theme_defaultTextBoxIconExtraScale =
+R"doc(For the default theme, ``0.8f`` is used in conjunction with
+``ENTYPO_ICON_CHEVRON_{UP,DOWN}``. If overriding, mTextBoxUpIcon and
+mTextBoxDownIcon, make sure mTextBoxIconExtraScale is set
+appropriately for the new icon choice.
+
+This method exists for the rare occurence that a Theme instance is not
+available upon construction.
+
+```
+Note:
+Observe that there is only one scale variable (instead of one for up and
+down).  This means that you need to choose an icon pair for up / down
+that are the same original size.
+
+```
+
+See also:
+    Widget::mIconExtraScale)doc";
+
+static const char *__doc_nanogui_Theme_globalDefaultBoldFont = R"doc(Similar to globalDefaultFont, only ``"sans-bold"`` is used.)doc";
+
+static const char *__doc_nanogui_Theme_globalDefaultFont =
+R"doc(The ``"sans"`` font. Some widgets allow for a user-specified font face
+(e.g., nanogui::Label). The default action is to use
+Theme::defaultFont to set this, however in the event that a
+``nanogui::Theme`` class is not available, this method is called
+instead. A ``nanogui::Theme`` class will not be available when no
+parent is specified. For example, ``new nanogui::Label(nullptr, "Some
+Text")``. Doing this is not explicitly forbidden, but is generally
+discouraged unless you really know what you are doing.)doc";
+
+static const char *__doc_nanogui_Theme_globalDefaultIconFont = R"doc(Similar to globalDefaultFont, only for icon fonts.)doc";
+
 static const char *__doc_nanogui_Theme_mBorderDark =
 R"doc(The dark border color (default: intensity=``29``, alpha=``255``; see
 nanogui::Color::Color(int,int)).)doc";
@@ -3333,6 +3481,10 @@ intensity=``74``, alpha=``255``; see nanogui::Color::Color(int,int)).)doc";
 
 static const char *__doc_nanogui_Theme_mCheckBoxIcon = R"doc(Icon to use for CheckBox widgets (default: ``ENTYPO_ICON_CHECK``).)doc";
 
+static const char *__doc_nanogui_Theme_mCheckBoxIconExtraScale =
+R"doc(Extra scaling needed for mCheckBoxIcon (default:
+defaultCheckBoxIconExtraScale).)doc";
+
 static const char *__doc_nanogui_Theme_mDisabledTextColor =
 R"doc(The disable dtext color (default: intensity=``255``, alpha=``80``; see
 nanogui::Color::Color(int,int)).)doc";
@@ -3342,16 +3494,22 @@ R"doc(The color of the drop shadow drawn behind widgets (default:
 intensity=``0``, alpha=``128``; see nanogui::Color::Color(int,int)).)doc";
 
 static const char *__doc_nanogui_Theme_mFontBold =
-R"doc(The bold font face (default: ``"sans-bold"`` from
-``resources/roboto_regular.ttf``).)doc";
+R"doc(The standard bold font face: ``"sans-bold"`` from ``resources/Roboto-
+Bold.ttf``.)doc";
 
-static const char *__doc_nanogui_Theme_mFontIcons =
-R"doc(The icon font face (default: ``"icons"`` from
-``resources/entypo.ttf``).)doc";
+static const char *__doc_nanogui_Theme_mFontIcons = R"doc(The icon font face: ``"icons"`` from ``resources/entypo.ttf``.)doc";
+
+static const char *__doc_nanogui_Theme_mFontMonoBold =
+R"doc(The standard bold monospace font face: ``"mono-bold"`` from
+``resources/RobotoMono-Bold.ttf``.)doc";
+
+static const char *__doc_nanogui_Theme_mFontMonoNormal =
+R"doc(The standard monospace font face: ``"mono"`` from
+``resources/RobotoMono-Regular.ttf``.)doc";
 
 static const char *__doc_nanogui_Theme_mFontNormal =
-R"doc(The standard font face (default: ``"sans"`` from
-``resources/roboto_regular.ttf``).)doc";
+R"doc(The standard font face: ``"sans"`` from ``resources/Roboto-
+Regular.ttf``.)doc";
 
 static const char *__doc_nanogui_Theme_mIconColor = R"doc(The icon color (default: nanogui::Theme::mTextColor).)doc";
 
@@ -3387,6 +3545,10 @@ R"doc(Icon to use for PopupButton widgets opening to the left (default:
 static const char *__doc_nanogui_Theme_mPopupChevronRightIcon =
 R"doc(Icon to use for PopupButton widgets opening to the right (default:
 ``ENTYPO_ICON_CHEVRON_RIGHT``).)doc";
+
+static const char *__doc_nanogui_Theme_mPopupIconExtraScale =
+R"doc(Extra scaling needed for mPopupChevronRightIcon and
+mPopupChevronIconLeft (default: defaultPopupIconExtraScale).)doc";
 
 static const char *__doc_nanogui_Theme_mStandardFontSize =
 R"doc(The font size for all widgets other than buttons and textboxes
@@ -3425,6 +3587,10 @@ R"doc(Icon to use when a TextBox has a down toggle (e.g. IntBox) (default:
 ``ENTYPO_ICON_CHEVRON_DOWN``).)doc";
 
 static const char *__doc_nanogui_Theme_mTextBoxFontSize = R"doc(The font size for text boxes (default: ``20``).)doc";
+
+static const char *__doc_nanogui_Theme_mTextBoxIconExtraScale =
+R"doc(Extra scaling needed for mTextBoxUpIcon and mTextBoxDownIcon (default:
+defaultTextBoxIconExtraScale).)doc";
 
 static const char *__doc_nanogui_Theme_mTextBoxUpIcon =
 R"doc(Icon to use when a TextBox has an up toggle (e.g. IntBox) (default:
