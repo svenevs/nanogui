@@ -2348,25 +2348,73 @@ Returns:
 
 static const char *__doc_nanogui_MessageDialog = R"doc(Simple "OK" or "Yes/No"-style modal dialogs.)doc";
 
-static const char *__doc_nanogui_MessageDialog_MessageDialog = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_MessageDialog =
+R"doc(Constructs a MessageDialog confined to the specified parent.
+
+Parameter ``parent``:
+    The parent, typically a Screen instance. It can also be e.g., a
+    Window, but make sure that the parent is at least 250 pixels wide.
+    If it is not, the positioning may be odd and moving the dialog
+    will produce "snapping".
+
+Parameter ``title``:
+    The title of the window to use (default: ``"Untitled"``).
+
+Parameter ``type``:
+    The type of message dialog (determines the icon displayed, see
+    Theme).
+
+Parameter ``message``:
+    The dialog text you wish to display to the user (default:
+    ``"Message"``).
+
+Parameter ``buttonText``:
+    The button text for the confirmation button (default: ``"Ok"``).
+    This button's icon is defined by Theme::mMessagePrimaryButtonIcon.
+
+Parameter ``altButtonText``:
+    The button text for the alternate button (default: ``"Cancel"``).
+    This button's icon is defined by Theme::mMessageAltButtonIcon.
+
+Parameter ``altButton``:
+    Whether or not to include the alternate button (default:
+    ``False``).
+
+Parameter ``theme``:
+    When the parent widget has a different Theme than desired for this
+    MessageDialog, set this parameter. Note that calling ``setTheme``
+    will **not** perform an equivalent action **when** the Theme
+    defines alternative icons such as Theme::mMessageInformationIcon.)doc";
 
 static const char *__doc_nanogui_MessageDialog_Type = R"doc(Classification of the type of message this MessageDialog represents.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Information = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Information = R"doc(An information dialog. Uses Theme::mMessageInformationIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Question = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Question = R"doc(An interogative dialog. Uses Theme::mMessageQuestionIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Warning = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Warning = R"doc(A warning dialog. Uses Theme::mMessageWarningIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_callback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_callback = R"doc(The callback used for this MessageDialog. See mCallback.)doc";
 
-static const char *__doc_nanogui_MessageDialog_mCallback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_mCallback =
+R"doc(The callback to execute when either the primary or alternate button
+are pressed. When constructed with ``altButton=false``, only one
+button will be added (defined by ``buttonText``). In this case, the
+callback will always be called with ``0``.
 
-static const char *__doc_nanogui_MessageDialog_mMessageLabel = R"doc()doc";
+When ``altButton=true``, two buttons are added. If the user presses
+the primary button (``buttonText`` in the constructor), the callback
+will still be called with ``0``. If the user presses the alternate
+button (``altButtonText`` in the constructor), the callback will be
+called with ``1``.)doc";
 
-static const char *__doc_nanogui_MessageDialog_messageLabel = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_mMessageLabel =
+R"doc(A Label that contains the ``message`` supplied to the constructor,
+with a fixed width of ``200``.)doc";
 
-static const char *__doc_nanogui_MessageDialog_messageLabel_2 = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_messageLabel = R"doc(The Label that contains the ``message`` parameter to the constructor.)doc";
+
+static const char *__doc_nanogui_MessageDialog_messageLabel_2 = R"doc(The Label that contains the ``message`` parameter to the constructor.)doc";
 
 static const char *__doc_nanogui_MessageDialog_operator_delete = R"doc()doc";
 
@@ -2392,7 +2440,7 @@ static const char *__doc_nanogui_MessageDialog_operator_new_4 = R"doc()doc";
 
 static const char *__doc_nanogui_MessageDialog_operator_new_5 = R"doc()doc";
 
-static const char *__doc_nanogui_MessageDialog_setCallback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_setCallback = R"doc(Sets the callback for this MessageDialog. See mCallback.)doc";
 
 static const char *__doc_nanogui_Object = R"doc(Reference counted object base class.)doc";
 
