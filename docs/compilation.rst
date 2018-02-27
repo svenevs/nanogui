@@ -247,34 +247,97 @@ a starting point to being able to "share" NanoGUI as the vendor of ``glfw``.
 Including Custom Fonts
 ****************************************************************************************
 
-NanoGUI uses the Roboto_ font for text, and Entypo_ font for icons.  If you wish to add
-your own custom font, all you need is a True Type file (a ``.ttf`` extension).  NanoGUI
-will glob all fonts found in ``resources`` by expanding ``resources/*.ttf``.  So if you
-had the directory structure
+NanoGUI uses the Roboto_ font for text.  The font faces available are
+
+1. ``Roboto-Regular.ttf``: loaded as ``"sans"``.
+2. ``Roboto-Bold.ttf``: loaded as ``"sans-bold"``.
+3. ``RobotoMono-Regular.ttf``: loaded as ``"mono"``.
+4. ``RobotoMono-Bold.ttf``: loaded as ``"mono-bold"``.
+
+If you wish to add your own custom font, all you need is a True Type file (a ``.ttf``
+extension).  Suppose you had the following directory structure:
 
 .. code-block:: none
 
-   myproject/
-       CMakeLists.txt      <- where this code is
-       fonts/
-           superfont.ttf
+   myproj/
        ext/
-           nanogui/
-               resources/
+           nanogui/       <- The submodule.
+       CMakeLists.txt     <- Add to this file.
+       resources/
+           customfont.ttf <- The custom font to embed.
 
-You simply need to copy the ``superfont.ttf`` to NanoGUI's resources directory:
+Simply append the path to ``NANOGUI_EXTRA_RESOURCES`` **before** doing
+``add_subdirectory(ext/nanogui)``:
 
 .. code-block:: cmake
 
-   file(
-     COPY ${CMAKE_CURRENT_SOURCE_DIR}/fonts/superfont.ttf
-     DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/ext/nanogui/resources/superfont.ttf
+   list(APPEND NANOGUI_EXTRA_RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/resources/customfont.ttf")
+
+NanoGUI will automatically embed the ``customfont.ttf`` file.
+
+.. tip::
+
+   See the :ref:`nanogui_usage_customization_default_fonts` section for how to load this font.
+
+.. _Roboto: https://fonts.google.com/specimen/Roboto
+
+.. _nanogui_including_custom_icon_fonts:
+
+Including Custom Icon Fonts
+****************************************************************************************
+
+NanoGUI uses the Entypo_ font for icons, which is loaded as ``"icons"``.  If you want to
+be able to use an alternative icon font, the process is similar to loading custom fonts
+for text but with additional requirements.  Suppose you wanted to load a custom icon
+font called ``customicons.ttf``.  Then the following directory structure is assumed:
+
+.. code-block:: none
+
+   myproj/
+       ext/
+           nanogui/                      <- The submodule
+       CMakeLists.txt                    <- Add to this file.
+       resources/
+           customicons/
+               customicons.ttf           <- The custom icon font to embed.
+               customicons.h             <- The C++ header defining the constants.
+               constants_customicons.cpp <- The python bindings code.
+
+1. The naming must be **exact**: if the font was ``SomeFont.ttf``, then the nanogui
+   build system searches instead for ``SomeFont.h`` and ``constants_SomeFont.cpp``.
+2. These files must all be in **the same directory**.
+
+What the three files represent:
+
+- ``customicons.ttf``: the icon font that will be embedded.
+- ``customicons.h``: the C++ header file that enumerates the ``#define`` directives.
+  This file is what enables you to actually use the icons in code.
+- ``constants_customicons.cpp``: the python bindings for the font.  Note that this file
+  is only required if ``NANOGUI_BUILD_PYTHON`` is ``ON``.
+
+Simply specify the path to the custom icons font with ``NANOGUI_EXTRA_ICON_RESOURCES``:
+
+.. code-block:: cmake
+
+   list(
+     APPEND
+     NANOGUI_EXTRA_ICON_RESOURCES
+     "${CMAKE_CURRENT_SOURCE_DIR}/resources/customicons/customicons.ttf"
    )
 
-When you build the code, there should be a file ``nanogui_resources.h`` generated.  If
-everything worked, your new font should have been included.
-
 .. note::
+
+   It is assumed that somewhere in your project **after**
+   ``add_subdirectory(ext/nanogui)`` you are also doing
+   ``include_directories(${NANOGUI_EXTRA_INCS})``.  In the example above, the file
+   ``customicons.h`` will automatically be copied to a location included in
+   ``NANOGUI_EXTRA_INCS`` such that in your own code, you write
+   ``#include <nanogui/customicons.h>`` noting the extra ``nanogui/``.  In other words,
+   this ``customicons.h`` becomes a part of the distribution (e.g., if you were to
+   install NanoGUI).  As such, you should **not** need to do something like
+   ``include_directories("${CMAKE_CURRENT_SOURCE_DIR}/resources/customicons")``.
+
+.. warning::
 
    Since NanoGUI can support images as icons, you will want to make sure that the
    *codepoint* for any *icon* fonts you create is greater than ``1024``.  See
@@ -282,11 +345,14 @@ everything worked, your new font should have been included.
 
 .. tip::
 
-   Some widgets allow you to set fonts directly, but if you want to apply the font
-   globally, you should create a sub-class of :class:`nanogui::Theme` and explicitly
-   call :func:`nanogui::Widget::setTheme` for each widget you create.
+   See the :ref:`nanogui_usage_customization_default_icon_fonts` section for how to load this font.
 
-.. _Roboto: https://fonts.google.com/specimen/Roboto
+.. tip::
+
+   Have the ``.svg`` icons for a custom icon font?  Use the scripts available in the
+   `nanogui-custom-font-generator <https://github.com/svenevs/nanogui-custom-font-generator>`_
+   repository to generate the requisite three files.
+
 
 .. _Entypo: http://www.entypo.com
 

@@ -86,3 +86,18 @@ Example Repository
 Darren Mothersele has put together a compact and informative example repository that
 demonstrates how easy it is to include NanoGUI into your project.  You download / browse
 the source on `GitHub <https://github.com/darrenmothersele/nanogui-test.git>`_.
+
+.. _nanogui_example_customization:
+
+Example Customization
+----------------------------------------------------------------------------------------
+
+.. tip::
+
+   Refer to the :ref:`nanogui_usage_customization` section first, it contains a much
+   more concise description of how to customize :class:`nanogui::Theme`.
+
+For a start to finish walk-through of how to customize the :class:`nanogui::Theme`,
+refer to the
+`nanogui-customization-demo <https://github.com/svenevs/nanogui-customization-demo>`_
+repository.
