@@ -28,8 +28,9 @@ void register_misc(py::module &m) {
         .def("setFinalCallback", &ColorPicker::setFinalCallback, D(ColorPicker, setFinalCallback));
 
     py::class_<Graph, Widget, ref<Graph>, PyGraph>(m, "Graph", D(Graph))
-        .def(py::init<Widget *, const std::string &>(), py::arg("parent"),
-             py::arg("caption") = std::string("Untitled"), D(Graph, Graph))
+        .def(py::init<Widget *, const std::string &, const std::string &>(), py::arg("parent"),
+             py::arg("caption") = std::string("Untitled"), py::arg("font") = std::string(""),
+             D(Graph, Graph))
         .def("caption", &Graph::caption, D(Graph, caption))
         .def("setCaption", &Graph::setCaption, D(Graph, setCaption))
         .def("header", &Graph::header, D(Graph, header))
@@ -49,6 +50,7 @@ void register_misc(py::module &m) {
         .def(py::init<Widget *, GLuint>(), D(ImageView, ImageView))
         .def("bindImage", &ImageView::bindImage, D(ImageView, bindImage))
         .def("imageShader", &ImageView::imageShader, D(ImageView, imageShader))
+        .def("imageSize", &ImageView::imageSize, D(ImageView, imageSize))
         .def("scaledImageSize", &ImageView::scaledImageSize, D(ImageView, scaledImageSize))
         .def("offset", &ImageView::offset, D(ImageView, offset))
         .def("setOffset", &ImageView::setOffset, D(ImageView, setOffset))

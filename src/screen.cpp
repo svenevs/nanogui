@@ -119,7 +119,7 @@ static float get_pixel_ratio(GLFWwindow *window) {
 Screen::Screen()
     : Widget(nullptr), mGLFWWindow(nullptr), mNVGContext(nullptr),
       mCursor(Cursor::Arrow), mBackground(0.3f, 0.3f, 0.32f, 1.f),
-      mShutdownGLFWOnDestruct(false), mFullscreen(false) {
+      mCaption(""), mShutdownGLFWOnDestruct(false), mFullscreen(false) {
     memset(mCursors, 0, sizeof(GLFWcursor *) * (int) Cursor::CursorCount);
 }
 
@@ -439,7 +439,7 @@ void Screen::drawWidgets() {
             int tooltipWidth = 150;
 
             float bounds[4];
-            nvgFontFace(mNVGContext, "sans");
+            nvgFontFace(mNVGContext, widget->tooltipFont().c_str());
             nvgFontSize(mNVGContext, 15.0f);
             nvgTextAlign(mNVGContext, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
             nvgTextLineHeight(mNVGContext, 1.1f);
@@ -457,10 +457,10 @@ void Screen::drawWidgets() {
                 h = (bounds[2] - bounds[0]) / 2;
             }
             nvgGlobalAlpha(mNVGContext,
-                           std::min(1.0, 2 * (elapsed - 0.5f)) * 0.8);
+                           std::min(1.05, 2 * (elapsed - 0.5f)) * 0.8);
 
             nvgBeginPath(mNVGContext);
-            nvgFillColor(mNVGContext, Color(0, 255));
+            nvgFillColor(mNVGContext, widget->theme()->mTooltipBackgroundColor);
             nvgRoundedRect(mNVGContext, bounds[0] - 4 - h, bounds[1] - 4,
                            (int) (bounds[2] - bounds[0]) + 8,
                            (int) (bounds[3] - bounds[1]) + 8, 3);
@@ -471,7 +471,7 @@ void Screen::drawWidgets() {
             nvgLineTo(mNVGContext, px - 7, bounds[1] + 1);
             nvgFill(mNVGContext);
 
-            nvgFillColor(mNVGContext, Color(255, 255));
+            nvgFillColor(mNVGContext, widget->theme()->mTooltipTextColor);
             nvgFontBlur(mNVGContext, 0.0f);
             nvgTextBox(mNVGContext, pos.x() - h, pos.y(), tooltipWidth,
                        widget->tooltip().c_str(), nullptr);

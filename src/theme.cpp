@@ -19,9 +19,10 @@
 NAMESPACE_BEGIN(nanogui)
 
 Theme::Theme(NVGcontext *ctx) {
-    mStandardFontSize                 = 16;
-    mButtonFontSize                   = 20;
-    mTextBoxFontSize                  = 20;
+    mStandardFontSize                 = 16.0f;
+    mButtonFontSize                   = 20.0f;
+    mTextBoxFontSize                  = 20.0f;
+    mWindowFontSize                   = 18.0f;
     mIconScale                        = 0.77f;
 
     mWindowCornerRadius               = 2;
@@ -52,6 +53,9 @@ Theme::Theme(NVGcontext *ctx) {
     mButtonGradientBotUnfocused       = Color(58, 255);
     mButtonGradientTopPushed          = Color(41, 255);
     mButtonGradientBotPushed          = Color(29, 255);
+
+    mTooltipBackgroundColor           = Color(0, 255);
+    mTooltipTextColor                 = Color(255, 255);
 
     /* Window-related */
     mWindowFillUnfocused              = Color(43, 230);

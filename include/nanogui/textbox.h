@@ -40,7 +40,20 @@ public:
         Right
     };
 
-    TextBox(Widget *parent, const std::string &value = "Untitled");
+    /**
+     * \brief Creates a text box attached to the specified parent.
+     *
+     * \param parent
+     *     The \ref nanogui::Widget this TextBox will be attached to.
+     *
+     * \param value
+     *     The contents of this TextBox.
+     *
+     * \param font
+     *     The font face to use (default ``""`` implies \ref Theme::defaultFont,
+     *     which will typically be ``"sans"``).
+     */
+    TextBox(Widget *parent, const std::string &value = "Untitled", const std::string &font = "");
 
     bool editable() const { return mEditable; }
     void setEditable(bool editable);
@@ -72,9 +85,6 @@ public:
     const std::string &placeholder() const { return mPlaceholder; }
     /// Specify a placeholder text to be displayed while the text box is empty.
     void setPlaceholder(const std::string &placeholder) { mPlaceholder = placeholder; }
-
-    /// Set the \ref Theme used to draw this widget
-    virtual void setTheme(Theme *theme) override;
 
     /// The callback to execute when the value of this TextBox has changed.
     std::function<bool(const std::string& str)> callback() const { return mCallback; }

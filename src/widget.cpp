@@ -19,14 +19,21 @@
 
 NAMESPACE_BEGIN(nanogui)
 
-Widget::Widget(Widget *parent)
+Widget::Widget(Widget *parent, const std::string &font, bool fontDefaultIsBold)
     : mParent(nullptr), mTheme(nullptr), mLayout(nullptr),
       mPos(Vector2i::Zero()), mSize(Vector2i::Zero()),
       mFixedSize(Vector2i::Zero()), mVisible(true), mEnabled(true),
-      mFocused(false), mMouseFocus(false), mTooltip(""), mFontSize(-1.0f),
-      mIconExtraScale(1.0f), mCursor(Cursor::Arrow) {
+      mFocused(false), mMouseFocus(false), mTooltip(""),
+      mIconExtraScale(1.0f), mCursor(Cursor::Arrow),
+      mFontSize(-1.0f),
+      mFont(font), mFontExplicit(font != ""), mFontDefaultIsBold(fontDefaultIsBold),
+      mTooltipFont(Theme::globalDefaultFont()), mTooltipFontExplicit(false),
+      mIconFont(Theme::globalDefaultIconFont()), mIconFontExplicit(false) {
+
     if (parent)
         parent->addChild(this);
+    else
+        setDefaultFonts();// when no Theme present, make sure fonts are initialized
 }
 
 Widget::~Widget() {
@@ -40,12 +47,21 @@ void Widget::setTheme(Theme *theme) {
     if (mTheme.get() == theme)
         return;
     mTheme = theme;
+    setDefaultFonts();
     for (auto child : mChildren)
         child->setTheme(theme);
 }
 
-int Widget::fontSize() const {
-    return (mFontSize < 0 && mTheme) ? mTheme->mStandardFontSize : mFontSize;
+float Widget::fontSize(const float &defaultFontSize) const {
+    if (defaultFontSize <= 1.0f)
+        throw std::runtime_error("Widget::fontSize: parameter must be greater than or equal to 1.0f.");
+    return mFontSize < 0 ? defaultFontSize : mFontSize;
+}
+
+void Widget::setFontSize(float size) {
+    if (size >= 0.0f && size < 1.0f)
+        throw std::runtime_error("Widget::setFontSize: parameter must be greater than 1.0f or less than 0.0f.");
+    mFontSize = size;
 }
 
 Vector2i Widget::preferredSize(NVGcontext *ctx) const {
@@ -235,8 +251,15 @@ void Widget::save(Serializer &s) const {
     s.set("enabled", mEnabled);
     s.set("focused", mFocused);
     s.set("tooltip", mTooltip);
-    s.set("fontSize", mFontSize);
     s.set("cursor", (int) mCursor);
+    s.set("fontSize", mFontSize);
+    s.set("font", mFont);
+    s.set("fontExplicit", mFontExplicit);
+    s.set("fontDefaultIsBold", mFontDefaultIsBold);
+    s.set("tooltipFont", mTooltipFont);
+    s.set("tooltipFontExplicit", mTooltipFontExplicit);
+    s.set("iconFont", mIconFont);
+    s.set("iconFontExplicit", mIconFontExplicit);
 }
 
 bool Widget::load(Serializer &s) {
@@ -247,9 +270,41 @@ bool Widget::load(Serializer &s) {
     if (!s.get("enabled", mEnabled)) return false;
     if (!s.get("focused", mFocused)) return false;
     if (!s.get("tooltip", mTooltip)) return false;
-    if (!s.get("fontSize", mFontSize)) return false;
     if (!s.get("cursor", mCursor)) return false;
+    if (!s.get("font", mFont)) return false;
+    if (!s.get("fontExplicit", mFontExplicit)) return false;
+    if (!s.get("fontDefaultIsBold", mFontDefaultIsBold)) return false;
+    if (!s.get("tooltipFont", mTooltipFont)) return false;
+    if (!s.get("tooltipFontExplicit", mTooltipFontExplicit)) return false;
+    if (!s.get("iconFont", mIconFont)) return false;
+    if (!s.get("iconFontExplicit", mIconFontExplicit)) return false;
     return true;
+}
+
+void Widget::setDefaultFonts() {
+    // setup mFont
+    if (!mFontExplicit) {
+        if (mTheme) {
+            if (mFontDefaultIsBold) mFont = mTheme->defaultBoldFont();
+            else                    mFont = mTheme->defaultFont();
+        }
+        else {
+            if (mFontDefaultIsBold) mFont = Theme::globalDefaultBoldFont();
+            else                    mFont = Theme::globalDefaultFont();
+        }
+    }
+
+    // setup mTooltipFont
+    if (!mTooltipFontExplicit) {
+        if (mTheme) mTooltipFont = mTheme->defaultFont();
+        else        mTooltipFont = Theme::globalDefaultFont();
+    }
+
+    // setup mIconFont
+    if (!mIconFontExplicit) {
+        if (mTheme) mIconFont = mTheme->defaultIconFont();
+        else        mIconFont = Theme::globalDefaultIconFont();
+    }
 }
 
 NAMESPACE_END(nanogui)

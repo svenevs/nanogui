@@ -41,10 +41,16 @@ public:
      * ``new nanogui::Label(nullptr, "Some Text")``.  Doing this is not
      * explicitly forbidden, but is generally discouraged unless you really know
      * what you are doing.
+     *
+     * Both this method and \ref defaultFont are ultimately responsible for
+     * setting both \ref Widget::mFont and \ref Widget::mTooltipFont.
      */
     static std::string globalDefaultFont() { return "sans"; }
     /// Similar to \ref globalDefaultFont, only ``"sans-bold"`` is used.
     static std::string globalDefaultBoldFont() { return "sans-bold"; }
+    /// Similar to \ref globalDefaultFont, only for icon fonts.
+    static std::string globalDefaultIconFont() { return "icons"; }
+
     /**
      * The ``"sans"`` font.  Override in sub-classes to use a different
      * font-face for widgets that use normal fonts by default (e.g.,
@@ -57,10 +63,9 @@ public:
      * \ref nanogui::Button).
      */
     virtual std::string defaultBoldFont() const { return Theme::globalDefaultBoldFont(); }
-    /// Similar to \ref globalDefaultFont, only for icon fonts.
-    static std::string globalDefaultIconFont() { return "icons"; }
     /// The default icon font, override if embedding additional icon fonts.
     virtual std::string defaultIconFont() const { return Theme::globalDefaultIconFont(); }
+
     /// The standard font face: ``"sans"`` from ``resources/Roboto-Regular.ttf``.
     int mFontNormal;
     /// The standard bold font face: ``"sans-bold"`` from ``resources/Roboto-Bold.ttf``.
@@ -80,11 +85,13 @@ public:
 
     /* Spacing-related parameters */
     /// The font size for all widgets other than buttons and textboxes (default: `` 16``).
-    int mStandardFontSize;
+    float mStandardFontSize;
     /// The font size for buttons (default: ``20``).
-    int mButtonFontSize;
+    float mButtonFontSize;
     /// The font size for text boxes (default: ``20``).
-    int mTextBoxFontSize;
+    float mTextBoxFontSize;
+    /// The font size for Window captions (default: ``18``).
+    float mWindowFontSize;
     /// Rounding radius for Window widget corners (default: ``2``).
     int mWindowCornerRadius;
     /// Default size of Window widget titles (default: ``30``).
@@ -184,6 +191,17 @@ public:
      */
     Color mButtonGradientBotPushed;
 
+    /**
+     * The background color to use for drawing \ref nanogui::Widget::mTooltip
+     * (default: intensity=``0``, alpha=``255``; see \ref nanogui::Color::Color(int,int)).
+     */
+    Color mTooltipBackgroundColor;
+    /**
+     * The text color to use for drawing \ref nanogui::Widget::mTooltip
+     * (default: intensity=``255``, alpha=``255``; see \ref nanogui::Color::Color(int,int)).
+     */
+    Color mTooltipTextColor;
+
     /* Window colors */
     /**
      * The fill color for a Window that is not in focus
@@ -236,7 +254,7 @@ public:
     int mCheckBoxIcon;
     /**
      * For the default theme, ``1.2f`` is used in conjunction with ``ENTYPO_ICON_CHECK``.
-     * If overriding, \ref mCheckBoxIcon, make sure \ref mCheckboxIconExtraScale is set
+     * If overriding, \ref mCheckBoxIcon, make sure \ref mCheckBoxIconExtraScale is set
      * appropriately for the new icon choice.
      *
      * This method exists for the rare occurence that a Theme instance is not available
@@ -263,7 +281,7 @@ public:
     int mPopupChevronLeftIcon;
     /**
      * For the default theme, ``0.8f`` is used in conjunction with ``ENTYPO_ICON_CHEVRON_{LEFT,RIGHT}``.
-     * If overriding, \ref mPopupChevronRight and \ref mPopupChevronLeft, make sure
+     * If overriding, \ref mPopupChevronRightIcon and \ref mPopupChevronLeftIcon, make sure
      * \ref mPopupIconExtraScale is set appropriately for the new icon choice.
      *
      * This method exists for the rare occurence that a Theme instance is not available
@@ -280,7 +298,7 @@ public:
      * \sa Widget::mIconExtraScale
      */
     static float defaultPopupIconExtraScale() { return 0.8f; }
-    /// Extra scaling needed for \ref mPopupChevronRightIcon and \ref mPopupChevronIconLeft (default: \ref defaultPopupIconExtraScale).
+    /// Extra scaling needed for \ref mPopupChevronRightIcon and \ref mPopupChevronLeftIcon (default: \ref defaultPopupIconExtraScale).
     float mPopupIconExtraScale;
     /// Icon to indicate hidden tabs to the left on a TabHeader (default: ``ENTYPO_ICON_ARROW_BOLD_LEFT``).
     int mTabHeaderLeftIcon;

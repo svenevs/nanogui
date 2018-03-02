@@ -30,10 +30,18 @@ NAMESPACE_BEGIN(nanogui)
  */
 class NANOGUI_EXPORT TabHeader : public Widget {
 public:
-    TabHeader(Widget *parent, const std::string &font = "sans-bold");
+    /**
+     * \brief Creates a TabHeader with the specified parent.
+     *
+     * \param parent
+     *     The parent of this TabHeader.
+     *
+     * \param font
+     *     The font face to use (default ``""`` implies
+     *     \ref Theme::defaultBoldFont, which will typically be ``"sans-bold"``).
+     */
+    TabHeader(Widget *parent, const std::string &font = "");
 
-    void setFont(const std::string& font) { mFont = font; }
-    const std::string& font() const { return mFont; }
     bool overflowing() const { return mOverflowing; }
 
     /**
@@ -173,7 +181,6 @@ private:
     int mActiveTab = 0;
     bool mOverflowing = false;
 
-    std::string mFont;
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
