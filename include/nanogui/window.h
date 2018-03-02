@@ -24,7 +24,20 @@ NAMESPACE_BEGIN(nanogui)
 class NANOGUI_EXPORT Window : public Widget {
     friend class Popup;
 public:
-    Window(Widget *parent, const std::string &title = "Untitled");
+    /**
+     * \brief Creates a Window with the specified parent.
+     *
+     * \param parent
+     *     The parent of this Window (typically a \ref nanogui::Screen class).
+     *
+     * \param title
+     *     The title of the this Window.
+     *
+     * \param font
+     *     The font face to use (default ``""`` implies
+     *     \ref Theme::defaultBoldFont, which will typically be ``"sans-bold"``).
+     */
+    Window(Widget *parent, const std::string &title = "Untitled", const std::string &font = "");
 
     /// Return the window title
     const std::string &title() const { return mTitle; }

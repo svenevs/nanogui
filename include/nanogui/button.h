@@ -51,8 +51,12 @@ public:
      *
      * \param icon
      *     The icon to display with this Button.  See \ref nanogui::Button::mIcon.
+     *
+     * \param font
+     *     The font face to use (default ``""`` implies
+     *     \ref Theme::defaultBoldFont, which will typically be ``"sans-bold"``).
      */
-    Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0);
+    Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0, const std::string &font = "");
 
     /// Returns the caption of this Button.
     const std::string &caption() const { return mCaption; }

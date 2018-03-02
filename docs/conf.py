@@ -40,7 +40,26 @@ extensions = [
 breathe_projects = { "NanoGUI": "./doxyoutput/xml" }
 breathe_default_project = "NanoGUI"
 
+# Include private member documentation for class and struct
+def specificationsForKind(kind):
+    '''
+    For a given input ``kind``, return the list of reStructuredText specifications
+    for the associated Breathe directive.
+    '''
+    # Change the defaults for .. doxygenclass:: and .. doxygenstruct::
+    if kind == "class" or kind == "struct":
+        return [
+          ":members:",
+          ":protected-members:",
+          ":private-members:",
+          ":undoc-members:"
+        ]
+    # An empty list signals to Exhale to use the defaults
+    else:
+        return []
+
 # Setup the `exhale` extension
+from exhale import utils
 exhale_args = {
     ############################################################################
     # These arguments are required.                                            #
@@ -57,6 +76,8 @@ exhale_args = {
     "exhaleDoxygenStdin": textwrap.dedent('''
         # Tell Doxygen where the source code is (yours may be different).
         INPUT                  = ../include
+        # Document private variables
+        EXTRACT_PRIVATE        = YES
         # Doxygen chokes on `NAMESPACE_BEGIN`, predfine all of these
         PREDEFINED            += NAMESPACE_BEGIN(nanogui)="namespace nanogui {"
         PREDEFINED            += NAMESPACE_END(nanogui)="}"
@@ -98,6 +119,9 @@ exhale_args = {
     # Example of adding contents directives on custom kinds with custom title
     "contentsTitle": "Page Contents",
     "kindsWithContentsDirectives": ["class", "file", "namespace", "struct"],
+    "customSpecificationsMapping": utils.makeCustomSpecificationsMapping(
+        specificationsForKind
+    ),
     ############################################################################
     # useful to see ;)
     # "verboseBuild": True
