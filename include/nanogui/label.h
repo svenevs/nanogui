@@ -61,9 +61,15 @@ public:
     /// Get the label color
     Color color() const { return mColor; }
     /// Set the label color
-    void setColor(const Color& color) { mColor = color; }
+    void setColor(const Color& color) {
+        mColor = color;
+        mColorExplicit = true;
+    }
 
-    /// Set the \ref Theme used to draw this widget
+    /**
+     * Set the \ref Theme used to draw this widget, will change \ref mColor when
+     * \ref mColorExplicit is ``false`` (e.g., \ref setColor was never called).
+     */
     virtual void setTheme(Theme *theme) override;
 
     /// Compute the size needed to fully display the label
@@ -80,6 +86,7 @@ public:
 protected:
     std::string mCaption;///< The current text caption being drawn.
     Color mColor;        ///< The color to draw \ref mCaption with.
+    bool mColorExplicit; ///< Whether or not \ref setColor has been called.
 
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
