@@ -277,18 +277,20 @@ include_directories(${NANOGUI_EIGEN_INCLUDE_DIR} ext/glfw/include ext/nanovg/src
 # be coordinated to bind the font for python.
 if (NANOGUI_EXTRA_ICON_RESOURCES)
   foreach (icon_font ${NANOGUI_EXTRA_ICON_RESOURCES})
-    # Make sure the font is a true type or open type font
+    # Fonts must be .ttf or .otf, all icon fonts are appended to
+    # NANOGUI_EXTRA_RESOURCES after the checks at the end of this loop.  The
+    # loop processing NANOGUI_EXTRA_RESOURCES below will verify file extensions.
     get_filename_component(icon_font_ext "${icon_font}" EXT)
-    if (NOT "${icon_font_ext}" STREQUAL ".ttf" AND NOT "${icon_font_ext}" STREQUAL ".otf")
-      message(FATAL_ERROR "NanoGUI can only embed true type and open type fonts.  [${icon_font}] does not end with '.ttf' or '.otf'.")
-    endif()
 
     # Generate path to /some/path/iconfont.h and copy / install
     get_filename_component(icon_font_dir  "${icon_font}" DIRECTORY)
     get_filename_component(icon_font_base "${icon_font}" NAME_WE)
     set(icon_font_h "${icon_font_dir}/${icon_font_base}.h")
     if (NOT EXISTS "${icon_font_h}")
-      message(FATAL_ERROR "The file [${icon_font_h}] was not found, it must be in the same directory as [${icon_font}].")
+      message(
+        FATAL_ERROR "An extra icon font [${icon_font}] was specified, but the "
+                    "C++ header file [${icon_font_h}] was not found."
+      )
     endif()
     # During processing of NANOGUI_EXTRA_RESOURCES and the bin2c generation
     # below, "${CMAKE_CURRENT_BINARY_DIR}" will be added to NANOGUI_EXTRA_INCS
@@ -310,14 +312,20 @@ if (NANOGUI_EXTRA_ICON_RESOURCES)
     if (NANOGUI_BUILD_PYTHON)
       set(icon_font_pybind "${icon_font_dir}/constants_${icon_font_base}.cpp")
       if (NOT EXISTS "${icon_font_pybind}")
-        message(FATAL_ERROR "An extra icon font [${icon_font}] was specified, but the python bindings file [${icon_font_pybind}] was not found.")
+        message(
+          FATAL_ERROR "An extra icon font [${icon_font}] was specified, but "
+                      "the python bindings file [${icon_font_pybind}] was not found."
+        )
       endif()
 
       # Make sure void register_constants_${icon_font} method exists
       set(icon_font_binding_regex "void register_constants_${icon_font_base}\\(py::module &m\\) {")
       file(STRINGS "${icon_font_pybind}" icon_font_binding_found REGEX "${icon_font_binding_regex}")
       if (NOT icon_font_binding_found)
-        message(FATAL_ERROR "Python font binding found, regex searched for: ${icon_font_binding_regex}")
+        message(
+          FATAL_ERROR "Python font binding found searching file [${icon_font_pybind}]. "
+                      "Regex searched for: ${icon_font_binding_regex}"
+        )
       endif()
 
       # Copy the generated file so that #include "python.h" works
@@ -364,10 +372,25 @@ file(GLOB resources "${CMAKE_CURRENT_SOURCE_DIR}/resources/*.ttf")
 # before executing add_subdirectory(path/to/nanogui).  True type (.ttf) and Open Type
 # (.otf) font files are supported.
 if (NANOGUI_EXTRA_RESOURCES)
+  # Open type fonts (OTF) are only supported if freetype can be found.
+  find_package(Freetype QUIET)
+  set(NANOGUI_USE_FREETYPE FALSE) # Only use when needed (.otf file requested)
   foreach (font ${NANOGUI_EXTRA_RESOURCES})
     get_filename_component(font_ext "${font}" EXT)
     if (NOT "${font_ext}" STREQUAL ".ttf" AND NOT "${font_ext}" STREQUAL ".otf")
       message(FATAL_ERROR "NanoGUI can only embed true type and open type fonts.  [${font}] does not end with '.ttf' or '.otf'.")
+    endif()
+
+    if ("${font_ext}" STREQUAL ".otf")
+      if (NOT FREETYPE_FOUND)
+        message(
+          WARNING "[${font}] is an Open Type Font (.otf), but Freetype was not "
+                  "found.  NanoGUI will embed this font, but you will *NOT* be "
+                  "able to load it!"
+        )
+      else()
+        set(NANOGUI_USE_FREETYPE TRUE)
+      endif()
     endif()
   endforeach()
   # Add the fonts specified by the parent project to the list of fonts to embed
@@ -375,6 +398,18 @@ if (NANOGUI_EXTRA_RESOURCES)
   # Allow parent projects to #include <nanogui/resources.h> without needing to
   # know where it was generated to.
   list(APPEND NANOGUI_EXTRA_INCS ${CMAKE_CURRENT_BINARY_DIR})
+
+  # If embedding of an OTF font requested and Freetype was found, use it.
+  if (NANOGUI_USE_FREETYPE AND FREETYPE_FOUND)
+    # FONS_USE_FREETYPE for nanovg.c so underlying fontstash.h will use libfreetype.
+    set_source_files_properties(
+      ext/nanovg/src/nanovg.c
+      PROPERTIES COMPILE_DEFINITIONS FONS_USE_FREETYPE
+    )
+    # NOTE: only needed for nanovg.c via fontstash.h, not needed in NANOGUI_EXTRA_INCS.
+    include_directories(${FREETYPE_INCLUDE_DIRS})
+    list(APPEND NANOGUI_EXTRA_LIBS ${FREETYPE_LIBRARIES})
+  endif()
 endif()
 
 # Concatenate resource files into a comma separated string
