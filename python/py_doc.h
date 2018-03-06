@@ -2304,25 +2304,102 @@ Returns:
 
 static const char *__doc_nanogui_MessageDialog = R"doc(Simple "OK" or "Yes/No"-style modal dialogs.)doc";
 
-static const char *__doc_nanogui_MessageDialog_MessageDialog = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_MessageDialog =
+R"doc(Constructs a MessageDialog confined to the specified parent.
+
+Parameter ``parent``:
+    The parent, typically a Screen instance. It can also be e.g., a
+    Window, but make sure that the parent is at least 250 pixels wide.
+    If it is not, the positioning may be odd and moving the dialog
+    will produce "snapping".
+
+Parameter ``title``:
+    The title of the window to use (default: ``"Untitled"``).
+
+Parameter ``type``:
+    The type of message dialog (determines the icon displayed, see
+    Type).
+
+Parameter ``message``:
+    The dialog text you wish to display to the user (default:
+    ``"Message"``). This is the text that mMessageLabel will get. It
+    has a fixed width set to ``200``, meaning longer messages will
+    automatically wrap to new lines.
+
+Parameter ``buttonText``:
+    The button text for the confirmation button (default: ``"Ok"``).
+    This button's icon is defined by Theme::mMessagePrimaryButtonIcon.
+
+Parameter ``altButtonText``:
+    The button text for the alternate button (default: ``"Cancel"``).
+    This button's icon is defined by Theme::mMessageAltButtonIcon.
+
+Parameter ``altButton``:
+    Whether or not to include the alternate button (default:
+    ``False``).)doc";
 
 static const char *__doc_nanogui_MessageDialog_Type = R"doc(Classification of the type of message this MessageDialog represents.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Information = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Information = R"doc(An information dialog. Uses Theme::mMessageInformationIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Question = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Question = R"doc(An interogative dialog. Uses Theme::mMessageQuestionIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_Type_Warning = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_Type_Warning = R"doc(A warning dialog. Uses Theme::mMessageWarningIcon.)doc";
 
-static const char *__doc_nanogui_MessageDialog_callback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_alternateButton = R"doc(The alternate button. See mAlternateButton. **May be** ``nullptr``.)doc";
 
-static const char *__doc_nanogui_MessageDialog_mCallback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_alternateButton_2 = R"doc(The alternate button. See mAlternateButton. **May be** ``nulltpr``.)doc";
 
-static const char *__doc_nanogui_MessageDialog_mMessageLabel = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_callback = R"doc(The callback used for this MessageDialog. See mCallback.)doc";
 
-static const char *__doc_nanogui_MessageDialog_messageLabel = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_iconLabel = R"doc(Returns mIconLabel.)doc";
 
-static const char *__doc_nanogui_MessageDialog_messageLabel_2 = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_iconLabel_2 = R"doc(Returns mIconLabel.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mAlternateButton =
+R"doc(The alternate button (caption: ``altButtonText`` in constructor).
+**Only created when** ``altButton=true`` **in the constructor**. A
+getter method alternateButton exists for you to change what you
+desire, such as the background color etc. **However**, be careful
+**not** to set the callback of this Button. Its callback is configured
+in the constructor to properly Window::dispose after a response. See
+documentation for MessageDialog::mCallback for how to know which
+button was clicked.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mCallback =
+R"doc(The callback to execute when either the primary or alternate button
+are pressed. When constructed with ``altButton=false``, only one
+button will be added (defined by ``buttonText``). In this case, the
+callback will always be called with ``0``.
+
+When ``altButton=true``, two buttons are added. If the user presses
+the primary button (``buttonText`` in the constructor), the callback
+will still be called with ``0``. If the user presses the alternate
+button (``altButtonText`` in the constructor), the callback will be
+called with ``1``.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mIconLabel =
+R"doc(An label with an icon as text, it's font size is set to ``50``. The
+initial value is determined by the MessageDialog::Type specified to
+the constructor. Call setIcon to change the icon.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mMessageLabel =
+R"doc(A Label that contains the ``message`` supplied to the constructor,
+with a fixed width of ``200``.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mPrimaryButton =
+R"doc(The primary button (caption: ``buttonText`` in constructor). A getter
+method primaryButton exists for you to change what you desire, such as
+the background color etc. **However**, be careful **not** to set the
+callback of this Button. Its callback is configured in the constructor
+to properly Window::dispose after a response. See documentation for
+MessageDialog::mCallback for how to know which button was clicked.)doc";
+
+static const char *__doc_nanogui_MessageDialog_mType = R"doc(Stored only to allow setTheme to correctly override mIconLabel.)doc";
+
+static const char *__doc_nanogui_MessageDialog_messageLabel = R"doc(The Label that contains the ``message`` parameter to the constructor.)doc";
+
+static const char *__doc_nanogui_MessageDialog_messageLabel_2 = R"doc(The Label that contains the ``message`` parameter to the constructor.)doc";
 
 static const char *__doc_nanogui_MessageDialog_operator_delete = R"doc()doc";
 
@@ -2348,7 +2425,42 @@ static const char *__doc_nanogui_MessageDialog_operator_new_4 = R"doc()doc";
 
 static const char *__doc_nanogui_MessageDialog_operator_new_5 = R"doc()doc";
 
-static const char *__doc_nanogui_MessageDialog_setCallback = R"doc()doc";
+static const char *__doc_nanogui_MessageDialog_primaryButton = R"doc(The primary button. See mPrimaryButton.)doc";
+
+static const char *__doc_nanogui_MessageDialog_primaryButton_2 = R"doc(The primary button. See mPrimaryButton.)doc";
+
+static const char *__doc_nanogui_MessageDialog_setAlternateIcon = R"doc(Convenience method, calls ``mAlternateButton->setIcon``.)doc";
+
+static const char *__doc_nanogui_MessageDialog_setCallback = R"doc(Sets the callback for this MessageDialog. See mCallback.)doc";
+
+static const char *__doc_nanogui_MessageDialog_setIcon =
+R"doc(Convenience method for setting mIconLabel. Must be a valid icon for
+the font used in mIconLabel. The default font face is ``"icons"``,
+specified by Theme::defaultIconFont.
+
+```
+The available icons for NanoGUI's default icon font can be found in
+:ref:`file_nanogui_entypo.h`.
+
+```)doc";
+
+static const char *__doc_nanogui_MessageDialog_setPrimaryIcon = R"doc(Convenience method, calls ``mPrimaryButton->setIcon``.)doc";
+
+static const char *__doc_nanogui_MessageDialog_setTheme =
+R"doc(Changes the theme for this MessageDialog.
+
+Typically it is desirable to specify the ``parent`` in the constructor
+as a Screen instance. This will make the MessageDialog appear in the
+center of the screen. If you choose to customize the theme of say a
+specific window and want this MessageDialog to have this custom theme,
+make sure to call this method to update any colors / icons defined by
+this custom theme.
+
+```
+auto dlg = MessageDialog(screen, MessageDialog::Type::Information);
+dlg->setTheme(mCustomTheme);// will update icons / colors accordingly
+
+```)doc";
 
 static const char *__doc_nanogui_Object = R"doc(Reference counted object base class.)doc";
 
