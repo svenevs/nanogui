@@ -2244,6 +2244,8 @@ static const char *__doc_nanogui_Label_mCaption = R"doc(The current text caption
 
 static const char *__doc_nanogui_Label_mColor = R"doc(The color to draw mCaption with.)doc";
 
+static const char *__doc_nanogui_Label_mColorExplicit = R"doc(Whether or not setColor has been called.)doc";
+
 static const char *__doc_nanogui_Label_operator_delete = R"doc()doc";
 
 static const char *__doc_nanogui_Label_operator_delete_2 = R"doc()doc";
@@ -2276,7 +2278,9 @@ static const char *__doc_nanogui_Label_setCaption = R"doc(Set the label's text c
 
 static const char *__doc_nanogui_Label_setColor = R"doc(Set the label color)doc";
 
-static const char *__doc_nanogui_Label_setTheme = R"doc(Set the Theme used to draw this widget)doc";
+static const char *__doc_nanogui_Label_setTheme =
+R"doc(Set the Theme used to draw this widget, will change mColor when
+mColorExplicit is ``False`` (e.g., setColor was never called).)doc";
 
 static const char *__doc_nanogui_Layout = R"doc(Basic interface of a layout engine.)doc";
 
@@ -2565,6 +2569,8 @@ static const char *__doc_nanogui_PopupButton_setChevronIcon = R"doc()doc";
 
 static const char *__doc_nanogui_PopupButton_setSide = R"doc()doc";
 
+static const char *__doc_nanogui_PopupButton_setTheme = R"doc()doc";
+
 static const char *__doc_nanogui_PopupButton_side = R"doc()doc";
 
 static const char *__doc_nanogui_Popup_Popup =
@@ -2775,6 +2781,10 @@ static const char *__doc_nanogui_Screen_dropCallbackEvent = R"doc()doc";
 
 static const char *__doc_nanogui_Screen_dropEvent = R"doc(Handle a file drop event)doc";
 
+static const char *__doc_nanogui_Screen_getClipboardString =
+R"doc(Returns the current clipboard string (convenience wrapper for
+``glfwGetClipboardString``).)doc";
+
 static const char *__doc_nanogui_Screen_glfwWindow = R"doc(Return a pointer to the underlying GLFW window data structure)doc";
 
 static const char *__doc_nanogui_Screen_initialize = R"doc(Initialize the Screen)doc";
@@ -2872,6 +2882,10 @@ static const char *__doc_nanogui_Screen_scrollCallbackEvent = R"doc()doc";
 static const char *__doc_nanogui_Screen_setBackground = R"doc(Set the screen's background color)doc";
 
 static const char *__doc_nanogui_Screen_setCaption = R"doc(Set the window title bar caption)doc";
+
+static const char *__doc_nanogui_Screen_setClipboardString =
+R"doc(Set the current clipboard string (convenience wrapper for
+``glfwSetClipboardString``).)doc";
 
 static const char *__doc_nanogui_Screen_setResizeCallback = R"doc()doc";
 

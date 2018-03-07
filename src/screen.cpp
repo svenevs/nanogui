@@ -724,4 +724,12 @@ void Screen::moveWindowToFront(Window *window) {
     } while (changed);
 }
 
+void Screen::setClipboardString(const std::string &clip) const {
+    glfwSetClipboardString(mGLFWWindow, clip.c_str());
+}
+
+std::string Screen::getClipboardString() const {
+    return std::string(glfwGetClipboardString(mGLFWWindow));
+}
+
 NAMESPACE_END(nanogui)
