@@ -97,6 +97,12 @@ void CheckBox::draw(NVGcontext *ctx) {
     }
 }
 
+void CheckBox::setTheme(Theme *theme) {
+    Widget::setTheme(theme);
+    if (mTheme)
+        mIconExtraScale = mTheme->mCheckBoxIconExtraScale;
+}
+
 void CheckBox::save(Serializer &s) const {
     Widget::save(s);
     s.set("caption", mCaption);

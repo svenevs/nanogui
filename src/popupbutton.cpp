@@ -98,6 +98,13 @@ void PopupButton::setSide(Popup::Side side) {
     mPopup->setSide(side);
 }
 
+void PopupButton::setTheme(Theme *theme) {
+    Button::setTheme(theme);
+    mPopup->setTheme(theme);
+    if (mTheme)
+        mIconExtraScale = mTheme->mPopupIconExtraScale;
+}
+
 void PopupButton::save(Serializer &s) const {
     Button::save(s);
     s.set("chevronIcon", mChevronIcon);

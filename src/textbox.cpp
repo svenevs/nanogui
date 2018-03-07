@@ -279,6 +279,12 @@ void TextBox::draw(NVGcontext* ctx) {
     nvgRestore(ctx);
 }
 
+void TextBox::setTheme(Theme *theme) {
+    Widget::setTheme(theme);
+    if (mTheme)
+        mIconExtraScale = mTheme->mTextBoxIconExtraScale;
+}
+
 bool TextBox::mouseButtonEvent(const Vector2i &p, int button, bool down,
                                int modifiers) {
 

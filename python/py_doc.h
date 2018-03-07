@@ -539,10 +539,13 @@ static const char *__doc_nanogui_CheckBox =
 R"doc(Two-state check box widget.
 
 Remark:
-    This class overrides nanogui::Widget::mIconExtraScale to be
-    ``1.2f``, which affects all subclasses of this Widget. Subclasses
-    must explicitly set a different value if needed (e.g., in their
-    constructor).)doc";
+    This class overrides Widget::mIconExtraScale to what is specified
+    by Theme::mCheckBoxIconExtraScale, which affects all subclasses of
+    this Widget. Subclasses must explicitly set a different value if
+    needed (e.g., in their constructor). Note that setTheme also
+    overwrites this value to that specified by the new Theme, so
+    subclasses must also account for this if setting to a non-theme
+    value.)doc";
 
 static const char *__doc_nanogui_CheckBox_CheckBox =
 R"doc(Adds a CheckBox to the specified ``parent``.
@@ -648,6 +651,8 @@ static const char *__doc_nanogui_CheckBox_setChecked = R"doc(Sets whether or not
 static const char *__doc_nanogui_CheckBox_setPushed =
 R"doc(Sets whether or not this CheckBox is currently pushed. See
 nanogui::CheckBox::mPushed.)doc";
+
+static const char *__doc_nanogui_CheckBox_setTheme = R"doc(Ensures that Widget::mIconExtraScale is updated.)doc";
 
 static const char *__doc_nanogui_Color =
 R"doc(Stores an RGBA floating point color value.
@@ -2500,10 +2505,13 @@ static const char *__doc_nanogui_PopupButton =
 R"doc(Button which launches a popup widget.
 
 Remark:
-    This class overrides nanogui::Widget::mIconExtraScale to be
-    ``0.8f``, which affects all subclasses of this Widget. Subclasses
-    must explicitly set a different value if needed (e.g., in their
-    constructor).)doc";
+    This class overrides Widget::mIconExtraScale to what is specified
+    by Theme::mPopupIconExtraScale, which affects all subclasses of
+    this Widget. Subclasses must explicitly set a different value if
+    needed (e.g., in their constructor). Note that setTheme also
+    overwrites this value to that specified by the new Theme, so
+    subclasses must also account for this if setting to a non-theme
+    value.)doc";
 
 static const char *__doc_nanogui_PopupButton_PopupButton =
 R"doc(Creates a PopupButton attached to the specified parent.
@@ -2569,7 +2577,7 @@ static const char *__doc_nanogui_PopupButton_setChevronIcon = R"doc()doc";
 
 static const char *__doc_nanogui_PopupButton_setSide = R"doc()doc";
 
-static const char *__doc_nanogui_PopupButton_setTheme = R"doc()doc";
+static const char *__doc_nanogui_PopupButton_setTheme = R"doc(Ensures that Widget::mIconExtraScale is updated.)doc";
 
 static const char *__doc_nanogui_PopupButton_side = R"doc()doc";
 
@@ -3364,10 +3372,13 @@ static const char *__doc_nanogui_TextBox =
 R"doc(Fancy text box with builtin regular expression-based validation.
 
 Remark:
-    This class overrides nanogui::Widget::mIconExtraScale to be
-    ``0.8f``, which affects all subclasses of this Widget. Subclasses
-    must explicitly set a different value if needed (e.g., in their
-    constructor).)doc";
+    This class overrides Widget::mIconExtraScale to what is specified
+    by Theme::mTextBoxIconExtraScale, which affects all subclasses of
+    this Widget. Subclasses must explicitly set a different value if
+    needed (e.g., in their constructor). Note that setTheme also
+    overwrites this value to that specified by the new Theme, so
+    subclasses must also account for this if setting to a non-theme
+    value.)doc";
 
 static const char *__doc_nanogui_TextBox_Alignment = R"doc(How to align the text in the text box.)doc";
 
@@ -3527,6 +3538,8 @@ R"doc(Specify a placeholder text to be displayed while the text box is
 empty.)doc";
 
 static const char *__doc_nanogui_TextBox_setSpinnable = R"doc()doc";
+
+static const char *__doc_nanogui_TextBox_setTheme = R"doc(Ensures that Widget::mIconExtraScale is updated.)doc";
 
 static const char *__doc_nanogui_TextBox_setUnits = R"doc()doc";
 
