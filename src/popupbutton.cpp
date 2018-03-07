@@ -30,10 +30,13 @@ PopupButton::PopupButton(Widget *parent, const std::string &caption,
     mPopup->setVisible(false);
 
     // override the default icon scaling
-    if (mTheme)
+    if (mTheme) {
         mIconExtraScale = mTheme->mPopupIconExtraScale;
-    else
+        mPopup->setTheme(mTheme);
+    }
+    else {
         mIconExtraScale = Theme::defaultPopupIconExtraScale();
+    }
 }
 
 PopupButton::~PopupButton() {
