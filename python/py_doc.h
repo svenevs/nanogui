@@ -813,6 +813,10 @@ static const char *__doc_nanogui_ColorWheel_hue2rgb = R"doc()doc";
 
 static const char *__doc_nanogui_ColorWheel_load = R"doc(Sets the state of this ColorWheel using the specified Serializer.)doc";
 
+static const char *__doc_nanogui_ColorWheel_mAlpha =
+R"doc(Conversions between HSV and RGB have nothing to do with alpha, this is
+tracked separately.)doc";
+
 static const char *__doc_nanogui_ColorWheel_mBlack =
 R"doc(The implicit Saturation component of the HSV color model. See
 implementation nanogui::ColorWheel::color for its usage. Valid values
