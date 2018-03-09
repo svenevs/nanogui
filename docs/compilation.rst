@@ -68,7 +68,7 @@ So assuming you are in the root directory ``some_repo``:
    $ git submodule add https://github.com/wjakob/nanogui.git
 
 What this does is inform ``git`` that there is a sub-project that needs to be cloned as
-well, it will create a file `.gitmodules` representing this fact.  Since NanoGUI also
+well, it will create a file ``.gitmodules`` representing this fact.  Since NanoGUI also
 has submodules, when we set this up **the first time**, these have **not** been cloned.
 
 .. code-block:: console
