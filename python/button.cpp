@@ -81,16 +81,10 @@ void register_button(py::module &m) {
         .def("items", &ComboBox::items, D(ComboBox, items))
         .def("itemsShort", &ComboBox::itemsShort, D(ComboBox, itemsShort));
 
-    std::function<void(bool)> checkbox_default_cb = [](bool) { /* does nothing */ };
     py::class_<CheckBox, Widget, ref<CheckBox>, PyCheckBox>(m, "CheckBox", D(CheckBox))
-        // .def(py::init<Widget *, const std::string &>(), py::arg("parent"),
-        //      py::arg("caption") = std::string("Untitled"),
-        //      D(CheckBox, CheckBox))
         .def(py::init<Widget *, const std::string &, const std::function<void(bool)>&, const std::string &>(),
              py::arg("parent"), py::arg("caption") = std::string("Untitled"),
-             py::arg("callback") = checkbox_default_cb,
-             // py::arg("callback") = [](bool) { /* does nothing */ },
-             py::arg("font") = std::string(""),
+             py::arg("callback") = py::none(), py::arg("font") = std::string(""),
              D(CheckBox, CheckBox))
         .def("caption", &CheckBox::caption, D(CheckBox, caption))
         .def("setCaption", &CheckBox::setCaption, D(CheckBox, setCaption))
