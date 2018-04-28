@@ -375,35 +375,23 @@ if (NANOGUI_EXTRA_RESOURCES)
   list(APPEND NANOGUI_EXTRA_INCS ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
-# Concatenate resource files into a comma separated string
-string(REGEX REPLACE "([^\\]|^);" "\\1," resources_string "${resources}")
-string(REGEX REPLACE "[\\](.)" "\\1" resources_string "${resources_string}")
-
-# Create command line for running bin2c cmake script
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/nanogui")
-set(bin2c_cmdline
-  -DOUTPUT_C=nanogui/resources.cpp
-  -DOUTPUT_H=nanogui/resources.h
-  "-DINPUT_FILES=${resources_string}"
-  -P "${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
-
-# Run bin2c on resource files
-add_custom_command(
-  OUTPUT nanogui/resources.cpp nanogui/resources.h
-  COMMAND ${CMAKE_COMMAND} ARGS ${bin2c_cmdline}
-  DEPENDS ${resources}
-  COMMENT "Running bin2c"
-  PRE_BUILD VERBATIM)
+# All font resources are now stored in `resources` list.  Execute bin2c at
+# configure time, see top of resources/bin2c.cmake for more information.
+set(BIN2C_OUTPUT_C "${CMAKE_CURRENT_BINARY_DIR}/generated_resources/src/resources.cpp")
+set(BIN2C_OUTPUT_H "${CMAKE_CURRENT_BINARY_DIR}/generated_resources/include/nanogui/resources.h")
+set(BIN2C_INPUT_FILES "${resources}")
+message(STATUS "Generating font resources.")
+include("${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
 
 if (NANOGUI_INSTALL)
   install(
-    FILES "${CMAKE_CURRENT_BINARY_DIR}/nanogui/resources.h"
+    FILES "${BIN2C_OUTPUT_H}"
     DESTINATION include/nanogui
   )
 endif()
 
-# Needed to generated files
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# Needed for #include <nanogui/resources.h>
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/generated_resources/include")
 
 # Set library type
 if (NANOGUI_BUILD_SHARED)
@@ -433,7 +421,7 @@ add_library(nanogui-obj OBJECT
   # Merge GLAD into the NanoGUI library (only if needed)
   ${LIBNANOGUI_EXTRA_SOURCE}
   # Fonts etc.
-  "${CMAKE_CURRENT_BINARY_DIR}/nanogui/resources.cpp"
+  "${BIN2C_OUTPUT_C}"
   include/nanogui/glutil.h src/glutil.cpp
   include/nanogui/common.h src/common.cpp
   include/nanogui/widget.h src/widget.cpp
