@@ -278,6 +278,7 @@ include_directories(${NANOGUI_EIGEN_INCLUDE_DIR} ext/glfw/include ext/nanovg/src
 # ${CMAKE_CURRENT_BINARY_DIR}/nanogui (which is included with NANOGUI_EXTRA_INCS),
 # and if python is being built, the configurations for python/main.cpp.in will
 # be coordinated to bind the font for python.
+set(NANOGUI_GENERATED_RESOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated_resources")
 if (NANOGUI_EXTRA_ICON_RESOURCES)
   foreach(icon_font ${NANOGUI_EXTRA_ICON_RESOURCES})
     # Make sure the font is a true type font
@@ -299,11 +300,11 @@ if (NANOGUI_EXTRA_ICON_RESOURCES)
     # installed accordingly.
     file(
       COPY "${icon_font_h}"
-      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/nanogui"
+      DESTINATION "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui"
     )
     if (NANOGUI_INSTALL)
       install(
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/nanogui/${icon_font_h}"
+        FILES "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui/${icon_font_h}"
         DESTINATION include/nanogui
       )
     endif()
@@ -372,38 +373,23 @@ if (NANOGUI_EXTRA_RESOURCES)
   list(APPEND resources ${NANOGUI_EXTRA_RESOURCES})
   # Allow parent projects to #include <nanogui/resources.h> without needing to
   # know where it was generated to.
-  list(APPEND NANOGUI_EXTRA_INCS ${CMAKE_CURRENT_BINARY_DIR})
+  list(APPEND NANOGUI_EXTRA_INCS "${NANOGUI_GENERATED_RESOURCE_DIR}/include")
 endif()
 
-# Concatenate resource files into a comma separated string
-string(REGEX REPLACE "([^\\]|^);" "\\1," resources_string "${resources}")
-string(REGEX REPLACE "[\\](.)" "\\1" resources_string "${resources_string}")
-
-# Create command line for running bin2c cmake script
-file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/nanogui")
-set(bin2c_cmdline
-  -DOUTPUT_C=nanogui/resources.cpp
-  -DOUTPUT_H=nanogui/resources.h
-  "-DINPUT_FILES=${resources_string}"
-  -P "${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
-
-# Run bin2c on resource files
-add_custom_command(
-  OUTPUT nanogui/resources.cpp nanogui/resources.h
-  COMMAND ${CMAKE_COMMAND} ARGS ${bin2c_cmdline}
-  DEPENDS ${resources}
-  COMMENT "Running bin2c"
-  PRE_BUILD VERBATIM)
+# All font resources are now stored in `resources` list.  Execute bin2c at
+# configure time, see top of resources/bin2c.cmake for more information.
+set(BIN2C_OUTPUT_C "${NANOGUI_GENERATED_RESOURCE_DIR}/src/resources.cpp")
+set(BIN2C_OUTPUT_H "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui/resources.h")
+set(BIN2C_INPUT_FILES "${resources}")
+message(STATUS "Generating font resources.")
+include("${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
 
 if (NANOGUI_INSTALL)
-  install(
-    FILES "${CMAKE_CURRENT_BINARY_DIR}/nanogui/resources.h"
-    DESTINATION include/nanogui
-  )
+  install(FILES "${BIN2C_OUTPUT_H}" DESTINATION include/nanogui)
 endif()
 
-# Needed to generated files
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# Needed for #include <nanogui/resources.h>
+include_directories("${NANOGUI_GENERATED_RESOURCE_DIR}/include")
 
 # Set library type
 if (NANOGUI_BUILD_SHARED)
@@ -433,7 +419,7 @@ add_library(nanogui-obj OBJECT
   # Merge GLAD into the NanoGUI library (only if needed)
   ${LIBNANOGUI_EXTRA_SOURCE}
   # Fonts etc.
-  "${CMAKE_CURRENT_BINARY_DIR}/nanogui/resources.cpp"
+  "${BIN2C_OUTPUT_C}"
   include/nanogui/glutil.h src/glutil.cpp
   include/nanogui/common.h src/common.cpp
   include/nanogui/widget.h src/widget.cpp
