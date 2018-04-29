@@ -3819,6 +3819,29 @@ R"doc(The background color to use for drawing nanogui::Widget::mTooltip
 (default: intensity=``0``, alpha=``255``; see
 nanogui::Color::Color(int,int)).)doc";
 
+static const char *__doc_nanogui_Theme_mTooltipOpacity =
+R"doc(The maximum value for tooltip background opacity. Default: ``0.8f``.
+
+Lower values result in more transparent tooltips, higher values result
+in less transparent tooltips. This represents an OpenGL ``alpha``
+value, meaning ``1.0f`` (or higher) will result in no transparency.
+
+```
+In the implementation of :func:`Screen::drawWidgets <nanogui::Screen::drawWidgets>`,
+this variable is used as
+float opacity = std::min(
+    widget->theme()->mTooltipOpacity, 2.0f * (static_cast<float>(elapsed) - 0.5f)
+);
+nvgGlobalAlpha(mNVGContext, opacity);
+These mechanics allow for the tooltip to fade-in.  ``elapsed`` contains the
+amount of time the mouse has been hovering over the Widget whose tooltip is being
+displayed.  After subtraction and scaling, when the mouse hover begins the
+calculation will result in smaller values (e.g., starting around ``0.05f``).
+After enough time, ``mTooltipOpacity`` will always be the smaller value, making
+``mTooltipOpacity`` the *maximum* alpha channel value for the tooltip.
+
+```)doc";
+
 static const char *__doc_nanogui_Theme_mTooltipTextColor =
 R"doc(The text color to use for drawing nanogui::Widget::mTooltip (default:
 intensity=``255``, alpha=``255``; see nanogui::Color::Color(int,int)).)doc";

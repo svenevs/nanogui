@@ -192,6 +192,33 @@ public:
     Color mButtonGradientBotPushed;
 
     /**
+     * \brief The maximum value for tooltip background opacity. Default: ``0.8f``.
+     *
+     * Lower values result in more transparent tooltips, higher values result in less
+     * transparent tooltips.  This represents an OpenGL ``alpha`` value, meaning
+     * ``1.0f`` (or higher) will result in no transparency.
+     *
+     * \rst
+     * In the implementation of :func:`Screen::drawWidgets <nanogui::Screen::drawWidgets>`,
+     * this variable is used as
+     *
+     * .. code-block:: cpp
+     *
+     *    float opacity = std::min(
+     *        widget->theme()->mTooltipOpacity, 2.0f * (static_cast<float>(elapsed) - 0.5f)
+     *    );
+     *    nvgGlobalAlpha(mNVGContext, opacity);
+     *
+     * These mechanics allow for the tooltip to fade-in.  ``elapsed`` contains the
+     * amount of time the mouse has been hovering over the Widget whose tooltip is being
+     * displayed.  After subtraction and scaling, when the mouse hover begins the
+     * calculation will result in smaller values (e.g., starting around ``0.05f``).
+     * After enough time, ``mTooltipOpacity`` will always be the smaller value, making
+     * ``mTooltipOpacity`` the *maximum* alpha channel value for the tooltip.
+     * \endrst
+     */
+    float mTooltipOpacity;
+    /**
      * The background color to use for drawing \ref nanogui::Widget::mTooltip
      * (default: intensity=``0``, alpha=``255``; see \ref nanogui::Color::Color(int,int)).
      */

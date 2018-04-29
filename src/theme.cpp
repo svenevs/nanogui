@@ -54,6 +54,7 @@ Theme::Theme(NVGcontext *ctx) {
     mButtonGradientTopPushed          = Color(41, 255);
     mButtonGradientBotPushed          = Color(29, 255);
 
+    mTooltipOpacity                   = 0.8f;
     mTooltipBackgroundColor           = Color(0, 255);
     mTooltipTextColor                 = Color(255, 255);
 

@@ -57,6 +57,7 @@ void register_theme(py::module &m) {
         .def_readwrite("mButtonGradientBotUnfocused", &Theme::mButtonGradientBotUnfocused, D(Theme, mButtonGradientBotUnfocused))
         .def_readwrite("mButtonGradientTopPushed", &Theme::mButtonGradientTopPushed, D(Theme, mButtonGradientTopPushed))
         .def_readwrite("mButtonGradientBotPushed", &Theme::mButtonGradientBotPushed, D(Theme, mButtonGradientBotPushed))
+        .def_readwrite("mTooltipOpacity", &Theme::mTooltipOpacity, D(Theme, mTooltipOpacity))
         .def_readwrite("mTooltipBackgroundColor", &Theme::mTooltipBackgroundColor, D(Theme, mTooltipBackgroundColor))
         .def_readwrite("mTooltipTextColor", &Theme::mTooltipTextColor, D(Theme, mTooltipTextColor))
         .def_readwrite("mWindowFillUnfocused", &Theme::mWindowFillUnfocused, D(Theme, mWindowFillUnfocused))

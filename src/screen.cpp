@@ -456,8 +456,10 @@ void Screen::drawWidgets() {
 
                 h = (bounds[2] - bounds[0]) / 2;
             }
-            nvgGlobalAlpha(mNVGContext,
-                           std::min(1.05, 2 * (elapsed - 0.5f)) * 0.8);
+            float opacity = std::min(
+                widget->theme()->mTooltipOpacity, 2.0f * (static_cast<float>(elapsed) - 0.5f)
+            );
+            nvgGlobalAlpha(mNVGContext, opacity);
 
             nvgBeginPath(mNVGContext);
             nvgFillColor(mNVGContext, widget->theme()->mTooltipBackgroundColor);
