@@ -60,14 +60,15 @@ matrix:
         - export LD_LIBRARY_PATH="/usr/local/clang-5.0.0/lib"
       install:
         # ninja-build in Ubuntu sources is too old, download latest
-        - curl -OL https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip
-        - unzip ninja-linux.zip
-        - mv ./ninja ./ninja-1.8.2
+        - mkdir bin/
+        - curl -L https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip -o bin/ninja-linux.zip
+        - unzip bin/ninja-linux.zip -d bin/
+        - export PATH="$PWD/bin:$PATH"
       script:
         - cmake --version
-        - ./ninja-1.8.2 --version
+        - ninja --version
         - cmake -G Ninja -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
-        - ./ninja-1.8.2 -j 2
+        - ninja -j 2
     - os: osx
       compiler: clang
       env: GENERATOR=Makefiles
