@@ -378,14 +378,14 @@ endif()
 
 # All font resources are now stored in `resources` list.  Execute bin2c at
 # configure time, see top of resources/bin2c.cmake for more information.
-set(BIN2C_OUTPUT_C "${NANOGUI_GENERATED_RESOURCE_DIR}/src/resources.cpp")
-set(BIN2C_OUTPUT_H "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui/resources.h")
-set(BIN2C_INPUT_FILES "${resources}")
-message(STATUS "Generating font resources.")
+set(NANOGUI_BIN2C_OUTPUT_C "${NANOGUI_GENERATED_RESOURCE_DIR}/src/resources.cpp")
+set(NANOGUI_BIN2C_OUTPUT_H "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui/resources.h")
+set(NANOGUI_BIN2C_INPUT_FILES "${resources}")
+message(STATUS "NanoGUI: generating font resources.")
 include("${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
 
 if (NANOGUI_INSTALL)
-  install(FILES "${BIN2C_OUTPUT_H}" DESTINATION include/nanogui)
+  install(FILES "${NANOGUI_BIN2C_OUTPUT_H}" DESTINATION include/nanogui)
 endif()
 
 # Needed for #include <nanogui/resources.h>
@@ -419,7 +419,7 @@ add_library(nanogui-obj OBJECT
   # Merge GLAD into the NanoGUI library (only if needed)
   ${LIBNANOGUI_EXTRA_SOURCE}
   # Fonts etc.
-  "${BIN2C_OUTPUT_C}"
+  "${NANOGUI_BIN2C_OUTPUT_C}"
   include/nanogui/glutil.h src/glutil.cpp
   include/nanogui/common.h src/common.cpp
   include/nanogui/widget.h src/widget.cpp
