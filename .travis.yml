@@ -49,7 +49,6 @@ matrix:
             - libxi-dev
             - libx11-dev
             - cmake
-            - ninja-build
       before_install:
         # NOTE: by requesting compiler: clang, this is installed by default.
         #       Travis CI does not correctly setup CC / CXX, as well as G++
@@ -59,10 +58,16 @@ matrix:
         - export CC="/usr/local/clang-5.0.0/bin/clang"
         - export CPATH="/usr/local/clang-5.0.0/include/c++/v1"
         - export LD_LIBRARY_PATH="/usr/local/clang-5.0.0/lib"
+      install:
+        # ninja-build in Ubuntu sources is too old, download latest
+        - curl -OL https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip
+        - unzip ninja-linux.zip
+        - mv ./ninja ./ninja-1.8.2
       script:
         - cmake --version
+        - ./ninja-1.8.2 --version
         - cmake -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
-        - make -j 2
+        - ./ninja-1.8.2 -j 2
     - os: osx
       compiler: clang
       env: GENERATOR=Makefiles
@@ -81,7 +86,7 @@ matrix:
         - cmake --version
         - ninja --version
         - cmake -G Ninja -DNANOGUI_PYTHON_VERSION=2.7
-        - ninja
+        - ninja -j 2
     - os: linux
       language: docs
       env: STYLE
