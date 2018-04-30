@@ -16,7 +16,7 @@
 import gc
 
 import nanogui
-from nanogui import Screen, Window, Widget, GridLayout, VScrollPanel, Button, TextBox, BoxLayout, Orientation
+from nanogui import Screen, Window, Widget, GridLayout, VScrollPanel, Button
 from nanogui import entypo
 
 class EscapeScreen(nanogui.Screen):

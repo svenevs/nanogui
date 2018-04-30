@@ -19,12 +19,12 @@
 #include <nanogui/nanogui.h>
 using namespace nanogui;
 
-class EntypoScreen : public nanogui::Screen {
+class EscapeScreen : public nanogui::Screen {
 public:
-    EntypoScreen(const Vector2i &size, const std::string &title, bool resizable)
+    EscapeScreen(const Vector2i &size, const std::string &title, bool resizable)
         : nanogui::Screen(size, title, resizable) { }
 
-    virtual ~EntypoScreen() { /* nothing to free */ }
+    virtual ~EscapeScreen() { /* nothing to free */ }
 
     // allow <ESCAPE> to exit
     virtual bool keyboardEvent(int key, int scancode, int action, int modifiers) override {
@@ -73,7 +73,7 @@ int main(int /* argc */, char ** /* argv */) {
         static constexpr int height     = 800;
 
         // create a fixed size screen with one window
-        Screen *screen = new EntypoScreen({width, height}, "NanoGUI Icons", false);
+        EscapeScreen *screen = new EscapeScreen({width, height}, "NanoGUI Icons", false);
         Window *window = new Window(screen, "");
         window->setPosition({0, 0});
         window->setFixedSize({width, height});
