@@ -123,7 +123,7 @@ exhale_args = {
         specificationsForKind
     ),
     ############################################################################
-    # useful to see ;)
+    # useful to see if there are issues
     # "verboseBuild": True
 }
 
@@ -139,7 +139,7 @@ highlight_language = 'cpp'
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst']
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -147,9 +147,17 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 
+import datetime
+year = datetime.datetime.now().year
+rst_epilog = textwrap.dedent('''
+    .. |year| replace:: {year}
+'''.format(
+    year=year
+))
+
 # General information about the project.
 project = u'NanoGUI'
-copyright = u'2017, Wenzel Jakob'
+copyright = u'{year}, Wenzel Jakob'.format(year=year)
 author = u'Wenzel Jakob'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -176,7 +184,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'venv']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -194,7 +202,8 @@ exclude_patterns = ['_build']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# HTML themes now set pygments style, in this case let sphinx_rtd_theme set it
+# pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
@@ -389,12 +398,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
-import datetime
-rst_epilog = textwrap.dedent('''
-    .. |year| replace:: {year}
-'''.format(
-    year=datetime.datetime.now().year
-))
 
 # auto-magically called by sphinx-build
 def setup(app):

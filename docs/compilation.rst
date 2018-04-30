@@ -334,7 +334,9 @@ Simply append the path to ``NANOGUI_EXTRA_RESOURCES`` **before** doing
 
    list(APPEND NANOGUI_EXTRA_RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/resources/customfont.ttf")
 
-NanoGUI will automatically embed the ``customfont.ttf`` file.
+NanoGUI will automatically embed the ``customfont.ttf`` file, keeping in mind that
+``${CMAKE_CURRENT_SOURCE_DIR}`` is **required** to guarantee that CMake will expand
+the *correct* path to the font.
 
 .. tip::
 
@@ -387,6 +389,9 @@ Simply specify the path to the custom icons font with ``NANOGUI_EXTRA_ICON_RESOU
      "${CMAKE_CURRENT_SOURCE_DIR}/resources/customicons/customicons.ttf"
    )
 
+Keep in mind that ``${CMAKE_CURRENT_SOURCE_DIR}`` is **required** to guarantee that
+CMake will expand the *correct* path to the icon font.
+
 .. note::
 
    It is assumed that somewhere in your project **after**
@@ -419,16 +424,19 @@ Compiling the Documentation
 
 The documentation system relies on 'Doxygen', 'Sphinx', 'Breathe', and
 'Exhale'.  It uses the 'Read the Docs' theme for the layout of the generated
-html.  So you will need to first
+html.  Documenting C++ with Sphinx is evolving rapidly, as such we encourage you
+to build the documentation using `Virtualenv <https://virtualenv.pypa.io/en/stable/>`_.
+This way if the NanoGUI documentation needs different versions of something
+(e.g., Sphinx), you will not need to change your system installation.
 
 1. Install Doxygen for your operating system.  On Unix based systems, this
    should be available through your package manager (apt-get, brew, dnf, etc).
 
-2. Install Sphinx, Breathe, Exhale, and the theme:
+2. Install ``virtualenv``:
 
-   .. code-block:: py
+   .. code-block:: bash
 
-      pip3 install exhale sphinx_rtd_theme
+      $ pip3 install virtualenv
 
 Now that you have the relevant tools, you can build the documentation with
 
@@ -437,8 +445,21 @@ Now that you have the relevant tools, you can build the documentation with
    # Enter the documentation directory
    $ cd <path/to/nanogui>/docs
 
+   # Create the virtual environment.  Note that 'venv' is exactly
+   # the name excluded in `conf.py`, using a different name will
+   # result in *hundreds* of extra build warnings!
+   $ virtualenv venv
+
+   # Activate the virtual environment (Windows: python venv/bin/activate_this.py)
+   $ source venv/bin/activate
+
+   # Install the documentation requirements for NanoGUI
+   (venv) $ pip install -r requirements.txt
+
    # Build the documentation
-   $ make html
+   (venv) $ make html
+
+   # When you are done, leave the virtual environment with `deactivate`
 
 The output will be generated in ``_build``, the root html document is located
 at ``_build/html/index.html``.
