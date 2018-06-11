@@ -58,6 +58,13 @@ public:
      */
     Button(Widget *parent, const std::string &caption = "Untitled", int icon = 0, const std::string &font = "");
 
+    /**
+     * \brief Buttons use a bold font face by default.
+     *
+     * When \ref Widget::mFont is not set, this will result in \ref Theme::mDefaultBoldFont.
+     */
+    virtual std::string defaultFont() const override;
+
     /// Returns the caption of this Button.
     const std::string &caption() const { return mCaption; }
 

@@ -18,7 +18,19 @@
 
 NAMESPACE_BEGIN(nanogui)
 
+const char *Theme::GlobalDefaultFonts::Normal   = "sans";
+const char *Theme::GlobalDefaultFonts::Bold     = "sans-bold";
+const char *Theme::GlobalDefaultFonts::Mono     = "mono";
+const char *Theme::GlobalDefaultFonts::MonoBold = "mono-bold";
+const char *Theme::GlobalDefaultFonts::Icons    = "icons";
+
 Theme::Theme(NVGcontext *ctx) {
+    mDefaultFont                      = Theme::GlobalDefaultFonts::Normal;
+    mDefaultBoldFont                  = Theme::GlobalDefaultFonts::Bold;
+    mDefaultMonoFont                  = Theme::GlobalDefaultFonts::Mono;
+    mDefaultMonoBoldFont              = Theme::GlobalDefaultFonts::MonoBold;
+    mDefaultIconFont                  = Theme::GlobalDefaultFonts::Icons;
+
     mStandardFontSize                 = 16.0f;
     mButtonFontSize                   = 20.0f;
     mTextBoxFontSize                  = 20.0f;
@@ -88,11 +100,11 @@ Theme::Theme(NVGcontext *ctx) {
     mTextBoxDownIcon                  = ENTYPO_ICON_CHEVRON_DOWN;
     mTextBoxIconExtraScale            = defaultTextBoxIconExtraScale();
 
-    mFontNormal     = createFontMem(ctx, "sans", "Roboto-Regular.ttf");
-    mFontBold       = createFontMem(ctx, "sans-bold", "Roboto-Bold.ttf");
-    mFontMonoNormal = createFontMem(ctx, "mono", "RobotoMono-Regular.ttf");
-    mFontMonoBold   = createFontMem(ctx, "mono-bold", "RobotoMono-Bold.ttf");
-    mFontIcons      = createFontMem(ctx, "icons", "entypo.ttf");
+    mFontNormal     = createFontMem(ctx, Theme::GlobalDefaultFonts::Normal, "Roboto-Regular.ttf");
+    mFontBold       = createFontMem(ctx, Theme::GlobalDefaultFonts::Bold, "Roboto-Bold.ttf");
+    mFontMonoNormal = createFontMem(ctx, Theme::GlobalDefaultFonts::Mono, "RobotoMono-Regular.ttf");
+    mFontMonoBold   = createFontMem(ctx, Theme::GlobalDefaultFonts::MonoBold, "RobotoMono-Bold.ttf");
+    mFontIcons      = createFontMem(ctx, Theme::GlobalDefaultFonts::Icons, "entypo.ttf");
 
     if (mFontNormal == -1 || mFontBold == -1 ||
         mFontMonoNormal == -1 || mFontMonoBold == -1 || mFontIcons == -1)

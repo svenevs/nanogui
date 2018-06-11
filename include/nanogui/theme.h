@@ -31,50 +31,83 @@ public:
     Theme(NVGcontext *ctx);
 
     /* Fonts */
+    /* NOTE: updating documentation for Theme::GlobalDefaultFonts?  Please also
+     *       update the manual documentation in python/theme.cpp at the bottom.
+     *       This class is not processed by docs/mkdoc_rst.py.
+     */
     /**
-     * The ``"sans"`` font.  Some widgets allow for a user-specified font face
-     * (e.g., \ref nanogui::Label).  The default action is to use
-     * \ref Theme::defaultFont to set this, however in the event that a
-     * ``nanogui::Theme`` class is not available, this method is called instead.
-     * A ``nanogui::Theme`` class will not be available when no parent is
-     * specified.  For example,
-     * ``new nanogui::Label(nullptr, "Some Text")``.  Doing this is not
-     * explicitly forbidden, but is generally discouraged unless you really know
-     * what you are doing.
+     * \struct GlobalDefaultFonts theme.h nanogui/theme.h
      *
-     * Both this method and \ref defaultFont are ultimately responsible for
-     * setting both \ref Widget::mFont and \ref Widget::mTooltipFont.
+     * \brief The font face string identifiers that are always loaded / available
+     *        for every Widget.
+     *
+     * In the (rare) event that a Widget does not have a Theme instance (this only
+     * happens when a Widget is constructed without a parent), these values are also
+     * used in the Widget font getter methods.
+     *
+     * \sa The *implementation* of \ref nanogui::Widget::font.
      */
-    static std::string globalDefaultFont() { return "sans"; }
-    /// Similar to \ref globalDefaultFont, only ``"sans-bold"`` is used.
-    static std::string globalDefaultBoldFont() { return "sans-bold"; }
-    /// Similar to \ref globalDefaultFont, only for icon fonts.
-    static std::string globalDefaultIconFont() { return "icons"; }
+    struct GlobalDefaultFonts {
+        static const char *Normal;  ///< ``"sans"``: see \ref nanogui::Theme::mDefaultFont.
+        static const char *Bold;    ///< ``"sans-bold"``: see \ref nanogui::Theme::mDefaultBoldFont.
+        static const char *Mono;    ///< ``"mono"``: see \ref nanogui::Theme::mDefaultMonoFont.
+        static const char *MonoBold;///< ``"mono-bold"``: see \ref nanogui::Theme::mDefaultMonoBoldFont.
+        static const char *Icons;   ///< ``"icons"``: see \ref nanogui::Theme::mDefaultIconFont.
+    };
+
+    /// The default font face: ``"sans"`` from ``resources/Roboti-Regular.ttf``.
+    std::string mDefaultFont;
+    /// The default bold font face: ``"sans-bold"`` from ``resources/Roboto-Bold.ttf``.
+    std::string mDefaultBoldFont;
+    /**
+     * \brief The default monospace font: ``"mono"`` from ``resources/RobotoMono-Regular.ttf``.
+     *
+     * Not used directly in NanoGUI, but loaded and available for all applications.
+     */
+    std::string mDefaultMonoFont;
+    /**
+     * \brief The default monospace bold font: ``"mono-bold"`` from ``resources/RobotoMono-Bold.ttf``.
+     *
+     * Not used directly in NanoGUI, but loaded and available for all applications.
+     */
+    std::string mDefaultMonoBoldFont;
+    /// The default icon font face: ``"icons"`` from ``resources/entypo.ttf``.
+    std::string mDefaultIconFont;
 
     /**
-     * The ``"sans"`` font.  Override in sub-classes to use a different
-     * font-face for widgets that use normal fonts by default (e.g.,
-     * \ref nanogui::Label).
+     * \brief The font memory identifier loaded for \ref mDefaultFont.
+     *
+     * Most applications should not have a need to use this variable.  Its value should
+     * **never** be reassigned.
      */
-    virtual std::string defaultFont() const { return Theme::globalDefaultFont(); }
-    /**
-     * The ``"sans-bold"`` font.  Override in sub-classes to use a different
-     * font-face for widgets that use bold fonts by default (e.g.,
-     * \ref nanogui::Button).
-     */
-    virtual std::string defaultBoldFont() const { return Theme::globalDefaultBoldFont(); }
-    /// The default icon font, override if embedding additional icon fonts.
-    virtual std::string defaultIconFont() const { return Theme::globalDefaultIconFont(); }
-
-    /// The standard font face: ``"sans"`` from ``resources/Roboto-Regular.ttf``.
     int mFontNormal;
-    /// The standard bold font face: ``"sans-bold"`` from ``resources/Roboto-Bold.ttf``.
+    /**
+     * \brief The font memory identifier loaded for \ref mDefaultBoldFont.
+     *
+     * Most applications should not have a need to use this variable.  Its value should
+     * **never** be reassigned.
+     */
     int mFontBold;
-    /// The standard monospace font face: ``"mono"`` from ``resources/RobotoMono-Regular.ttf``.
+    /**
+     * \brief The font memory identifier loaded for \ref mDefaultMonoFont.
+     *
+     * Most applications should not have a need to use this variable.  Its value should
+     * **never** be reassigned.
+     */
     int mFontMonoNormal;
-    /// The standard bold monospace font face: ``"mono-bold"`` from ``resources/RobotoMono-Bold.ttf``.
+    /**
+     * \brief The font memory identifier loaded for \ref mDefaultMonoBoldFont.
+     *
+     * Most applications should not have a need to use this variable.  Its value should
+     * **never** be reassigned.
+     */
     int mFontMonoBold;
-    /// The icon font face: ``"icons"`` from ``resources/entypo.ttf``.
+    /**
+     * \brief The font memory identifier loaded for \ref mDefaultIconFont.
+     *
+     * Most applications should not have a need to use this variable.  Its value should
+     * **never** be reassigned.
+     */
     int mFontIcons;
     /**
      * The amount of scaling that is applied to each icon to fit the size of

@@ -17,10 +17,16 @@
 NAMESPACE_BEGIN(nanogui)
 
 Button::Button(Widget *parent, const std::string &caption, int icon, const std::string &font)
-    : Widget(parent, font, true), mCaption(caption), mIcon(icon),
+    : Widget(parent, font), mCaption(caption), mIcon(icon),
       mIconPosition(IconPosition::LeftCentered), mPushed(false),
       mFlags(NormalButton), mBackgroundColor(Color(0, 0)),
       mTextColor(Color(0, 0)) { }
+
+std::string Button::defaultFont() const {
+    if (mTheme)
+        return mTheme->mDefaultBoldFont;
+    return Theme::GlobalDefaultFonts::Bold;
+}
 
 Vector2i Button::preferredSize(NVGcontext *ctx) const {
     float fontSize = Widget::fontSize(mTheme->mButtonFontSize);

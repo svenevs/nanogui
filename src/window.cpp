@@ -19,11 +19,17 @@
 NAMESPACE_BEGIN(nanogui)
 
 Window::Window(Widget *parent, const std::string &title, const std::string &font)
-    : Widget(parent, font, true)
+    : Widget(parent, font)
     , mTitle(title)
     , mButtonPanel(nullptr)
     , mModal(false)
     , mDrag(false) { }
+
+std::string Window::defaultFont() const {
+    if (mTheme)
+        return mTheme->mDefaultBoldFont;
+    return Theme::GlobalDefaultFonts::Bold;
+}
 
 Vector2i Window::preferredSize(NVGcontext *ctx) const {
     if (mButtonPanel)

@@ -433,6 +433,12 @@ static const char *__doc_nanogui_Button_caption = R"doc(Returns the caption of t
 
 static const char *__doc_nanogui_Button_changeCallback = R"doc(The current callback to execute (for toggle buttons).)doc";
 
+static const char *__doc_nanogui_Button_defaultFont =
+R"doc(Buttons use a bold font face by default.
+
+When Widget::mFont is not set, this will result in
+Theme::mDefaultBoldFont.)doc";
+
 static const char *__doc_nanogui_Button_draw = R"doc(Responsible for drawing the Button.)doc";
 
 static const char *__doc_nanogui_Button_flags =
@@ -3105,6 +3111,12 @@ static const char *__doc_nanogui_TabHeader_calculateVisibleEnd = R"doc(Given the
 
 static const char *__doc_nanogui_TabHeader_callback = R"doc()doc";
 
+static const char *__doc_nanogui_TabHeader_defaultFont =
+R"doc(TabHeaders use a bold font face by default.
+
+When Widget::mFont is not set, this will result in
+Theme::mDefaultBoldFont.)doc";
+
 static const char *__doc_nanogui_TabHeader_draw = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_drawControls = R"doc()doc";
@@ -3567,11 +3579,6 @@ static const char *__doc_nanogui_Theme = R"doc(Storage class for basic theme-rel
 
 static const char *__doc_nanogui_Theme_Theme = R"doc()doc";
 
-static const char *__doc_nanogui_Theme_defaultBoldFont =
-R"doc(The ``"sans-bold"`` font. Override in sub-classes to use a different
-font-face for widgets that use bold fonts by default (e.g.,
-nanogui::Button).)doc";
-
 static const char *__doc_nanogui_Theme_defaultCheckBoxIconExtraScale =
 R"doc(For the default theme, ``1.2f`` is used in conjunction with
 ``ENTYPO_ICON_CHECK``. If overriding, mCheckBoxIcon, make sure
@@ -3582,13 +3589,6 @@ available upon construction.
 
 See also:
     Widget::mIconExtraScale)doc";
-
-static const char *__doc_nanogui_Theme_defaultFont =
-R"doc(The ``"sans"`` font. Override in sub-classes to use a different font-
-face for widgets that use normal fonts by default (e.g.,
-nanogui::Label).)doc";
-
-static const char *__doc_nanogui_Theme_defaultIconFont = R"doc(The default icon font, override if embedding additional icon fonts.)doc";
 
 static const char *__doc_nanogui_Theme_defaultPopupIconExtraScale =
 R"doc(For the default theme, ``0.8f`` is used in conjunction with
@@ -3629,23 +3629,6 @@ that are the same original size.
 
 See also:
     Widget::mIconExtraScale)doc";
-
-static const char *__doc_nanogui_Theme_globalDefaultBoldFont = R"doc(Similar to globalDefaultFont, only ``"sans-bold"`` is used.)doc";
-
-static const char *__doc_nanogui_Theme_globalDefaultFont =
-R"doc(The ``"sans"`` font. Some widgets allow for a user-specified font face
-(e.g., nanogui::Label). The default action is to use
-Theme::defaultFont to set this, however in the event that a
-``nanogui::Theme`` class is not available, this method is called
-instead. A ``nanogui::Theme`` class will not be available when no
-parent is specified. For example, ``new nanogui::Label(nullptr, "Some
-Text")``. Doing this is not explicitly forbidden, but is generally
-discouraged unless you really know what you are doing.
-
-Both this method and defaultFont are ultimately responsible for
-setting both Widget::mFont and Widget::mTooltipFont.)doc";
-
-static const char *__doc_nanogui_Theme_globalDefaultIconFont = R"doc(Similar to globalDefaultFont, only for icon fonts.)doc";
 
 static const char *__doc_nanogui_Theme_mBorderDark =
 R"doc(The dark border color (default: intensity=``29``, alpha=``255``; see
@@ -3695,6 +3678,30 @@ static const char *__doc_nanogui_Theme_mCheckBoxIconExtraScale =
 R"doc(Extra scaling needed for mCheckBoxIcon (default:
 defaultCheckBoxIconExtraScale).)doc";
 
+static const char *__doc_nanogui_Theme_mDefaultBoldFont =
+R"doc(The default bold font face: ``"sans-bold"`` from ``resources/Roboto-
+Bold.ttf``.)doc";
+
+static const char *__doc_nanogui_Theme_mDefaultFont =
+R"doc(The default font face: ``"sans"`` from ``resources/Roboti-
+Regular.ttf``.)doc";
+
+static const char *__doc_nanogui_Theme_mDefaultIconFont = R"doc(The default icon font face: ``"icons"`` from ``resources/entypo.ttf``.)doc";
+
+static const char *__doc_nanogui_Theme_mDefaultMonoBoldFont =
+R"doc(The default monospace bold font: ``"mono-bold"`` from
+``resources/RobotoMono-Bold.ttf``.
+
+Not used directly in NanoGUI, but loaded and available for all
+applications.)doc";
+
+static const char *__doc_nanogui_Theme_mDefaultMonoFont =
+R"doc(The default monospace font: ``"mono"`` from ``resources/RobotoMono-
+Regular.ttf``.
+
+Not used directly in NanoGUI, but loaded and available for all
+applications.)doc";
+
 static const char *__doc_nanogui_Theme_mDisabledTextColor =
 R"doc(The disable dtext color (default: intensity=``255``, alpha=``80``; see
 nanogui::Color::Color(int,int)).)doc";
@@ -3704,22 +3711,34 @@ R"doc(The color of the drop shadow drawn behind widgets (default:
 intensity=``0``, alpha=``128``; see nanogui::Color::Color(int,int)).)doc";
 
 static const char *__doc_nanogui_Theme_mFontBold =
-R"doc(The standard bold font face: ``"sans-bold"`` from ``resources/Roboto-
-Bold.ttf``.)doc";
+R"doc(The font memory identifier loaded for mDefaultBoldFont.
 
-static const char *__doc_nanogui_Theme_mFontIcons = R"doc(The icon font face: ``"icons"`` from ``resources/entypo.ttf``.)doc";
+Most applications should not have a need to use this variable. Its
+value should **never** be reassigned.)doc";
+
+static const char *__doc_nanogui_Theme_mFontIcons =
+R"doc(The font memory identifier loaded for mDefaultIconFont.
+
+Most applications should not have a need to use this variable. Its
+value should **never** be reassigned.)doc";
 
 static const char *__doc_nanogui_Theme_mFontMonoBold =
-R"doc(The standard bold monospace font face: ``"mono-bold"`` from
-``resources/RobotoMono-Bold.ttf``.)doc";
+R"doc(The font memory identifier loaded for mDefaultMonoBoldFont.
+
+Most applications should not have a need to use this variable. Its
+value should **never** be reassigned.)doc";
 
 static const char *__doc_nanogui_Theme_mFontMonoNormal =
-R"doc(The standard monospace font face: ``"mono"`` from
-``resources/RobotoMono-Regular.ttf``.)doc";
+R"doc(The font memory identifier loaded for mDefaultMonoFont.
+
+Most applications should not have a need to use this variable. Its
+value should **never** be reassigned.)doc";
 
 static const char *__doc_nanogui_Theme_mFontNormal =
-R"doc(The standard font face: ``"sans"`` from ``resources/Roboto-
-Regular.ttf``.)doc";
+R"doc(The font memory identifier loaded for mDefaultFont.
+
+Most applications should not have a need to use this variable. Its
+value should **never** be reassigned.)doc";
 
 static const char *__doc_nanogui_Theme_mIconColor = R"doc(The icon color (default: nanogui::Theme::mTextColor).)doc";
 
@@ -4048,26 +4067,16 @@ Parameter ``parent``:
     The parent of this Widget.
 
 Parameter ``font``:
-    The font face to start with. By using the empty string, when
-    ``parent`` is not ``nullptr``, the Theme is queried for the font
-    to use. When anything other than the empty string, this implies
-    that a user has explicitly requested a specific font face. For
-    example, ``new Label(parent, "text", "sans-bold")``. That is, sub-
-    classes should always provide an explicit ``font`` parameter in
-    their constructor, with a default value of ``""``. The
-    ``fontDefaultIsBold`` parameter defines the behavior when the
-    empty string is supplied here.
+```
+ The font face to start with.  When anything other than the empty
+ string, this implies that a user has explicitly requested a specific
+ font face.  For example, ``new Label(parent, "text", "sans-bold")``.
+ That is, sub-classes that draw text should always provide an explicit
+ ``font`` parameter in their constructor, with a default value of
+ ``""``.  See :ref:`nanogui_usage_how_fonts_are_used`.
 
-Parameter ``fontDefaultIsBold``:
-    Different sub-classes may prefer a different default font face.
-    When ``font`` is ``""`` and ``fontDefaultIsBold=false``,
-    Theme::defaultFont is used to populate mFont. When ``True``,
-    Theme::defaultBoldFont is used instead. Lastly, in the rare
-    occurrence that ``parent`` is ``nullptr`` (and therefore no Theme
-    instance is available at the time of construction), the static
-    Theme methods are called instead. When
-    ``fontDefaultIsBold=false``, Theme::globalDefaultFont is used.
-    When ``True``, Theme::globalDefaultBoldFont is used.)doc";
+
+```)doc";
 
 static const char *__doc_nanogui_Widget_absolutePosition = R"doc(Return the absolute position on screen)doc";
 
@@ -4095,6 +4104,12 @@ static const char *__doc_nanogui_Widget_children = R"doc(Return the list of chil
 static const char *__doc_nanogui_Widget_contains = R"doc(Check if the widget contains a certain position)doc";
 
 static const char *__doc_nanogui_Widget_cursor = R"doc(Return a pointer to the cursor of the widget)doc";
+
+static const char *__doc_nanogui_Widget_defaultFont = R"doc(Called by Widget::font when mFont is the empty string.)doc";
+
+static const char *__doc_nanogui_Widget_defaultIconFont = R"doc(Called by Widget::iconFont when mIconFont is the empty string.)doc";
+
+static const char *__doc_nanogui_Widget_defaultTooltipFont = R"doc(Called by Widget::tooltipFont when mTooltipFont is the empty string.)doc";
 
 static const char *__doc_nanogui_Widget_draw = R"doc(Draw the widget (and all child widgets))doc";
 
@@ -4140,12 +4155,7 @@ static const char *__doc_nanogui_Widget_iconExtraScale =
 R"doc(The amount of extra scaling applied to *icon* fonts. See
 nanogui::Widget::mIconExtraScale.)doc";
 
-static const char *__doc_nanogui_Widget_iconFont =
-R"doc(The icon font being used by this widget.
-
-Will be ``"icons"`` (Entypo+), unless user has embedded additional
-icon fonts **and** created a custom Theme class to override
-Theme::defaultIconFont)doc";
+static const char *__doc_nanogui_Widget_iconFont = R"doc(Get the font name being used to draw icons for this widget.)doc";
 
 static const char *__doc_nanogui_Widget_icon_scale =
 R"doc(Convenience definition for subclasses to get the full icon scale for
@@ -4185,23 +4195,15 @@ static const char *__doc_nanogui_Widget_mFixedSize = R"doc()doc";
 static const char *__doc_nanogui_Widget_mFocused = R"doc()doc";
 
 static const char *__doc_nanogui_Widget_mFont =
-R"doc(The current font face being used to draw text (if this Widget displays
-text).)doc";
+R"doc(The explicitly specified font face to use for drawing generic text.
 
-static const char *__doc_nanogui_Widget_mFontDefaultIsBold =
-R"doc(There are two default fonts in NanoGUI: ``"sans"`` and ``"sans-
-bold"``. When this variable is ``True``, the bold font will be used.
-When ``False``, the regular font face will be used. Subclasses are
-responsible for specifying this behavior when calling the parent class
-constructor (Widget::Widget). For example, nanogui::Label will always
-set this to ``False``, whereas nanogui::Button will always set this to
-``True``.)doc";
+```
+The value of this variable is typically the empty string (``""``),
+indicating that no font has been explicitly specified by a user.  In this
+event, either the class or theme will define the font face.  See
+:ref:`nanogui_usage_how_fonts_are_used`.
 
-static const char *__doc_nanogui_Widget_mFontExplicit =
-R"doc(When the font is specified either via the constructor or setFont, this
-is set to ``True`` to indicate that setTheme should not overwrite the
-user-specified default. Otherwise, when setTheme is called, the
-theme's default window font will be used.)doc";
+```)doc";
 
 static const char *__doc_nanogui_Widget_mFontSize =
 R"doc(Used to set the font size of a widget explicitly. The initial value is
@@ -4240,11 +4242,16 @@ the :func:`nanogui::Widget::icon_scale` function.  Expected usage when
 
 ```)doc";
 
-static const char *__doc_nanogui_Widget_mIconFont = R"doc(The icon font being used (typically: ``"icons"`` for Entypo+).)doc";
+static const char *__doc_nanogui_Widget_mIconFont =
+R"doc(The explicitly specified font face for drawing icon text.
 
-static const char *__doc_nanogui_Widget_mIconFontExplicit =
-R"doc(When ``True``, setIconFont has been called implying that setTheme will
-not change mIconFont.)doc";
+```
+The value of this variable is typically the empty string (``""``),
+indicating that no font has been explicitly specified by a user.  In this
+event, either the class or theme will define the font face.  See
+:ref:`nanogui_usage_how_fonts_are_used`.
+
+```)doc";
 
 static const char *__doc_nanogui_Widget_mId = R"doc()doc";
 
@@ -4264,11 +4271,16 @@ static const char *__doc_nanogui_Widget_mTooltip =
 R"doc(The tooltip to draw for this widget (on mouse hover). Empty string
 means no tooltip.)doc";
 
-static const char *__doc_nanogui_Widget_mTooltipFont = R"doc(Font face to draw this mTooltip with (default: Theme::defaultFont).)doc";
+static const char *__doc_nanogui_Widget_mTooltipFont =
+R"doc(The explicitly specified font face for drawing mTooltip with.
 
-static const char *__doc_nanogui_Widget_mTooltipFontExplicit =
-R"doc(When ``True``, setTooltipFont has been called implying that setTheme
-will not change mTooltipFont.)doc";
+```
+The value of this variable is typically the empty string (``""``),
+indicating that no font has been explicitly specified by a user.  In this
+event, either the class or theme will define the font face.  See
+:ref:`nanogui_usage_how_fonts_are_used`.
+
+```)doc";
 
 static const char *__doc_nanogui_Widget_mVisible =
 R"doc(Whether or not this Widget is currently visible. When a Widget is not
@@ -4340,10 +4352,6 @@ children))doc";
 
 static const char *__doc_nanogui_Widget_setCursor = R"doc(Set the cursor of the widget)doc";
 
-static const char *__doc_nanogui_Widget_setDefaultFonts =
-R"doc(When setTheme is called, this method configures both mFont and
-mTooltipFont.)doc";
-
 static const char *__doc_nanogui_Widget_setEnabled = R"doc(Set whether or not this widget is currently enabled)doc";
 
 static const char *__doc_nanogui_Widget_setFixedHeight = R"doc(Set the fixed height (see setFixedSize()))doc";
@@ -4410,7 +4418,7 @@ static const char *__doc_nanogui_Widget_theme_2 = R"doc(Return the Theme used to
 
 static const char *__doc_nanogui_Widget_tooltip = R"doc(The tooltip for this Widget (displays on mouse hover).)doc";
 
-static const char *__doc_nanogui_Widget_tooltipFont = R"doc(Get the font name being used to draw tool tips for child widgets)doc";
+static const char *__doc_nanogui_Widget_tooltipFont = R"doc(Get the font name being used to draw mTooltip)doc";
 
 static const char *__doc_nanogui_Widget_visible =
 R"doc(Return whether or not the widget is currently visible (assuming all
@@ -4442,6 +4450,12 @@ Parameter ``font``:
 static const char *__doc_nanogui_Window_buttonPanel = R"doc(Return the panel used to house window buttons)doc";
 
 static const char *__doc_nanogui_Window_center = R"doc(Center the window in the current Screen)doc";
+
+static const char *__doc_nanogui_Window_defaultFont =
+R"doc(Windows use a bold font face by default.
+
+When Widget::mFont is not set, this will result in
+Theme::mDefaultBoldFont.)doc";
 
 static const char *__doc_nanogui_Window_dispose = R"doc(Dispose the window)doc";
 

@@ -42,6 +42,13 @@ public:
      */
     TabHeader(Widget *parent, const std::string &font = "");
 
+    /**
+     * \brief TabHeaders use a bold font face by default.
+     *
+     * When \ref Widget::mFont is not set, this will result in \ref Theme::mDefaultBoldFont.
+     */
+    virtual std::string defaultFont() const override;
+
     bool overflowing() const { return mOverflowing; }
 
     /**

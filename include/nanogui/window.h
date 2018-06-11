@@ -39,6 +39,13 @@ public:
      */
     Window(Widget *parent, const std::string &title = "Untitled", const std::string &font = "");
 
+    /**
+     * \brief Windows use a bold font face by default.
+     *
+     * When \ref Widget::mFont is not set, this will result in \ref Theme::mDefaultBoldFont.
+     */
+    virtual std::string defaultFont() const override;
+
     /// Return the window title
     const std::string &title() const { return mTitle; }
     /// Set the window title

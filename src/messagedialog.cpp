@@ -40,7 +40,7 @@ MessageDialog::MessageDialog(Widget *parent, Type type, const std::string &title
         case Type::Question: icon = mTheme->mMessageQuestionIcon; break;
         case Type::Warning: icon = mTheme->mMessageWarningIcon; break;
     }
-    mIconLabel = new Label(panel1, std::string(utf8(icon).data()), mTheme->defaultIconFont());
+    mIconLabel = new Label(panel1, std::string(utf8(icon).data()), mTheme->mDefaultIconFont);
     mIconLabel->setFontSize(50);
     mMessageLabel = new Label(panel1, message);
     mMessageLabel->setFixedWidth(200);
@@ -75,7 +75,7 @@ void MessageDialog::setTheme(Theme *theme) {
     Window::setTheme(theme);
 
     // set the icon label
-    mIconLabel->setFont(mTheme->defaultIconFont());
+    mIconLabel->setFont(mTheme->mDefaultIconFont);
     int icon = 0;
     switch (mType) {
         case Type::Information: icon = mTheme->mMessageInformationIcon; break;

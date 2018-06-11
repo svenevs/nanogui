@@ -18,7 +18,7 @@ NAMESPACE_BEGIN(nanogui)
 
 CheckBox::CheckBox(Widget *parent, const std::string &caption,
                    const std::function<void(bool) > &callback, const std::string &font)
-    : Widget(parent, font, false), mCaption(caption), mPushed(false),
+    : Widget(parent, font), mCaption(caption), mPushed(false),
       mChecked(false), mCallback(callback) {
 
     if (mTheme)

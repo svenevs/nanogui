@@ -24,7 +24,7 @@
 NAMESPACE_BEGIN(nanogui)
 
 TextBox::TextBox(Widget *parent, const std::string &value, const std::string &font)
-    : Widget(parent, font, false),
+    : Widget(parent, font),
       mEditable(false),
       mSpinnable(false),
       mCommitted(true),

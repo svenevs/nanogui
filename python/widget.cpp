@@ -8,9 +8,8 @@ DECLARE_WIDGET(Window);
 
 void register_widget(py::module &m) {
     py::class_<Widget, ref<Widget>, PyWidget>(m, "Widget", D(Widget))
-        .def(py::init<Widget *, const std::string &, bool>(),
-             py::arg("parent"), py::arg("font") = std::string(""),
-             py::arg("fontDefaultIsBold") = false, D(Widget, Widget))
+        .def(py::init<Widget *, const std::string &>(),
+             py::arg("parent"), py::arg("font") = std::string(""), D(Widget, Widget))
         .def("parent", (Widget *(Widget::*)(void)) &Widget::parent, D(Widget, parent))
         .def("setParent", &Widget::setParent, D(Widget, setParent))
         .def("layout", (Layout *(Widget::*)(void)) &Widget::layout, D(Widget, layout))

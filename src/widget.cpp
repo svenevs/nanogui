@@ -19,21 +19,16 @@
 
 NAMESPACE_BEGIN(nanogui)
 
-Widget::Widget(Widget *parent, const std::string &font, bool fontDefaultIsBold)
+Widget::Widget(Widget *parent, const std::string &font)
     : mParent(nullptr), mTheme(nullptr), mLayout(nullptr),
       mPos(Vector2i::Zero()), mSize(Vector2i::Zero()),
       mFixedSize(Vector2i::Zero()), mVisible(true), mEnabled(true),
       mFocused(false), mMouseFocus(false), mTooltip(""),
       mIconExtraScale(1.0f), mCursor(Cursor::Arrow),
-      mFontSize(-1.0f),
-      mFont(font), mFontExplicit(font != ""), mFontDefaultIsBold(fontDefaultIsBold),
-      mTooltipFont(Theme::globalDefaultFont()), mTooltipFontExplicit(false),
-      mIconFont(Theme::globalDefaultIconFont()), mIconFontExplicit(false) {
+      mFontSize(-1.0f), mFont(font), mTooltipFont(""), mIconFont("") {
 
     if (parent)
         parent->addChild(this);
-    else
-        setDefaultFonts();// when no Theme present, make sure fonts are initialized
 }
 
 Widget::~Widget() {
@@ -47,7 +42,6 @@ void Widget::setTheme(Theme *theme) {
     if (mTheme.get() == theme)
         return;
     mTheme = theme;
-    setDefaultFonts();
     for (auto child : mChildren)
         child->setTheme(theme);
 }
@@ -243,6 +237,49 @@ void Widget::draw(NVGcontext *ctx) {
     nvgRestore(ctx);
 }
 
+// font related getters
+std::string Widget::font() const {
+    if (!mFont.empty())
+        return mFont;
+    return defaultFont();
+}
+
+std::string Widget::defaultFont() const {
+    // let the theme decide the default font
+    if (mTheme)
+        return mTheme->mDefaultFont;
+    // rare: orphan widget with no parents (and thus no theme)
+    return Theme::GlobalDefaultFonts::Normal;
+}
+
+std::string Widget::tooltipFont() const {
+    if (!mTooltipFont.empty())
+        return mTooltipFont;
+    return defaultTooltipFont();
+}
+
+std::string Widget::defaultTooltipFont() const {
+    // use the theme's normal font default
+    if (mTheme)
+        return mTheme->mDefaultFont;
+    // rare: orphan widget with no parents (and thus no theme)
+    return Theme::GlobalDefaultFonts::Normal;
+}
+
+std::string Widget::iconFont() const {
+    if (!mIconFont.empty())
+        return mIconFont;
+    return defaultIconFont();
+}
+
+std::string Widget::defaultIconFont() const {
+    // let the theme decide the icon font
+    if (mTheme)
+        return mTheme->mDefaultIconFont;
+    // rare: orphan widget with no parents (and thus no theme)
+    return Theme::GlobalDefaultFonts::Icons;
+}
+
 void Widget::save(Serializer &s) const {
     s.set("position", mPos);
     s.set("size", mSize);
@@ -254,12 +291,8 @@ void Widget::save(Serializer &s) const {
     s.set("cursor", (int) mCursor);
     s.set("fontSize", mFontSize);
     s.set("font", mFont);
-    s.set("fontExplicit", mFontExplicit);
-    s.set("fontDefaultIsBold", mFontDefaultIsBold);
     s.set("tooltipFont", mTooltipFont);
-    s.set("tooltipFontExplicit", mTooltipFontExplicit);
     s.set("iconFont", mIconFont);
-    s.set("iconFontExplicit", mIconFontExplicit);
 }
 
 bool Widget::load(Serializer &s) {
@@ -272,39 +305,9 @@ bool Widget::load(Serializer &s) {
     if (!s.get("tooltip", mTooltip)) return false;
     if (!s.get("cursor", mCursor)) return false;
     if (!s.get("font", mFont)) return false;
-    if (!s.get("fontExplicit", mFontExplicit)) return false;
-    if (!s.get("fontDefaultIsBold", mFontDefaultIsBold)) return false;
     if (!s.get("tooltipFont", mTooltipFont)) return false;
-    if (!s.get("tooltipFontExplicit", mTooltipFontExplicit)) return false;
     if (!s.get("iconFont", mIconFont)) return false;
-    if (!s.get("iconFontExplicit", mIconFontExplicit)) return false;
     return true;
-}
-
-void Widget::setDefaultFonts() {
-    // setup mFont
-    if (!mFontExplicit) {
-        if (mTheme) {
-            if (mFontDefaultIsBold) mFont = mTheme->defaultBoldFont();
-            else                    mFont = mTheme->defaultFont();
-        }
-        else {
-            if (mFontDefaultIsBold) mFont = Theme::globalDefaultBoldFont();
-            else                    mFont = Theme::globalDefaultFont();
-        }
-    }
-
-    // setup mTooltipFont
-    if (!mTooltipFontExplicit) {
-        if (mTheme) mTooltipFont = mTheme->defaultFont();
-        else        mTooltipFont = Theme::globalDefaultFont();
-    }
-
-    // setup mIconFont
-    if (!mIconFontExplicit) {
-        if (mTheme) mIconFont = mTheme->defaultIconFont();
-        else        mIconFont = Theme::globalDefaultIconFont();
-    }
 }
 
 NAMESPACE_END(nanogui)

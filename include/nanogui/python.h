@@ -55,6 +55,15 @@
     } \
     void setTheme(Theme *theme) { \
         PYBIND11_OVERLOAD(void, Parent, setTheme, theme); \
+    } \
+    std::string defaultFont() const override { \
+        PYBIND11_OVERLOAD(std::string, Parent, defaultFont, ); \
+    } \
+    std::string defaultTooltipFont() const override { \
+        PYBIND11_OVERLOAD(std::string, Parent, defaultTooltipFont, ); \
+    } \
+    std::string defaultIconFont() const override { \
+        PYBIND11_OVERLOAD(std::string, Parent, defaultIconFont, ); \
     }
 
 /// Provides a ``PYBIND11_OVERLOAD`` for any relevant Layout items that need to be bound.

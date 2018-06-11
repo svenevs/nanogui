@@ -38,28 +38,16 @@ public:
      *     The parent of this Widget.
      *
      * \param font
-     *     The font face to start with.  By using the empty string, when
-     *     ``parent`` is not ``nullptr``, the \ref Theme is queried for the font
-     *     to use.  When anything other than the empty string, this implies that
-     *     a user has explicitly requested a specific font face.  For example,
-     *     ``new Label(parent, "text", "sans-bold")``.  That is, sub-classes
-     *     should always provide an explicit ``font`` parameter in their
-     *     constructor, with a default value of ``""``.  The
-     *     ``fontDefaultIsBold`` parameter defines the behavior when the empty
-     *     string is supplied here.
-     *
-     * \param fontDefaultIsBold
-     *     Different sub-classes may prefer a different default font face.  When
-     *     ``font`` is ``""`` and ``fontDefaultIsBold=false``,
-     *     \ref Theme::defaultFont is used to populate \ref mFont.  When
-     *     ``true``, \ref Theme::defaultBoldFont is used instead.  Lastly, in
-     *     the rare occurrence that ``parent`` is ``nullptr`` (and therefore no
-     *     \ref Theme instance is available at the time of construction), the
-     *     static \ref Theme methods are called instead.  When
-     *     ``fontDefaultIsBold=false``, \ref Theme::globalDefaultFont is used.
-     *     When ``true``, \ref Theme::globalDefaultBoldFont is used.
+     *     \rst
+     *     The font face to start with.  When anything other than the empty
+     *     string, this implies that a user has explicitly requested a specific
+     *     font face.  For example, ``new Label(parent, "text", "sans-bold")``.
+     *     That is, sub-classes that draw text should always provide an explicit
+     *     ``font`` parameter in their constructor, with a default value of
+     *     ``""``.  See :ref:`nanogui_usage_how_fonts_are_used`.
+     *     \endrst
      */
-    Widget(Widget *parent, const std::string &font = "", bool fontDefaultIsBold = false);
+    Widget(Widget *parent, const std::string &font = "");
 
     /// Return the parent widget
     Widget *parent() { return mParent; }
@@ -240,24 +228,22 @@ public:
     bool hasFontSize() const { return mFontSize > 0.0f; }
 
     /// The current font being used for this Widget (if text is being drawn).
-    const std::string &font() const { return mFont; }
+    std::string font() const;
     /// Sets the font to be used for this Widget (if text is being drawn).
-    void setFont(const std::string &font) {
-        mFont = font;
-        mFontExplicit = true;
-    }
+    void setFont(const std::string &font) { mFont = font; }
+    /// Called by \ref Widget::font when \ref mFont is the empty string.
+    virtual std::string defaultFont() const;
 
     /// The tooltip for this Widget (displays on mouse hover).
     const std::string &tooltip() const { return mTooltip; }
     /// Sets the tooltip for this Widget (displays on mouse hover).
     void setTooltip(const std::string &tooltip) { mTooltip = tooltip; }
-    /// Get the font name being used to draw tool tips for child widgets
-    const std::string &tooltipFont() const { return mTooltipFont; }
+    /// Get the font name being used to draw \ref mTooltip
+    std::string tooltipFont() const;
     /// Set the font to be used to draw \ref mTooltip.
-    void setTooltipFont(const std::string &font) {
-        mTooltipFont = font;
-        mTooltipFontExplicit = true;
-    }
+    void setTooltipFont(const std::string &font) { mTooltipFont = font; }
+    /// Called by \ref Widget::tooltipFont when \ref mTooltipFont is the empty string.
+    virtual std::string defaultTooltipFont() const;
 
     /**
      * The amount of extra scaling applied to *icon* fonts.
@@ -269,19 +255,12 @@ public:
      * See \ref nanogui::Widget::mIconExtraScale.
      */
     void setIconExtraScale(float scale) { mIconExtraScale = scale; }
-    /**
-     * \brief The icon font being used by this widget.
-     *
-     * Will be ``"icons"`` (Entypo+), unless user has embedded additional icon
-     * fonts **and** created a custom Theme class to override
-     * \ref Theme::defaultIconFont
-     */
-    const std::string &iconFont() const { return mIconFont; }
+    /// Get the font name being used to draw icons for this widget.
+    std::string iconFont() const;
     /// Sets the icon font for this Widget (assumes this font is valid / already loaded).
-    void setIconFont(const std::string &iconFont) {
-        mIconFont = iconFont;
-        mIconFontExplicit = true;
-    }
+    void setIconFont(const std::string &iconFont) { mIconFont = iconFont; }
+    /// Called by \ref Widget::iconFont when \ref mIconFont is the empty string.
+    virtual std::string defaultIconFont() const;
 
     /// Return a pointer to the cursor of the widget
     Cursor cursor() const { return mCursor; }
@@ -424,12 +403,6 @@ private:
      */
 
     /**
-     * When \ref setTheme is called, this method configures both \ref mFont and
-     * \ref mTooltipFont.
-     */
-    void setDefaultFonts();
-
-    /**
      * Used to set the font size of a widget explicitly.  The initial value is
      * ``-1``, and a negative number indicates that the theme's font size should
      * be used instead.  Specifically, \ref fontSize will return
@@ -437,41 +410,41 @@ private:
      */
     float mFontSize;
 
-    /// The current font face being used to draw text (if this Widget displays text).
+    /**
+     * \brief The explicitly specified font face to use for drawing generic text.
+     *
+     * \rst
+     * The value of this variable is typically the empty string (``""``),
+     * indicating that no font has been explicitly specified by a user.  In this
+     * event, either the class or theme will define the font face.  See
+     * :ref:`nanogui_usage_how_fonts_are_used`.
+     * \endrst
+     */
     std::string mFont;
-    /**
-     * When the font is specified either via the constructor or \ref setFont,
-     * this is set to ``true`` to indicate that \ref setTheme should not
-     * overwrite the user-specified default.  Otherwise, when \ref setTheme is
-     * called, the theme's default window font will be used.
-     */
-    bool mFontExplicit = false;
-    /**
-     * There are two default fonts in NanoGUI: ``"sans"`` and ``"sans-bold"``.
-     * When this variable is ``true``, the bold font will be used.  When
-     * ``false``, the regular font face will be used.  Subclasses are
-     * responsible for specifying this behavior when calling the parent class
-     * constructor (\ref Widget::Widget).  For example, \ref nanogui::Label will
-     * always set this to ``false``, whereas \ref nanogui::Button will always
-     * set this to ``true``.
-     */
-    bool mFontDefaultIsBold;
 
-    /// Font face to draw this \ref mTooltip with (default: \ref Theme::defaultFont).
+    /**
+     * \brief The explicitly specified font face for drawing \ref mTooltip with.
+     *
+     * \rst
+     * The value of this variable is typically the empty string (``""``),
+     * indicating that no font has been explicitly specified by a user.  In this
+     * event, either the class or theme will define the font face.  See
+     * :ref:`nanogui_usage_how_fonts_are_used`.
+     * \endrst
+     */
     std::string mTooltipFont;
-    /**
-     * When ``true``, \ref setTooltipFont has been called implying that
-     * \ref setTheme will not change \ref mTooltipFont.
-     */
-    bool mTooltipFontExplicit;
 
-    /// The icon font being used (typically: ``"icons"`` for Entypo+).
-    std::string mIconFont;
     /**
-     * When ``true``, \ref setIconFont has been called implying that
-     * \ref setTheme will not change \ref mIconFont.
+     * \brief The explicitly specified font face for drawing icon text.
+     *
+     * \rst
+     * The value of this variable is typically the empty string (``""``),
+     * indicating that no font has been explicitly specified by a user.  In this
+     * event, either the class or theme will define the font face.  See
+     * :ref:`nanogui_usage_how_fonts_are_used`.
+     * \endrst
      */
-    bool mIconFontExplicit;
+    std::string mIconFont;
 
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

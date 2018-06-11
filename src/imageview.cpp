@@ -67,7 +67,7 @@ namespace {
 }
 
 ImageView::ImageView(Widget* parent, GLuint imageID)
-    : Widget(parent, "", false), mImageID(imageID), mScale(1.0f),
+    : Widget(parent, ""), mImageID(imageID), mScale(1.0f),
       mOffset(Vector2f::Zero()), mFixedScale(false), mFixedOffset(false),
       mPixelInfoCallback(nullptr) {
 
