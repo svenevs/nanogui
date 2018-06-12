@@ -3,7 +3,7 @@ build:
     image: 2.0
 
 python:
-    version: 2
+    version: 3
     setup_py_install: false
 
 # Don't build any extra formats
