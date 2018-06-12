@@ -47,7 +47,7 @@ public:
      *
      * \sa The *implementation* of \ref nanogui::Widget::font.
      */
-    struct GlobalDefaultFonts {
+    struct NANOGUI_EXPORT GlobalDefaultFonts {
         static const char *Normal;  ///< ``"sans"``: see \ref nanogui::Theme::mDefaultFont.
         static const char *Bold;    ///< ``"sans-bold"``: see \ref nanogui::Theme::mDefaultBoldFont.
         static const char *Mono;    ///< ``"mono"``: see \ref nanogui::Theme::mDefaultMonoFont.
