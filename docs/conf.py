@@ -205,8 +205,7 @@ exclude_patterns = ['_build', 'venv']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-# HTML themes now set pygments style, in this case let sphinx_rtd_theme set it
-# pygments_style = 'sphinx'
+pygments_style = 'default'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
