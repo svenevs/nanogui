@@ -3,7 +3,7 @@ build:
     image: latest
 
 python:
-    version: 3.6
+    version: 2.7
     setup_py_install: false
 
 # Don't build any extra formats
