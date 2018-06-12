@@ -5,7 +5,7 @@ matrix:
   include:
     - os: linux
       compiler: gcc-4.8
-      env: GENERATOR=Makefiles
+      env: GENERATOR='Unix Makefiles'
       addons:
         apt:
           sources:
@@ -27,7 +27,7 @@ matrix:
             - cmake
       script:
         - cmake --version
-        - cmake -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_C_COMPILER=gcc-4.8
+        - cmake -G "$GENERATOR" -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=g++-4.8 -DCMAKE_C_COMPILER=gcc-4.8
         - make -j 2
     - os: linux
       compiler: clang
@@ -67,14 +67,14 @@ matrix:
       script:
         - cmake --version
         - ninja --version
-        - cmake -G Ninja -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
+        - cmake -G "$GENERATOR" -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
         - ninja -j 2
     - os: osx
       compiler: clang
-      env: GENERATOR=Makefiles
+      env: GENERATOR='Unix Makefiles'
       script:
         - cmake --version
-        - cmake -DNANOGUI_PYTHON_VERSION=2.7
+        - cmake -G "$GENERATOR" -DNANOGUI_PYTHON_VERSION=2.7
         - make -j 2
     - os: osx
       compiler: clang
@@ -86,10 +86,26 @@ matrix:
       script:
         - cmake --version
         - ninja --version
-        - cmake -G Ninja -DNANOGUI_PYTHON_VERSION=2.7
+        - cmake -G "$GENERATOR" -DNANOGUI_PYTHON_VERSION=2.7
         - ninja -j 2
     - os: linux
       language: docs
       env: STYLE
       script:
       - resources/check-style.sh
+    - os: linux
+      env: DOCS
+      language: python
+      addons:
+        apt:
+          packages:
+            - doxygen
+      python: "3.6"
+      install:
+        - pip install -U pip
+        - pip install -r docs/requirements.txt
+      script:
+        - cd docs/
+        - doxygen --version
+        - make html
+        - make linkcheck
