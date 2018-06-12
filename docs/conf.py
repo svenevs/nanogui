@@ -40,6 +40,9 @@ extensions = [
 breathe_projects = { "NanoGUI": "./doxyoutput/xml" }
 breathe_default_project = "NanoGUI"
 
+# `make linkcheck` will report synthetic GitHub anchors as errors
+linkcheck_anchors_ignore = ["theme-builder"]
+
 # Include private member documentation for class and struct
 def specificationsForKind(kind):
     '''
