@@ -1,6 +1,6 @@
 # See the docs: http://docs.readthedocs.io/en/latest/yaml-config.html
 build:
-    image: latest
+    image: 1.0
 
 python:
     version: 2.7
