@@ -327,12 +327,12 @@ if (NANOGUI_EXTRA_ICON_RESOURCES)
       # Copy the generated file so that #include "python.h" works
       file(
         COPY "${icon_font_pybind}"
-        DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/python"
+        DESTINATION "${NANOGUI_GENERATED_RESOURCE_DIR}/python"
       )
       # Add this additional source file to be compiled into the python bindings
       list(
         APPEND LIBNANOGUI_PYTHON_EXTRA_SOURCE
-        "${CMAKE_CURRENT_SOURCE_DIR}/python/constants_${icon_font_base}.cpp"
+        "${NANOGUI_GENERATED_RESOURCE_DIR}/python/constants_${icon_font_base}.cpp"
       )
 
       # Create the configuration variables for python/main.cpp, which amount to
@@ -594,12 +594,15 @@ if (NANOGUI_BUILD_PYTHON)
   # Configuration allows the addition of extra icon fonts to be included.
   configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/python/main.cpp.in"
-    "${CMAKE_CURRENT_SOURCE_DIR}/python/main.cpp"
+    "${NANOGUI_GENERATED_RESOURCE_DIR}/python/main.cpp"
     @ONLY
   )
+  # Allow for #include "python.h" in generated main.cpp, as well as any
+  # potential custom icon font bindings.
+  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/python")
 
   add_library(nanogui-python-obj OBJECT
-    python/main.cpp
+    "${NANOGUI_GENERATED_RESOURCE_DIR}/python/main.cpp"
     python/constants_glfw.cpp
     python/constants_entypo.cpp
     python/eigen.cpp
