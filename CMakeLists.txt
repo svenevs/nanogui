@@ -356,10 +356,11 @@ if (NANOGUI_EXTRA_ICON_RESOURCES)
   endforeach()
 endif()
 
-# Run simple cmake converter to put font files into the data segment
-
-# Glob up resource files
-file(GLOB resources "${CMAKE_CURRENT_SOURCE_DIR}/resources/*.ttf")
+# Begin building the list of fonts to process with bin2c
+# These fonts are vendored with NanoGUI, but additional fonts may be added.
+foreach(font entypo.ttf Roboto-Bold.ttf RobotoMono-Bold.ttf RobotoMono-Regular.ttf Roboto-Regular.ttf)
+  list(APPEND NANOGUI_BIN2C_INPUT_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/${font}")
+endforeach()
 
 # Parent projects can set this list to include additional fonts
 if (NANOGUI_EXTRA_RESOURCES)
@@ -370,26 +371,50 @@ if (NANOGUI_EXTRA_RESOURCES)
     endif()
   endforeach()
   # Add the fonts specified by the parent project to the list of fonts to embed
-  list(APPEND resources ${NANOGUI_EXTRA_RESOURCES})
+  list(APPEND NANOGUI_BIN2C_INPUT_FILES ${NANOGUI_EXTRA_RESOURCES})
   # Allow parent projects to #include <nanogui/resources.h> without needing to
   # know where it was generated to.
   list(APPEND NANOGUI_EXTRA_INCS "${NANOGUI_GENERATED_RESOURCE_DIR}/include")
 endif()
 
-# All font resources are now stored in `resources` list.  Execute bin2c at
-# configure time, see top of resources/bin2c.cmake for more information.
+# All font resources are now stored in `NANOGUI_BIN2C_INPUT_FILES` list.
+# Populate the command-line arguments for running bin2c
 set(NANOGUI_BIN2C_OUTPUT_C "${NANOGUI_GENERATED_RESOURCE_DIR}/src/resources.cpp")
 set(NANOGUI_BIN2C_OUTPUT_H "${NANOGUI_GENERATED_RESOURCE_DIR}/include/nanogui/resources.h")
-set(NANOGUI_BIN2C_INPUT_FILES "${resources}")
-message(STATUS "NanoGUI: generating font resources.")
-include("${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake")
+# Convert CMake list to comma separated list (prevent CMake from inserting
+# spaces between arguments).  This will be converted back in resources/bin2c.cmake.
+string(REGEX REPLACE "([^\\]|^);" "\\1," resources_string "${NANOGUI_BIN2C_INPUT_FILES}")
+string(REGEX REPLACE "[\\](.)" "\\1"     resources_string "${resources_string}")
 
+# Create command line for running bin2c cmake script and add a custom command
+# to launch bin2c at build time.
+set(bin2c_cmdline
+  -DNANOGUI_BIN2C_OUTPUT_C="${NANOGUI_BIN2C_OUTPUT_C}"
+  -DNANOGUI_BIN2C_OUTPUT_H="${NANOGUI_BIN2C_OUTPUT_H}"
+  -DNANOGUI_BIN2C_INPUT_FILES="${resources_string}"
+  -P "${CMAKE_CURRENT_SOURCE_DIR}/resources/bin2c.cmake"
+)
+add_custom_command(
+  OUTPUT "${NANOGUI_BIN2C_OUTPUT_C}" "${NANOGUI_BIN2C_OUTPUT_H}"
+  COMMAND ${CMAKE_COMMAND} ARGS ${bin2c_cmdline}
+  DEPENDS ${NANOGUI_BIN2C_INPUT_FILES}  # Reconfigure if / when fonts are changed
+  COMMENT "NanoGUI: generating font resources."
+)
+
+# The final step to running bin2c is to create a synthetic target that depends
+# on the output of the bin2c `custom_command`'s OUTPUT list.  The
+# `nanogui-resources` target is then marked as an explicit dependency of both
+# `nanogui-obj` and `nanogui-python-obj`, which guarantees that bin2c will run
+# before anything else tries to build.
+add_custom_target(nanogui-resources
+  DEPENDS "${NANOGUI_BIN2C_OUTPUT_C}" "${NANOGUI_BIN2C_OUTPUT_H}"
+)
+
+# Make sure #include <nanogui/resources.h> works for both building and installation
+include_directories("${NANOGUI_GENERATED_RESOURCE_DIR}/include")
 if (NANOGUI_INSTALL)
   install(FILES "${NANOGUI_BIN2C_OUTPUT_H}" DESTINATION include/nanogui)
 endif()
-
-# Needed for #include <nanogui/resources.h>
-include_directories("${NANOGUI_GENERATED_RESOURCE_DIR}/include")
 
 # Set library type
 if (NANOGUI_BUILD_SHARED)
@@ -456,6 +481,7 @@ add_library(nanogui-obj OBJECT
   include/nanogui/serializer/sparse.h
   src/serializer.cpp
 )
+add_dependencies(nanogui-obj nanogui-resources) # Force bin2c to run first (part 1/2)
 
 # XCode has a serious bug where the XCode project produces an invalid target
 # that will not get linked if it consists only of objects from object libraries,
@@ -592,6 +618,7 @@ if (NANOGUI_BUILD_PYTHON)
     python/python.h python/py_doc.h
     ${LIBNANOGUI_PYTHON_EXTRA_SOURCE})
 
+  add_dependencies(nanogui-python-obj nanogui-resources) # Force bin2c to run first (part 2/2)
   add_library(nanogui-python SHARED $<TARGET_OBJECTS:nanogui-python-obj>)
   set_property(TARGET nanogui-python-obj PROPERTY POSITION_INDEPENDENT_CODE ON)
   set_target_properties(nanogui-python PROPERTIES OUTPUT_NAME "nanogui")
