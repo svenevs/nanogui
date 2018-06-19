@@ -599,7 +599,13 @@ if (NANOGUI_BUILD_PYTHON)
   )
   # Allow for #include "python.h" in generated main.cpp, as well as any
   # potential custom icon font bindings.
-  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/python")
+  foreach(header python.h py_doc.h)
+    file(
+      COPY "${CMAKE_CURRENT_SOURCE_DIR}/python/${header}"
+      DESTINATION "${NANOGUI_GENERATED_RESOURCE_DIR}/python"
+    )
+  endforeach()
+  include_directories("${NANOGUI_GENERATED_RESOURCE_DIR}/python")
 
   add_library(nanogui-python-obj OBJECT
     "${NANOGUI_GENERATED_RESOURCE_DIR}/python/main.cpp"
