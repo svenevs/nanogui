@@ -31,10 +31,6 @@ public:
     Theme(NVGcontext *ctx);
 
     /* Fonts */
-    /* NOTE: updating documentation for Theme::GlobalDefaultFonts?  Please also
-     *       update the manual documentation in python/theme.cpp at the bottom.
-     *       This class is not processed by docs/mkdoc_rst.py.
-     */
     /**
      * \struct GlobalDefaultFonts theme.h nanogui/theme.h
      *
@@ -45,14 +41,29 @@ public:
      * happens when a Widget is constructed without a parent), these values are also
      * used in the Widget font getter methods.
      *
+     * The five available class-level string constants are ``Normal``, ``Bold``,
+     * ``Mono``, ``MonoBold``, and ``Icons``.
+     *
      * \sa The *implementation* of \ref nanogui::Widget::font.
      */
     struct NANOGUI_EXPORT GlobalDefaultFonts {
-        static const char *Normal;  ///< ``"sans"``: see \ref nanogui::Theme::mDefaultFont.
-        static const char *Bold;    ///< ``"sans-bold"``: see \ref nanogui::Theme::mDefaultBoldFont.
-        static const char *Mono;    ///< ``"mono"``: see \ref nanogui::Theme::mDefaultMonoFont.
-        static const char *MonoBold;///< ``"mono-bold"``: see \ref nanogui::Theme::mDefaultMonoBoldFont.
-        static const char *Icons;   ///< ``"icons"``: see \ref nanogui::Theme::mDefaultIconFont.
+        /// This class shall not be instantiated.
+        GlobalDefaultFonts() = delete;
+        /// This class shall not be copied.
+        GlobalDefaultFonts(const GlobalDefaultFonts &other) = delete;
+        /// This class shall not be moved.
+        GlobalDefaultFonts(const GlobalDefaultFonts &&other) = delete;
+
+        /// The ``"sans"`` font face: see \ref nanogui::Theme::mDefaultFont.
+        static constexpr auto Normal   = "sans";
+        /// The ``"sans-bold"`` font face: see \ref nanogui::Theme::mDefaultBoldFont.
+        static constexpr auto Bold     = "sans-bold";
+        /// The ``"mono"`` font face: see \ref nanogui::Theme::mDefaultMonoFont.
+        static constexpr auto Mono     = "mono";
+        /// The ``"mono-bold"`` font face: see \ref nanogui::Theme::mDefaultMonoBoldFont.
+        static constexpr auto MonoBold = "mono-bold";
+        /// The ``"icons"`` font face: see \ref nanogui::Theme::mDefaultIconFont.
+        static constexpr auto Icons    = "icons";
     };
 
     /// The default font face: ``"sans"`` from ``resources/Roboti-Regular.ttf``.

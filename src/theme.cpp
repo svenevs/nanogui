@@ -18,12 +18,6 @@
 
 NAMESPACE_BEGIN(nanogui)
 
-const char *Theme::GlobalDefaultFonts::Normal   = "sans";
-const char *Theme::GlobalDefaultFonts::Bold     = "sans-bold";
-const char *Theme::GlobalDefaultFonts::Mono     = "mono";
-const char *Theme::GlobalDefaultFonts::MonoBold = "mono-bold";
-const char *Theme::GlobalDefaultFonts::Icons    = "icons";
-
 Theme::Theme(NVGcontext *ctx) {
     mDefaultFont                      = Theme::GlobalDefaultFonts::Normal;
     mDefaultBoldFont                  = Theme::GlobalDefaultFonts::Bold;

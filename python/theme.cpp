@@ -5,6 +5,28 @@ public:
     using Theme::Theme;
 };
 
+/* The "old-school" `static const char *` approach is being used here so that
+ * these values can be bound with pybind11.  In the C++ code it is preferable to
+ * have ``static constexpr auto Normal = "sans"`` etc., but it is not possible
+ * to bind this with pybind11.
+ *
+ * Instead of forcing the C++ code to use the "old" way, we simply bind this
+ * TU-local ``global_default_fonts_proxy`` struct instead.
+ */
+struct global_default_fonts_proxy {
+    static const char *Normal;
+    static const char *Bold;
+    static const char *Mono;
+    static const char *MonoBold;
+    static const char *Icons;
+};
+
+const char *global_default_fonts_proxy::Normal   = Theme::GlobalDefaultFonts::Normal;
+const char *global_default_fonts_proxy::Bold     = Theme::GlobalDefaultFonts::Bold;
+const char *global_default_fonts_proxy::Mono     = Theme::GlobalDefaultFonts::Mono;
+const char *global_default_fonts_proxy::MonoBold = Theme::GlobalDefaultFonts::MonoBold;
+const char *global_default_fonts_proxy::Icons    = Theme::GlobalDefaultFonts::Icons;
+
 void register_theme(py::module &m) {
     py::class_<Theme, ref<Theme>, PyTheme> theme(m, "Theme", D(Theme));
     theme.def(py::init<NVGcontext *>(), D(Theme, Theme))
@@ -73,40 +95,19 @@ void register_theme(py::module &m) {
          .def_readwrite("mTextBoxDownIcon", &Theme::mTextBoxDownIcon, D(Theme, mTextBoxDownIcon))
          .def_readwrite("mTextBoxIconExtraScale", &Theme::mTextBoxIconExtraScale, D(Theme, mTextBoxIconExtraScale));
 
-/* NOTE: leave these "unindented"!  These are enumerated manually because the author
- *       is unable to determine why docs/mkdoc_rst.py skips this class.  It may be
- *       fixed in the future, in which case remove the NOTE in include/nanogui/theme.h
- *       and simply delete these __doc_nanogui_Theme_GlobalDefaultFonts_* definitions.
- */
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts =
-R"doc(The font face string identifiers that are always loaded / available for every Widget.
-
-In the (rare) event that a Widget does not have a Theme instance (this only
-happens when a Widget is constructed without a parent), these values are also
-used in the Widget font getter methods.
-
-See also: The *implementation* of nanogui::Widget::font.)doc";
-
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Normal =
-R"doc(``"sans"``.  See nanogui::Theme::mDefaultFont.)doc";
-
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Bold =
-R"doc(``"sans-bold"``.  See nanogui::Theme::mDefaultBoldFont.)doc";
-
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Mono =
-R"doc(``"mono"``.  See nanogui::Theme::mDefaultMonoFont.)doc";
-
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts_MonoBold =
-R"doc(``"mono-bold"``.  See nanogui::Theme::mDefaultMonoBoldFont.)doc";
-
-static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Icons =
-R"doc(``"icons"``.  See nanogui::Theme::mDefaultIconFont.)doc";
-
-    py::class_<Theme::GlobalDefaultFonts>(theme, "GlobalDefaultFonts", py::metaclass(), D(Theme, GlobalDefaultFonts))
-        .def(py::init<>())
-        .def_readonly_static("Normal",   &Theme::GlobalDefaultFonts::Normal,   D(Theme, GlobalDefaultFonts, Normal))
-        .def_readonly_static("Bold",     &Theme::GlobalDefaultFonts::Bold,     D(Theme, GlobalDefaultFonts, Bold))
-        .def_readonly_static("Mono",     &Theme::GlobalDefaultFonts::Mono,     D(Theme, GlobalDefaultFonts, Mono))
-        .def_readonly_static("MonoBold", &Theme::GlobalDefaultFonts::MonoBold, D(Theme, GlobalDefaultFonts, MonoBold))
-        .def_readonly_static("Icons",    &Theme::GlobalDefaultFonts::Icons,    D(Theme, GlobalDefaultFonts, Icons));
+    /* See declaration of global_default_fonts_proxy at the top of this file.
+     *
+     * NOTE: using this approach, the static member documentation is attached to
+     *       the metaclass: help(nanogui.Theme.GlobalDefaultFonts.__class__.Bold)
+     *
+     * Since help(nanogui.Theme.GlobalDefaultFonts.Bold) does not exist (because
+     * of the metaclassing going on), the main GlobalDefaultFonts docstring
+     * should continue to enumerate the five possible constants.
+     */
+    py::class_<global_default_fonts_proxy>(theme, "GlobalDefaultFonts", py::metaclass(), D(Theme, GlobalDefaultFonts))
+        .def_readonly_static("Normal",   &global_default_fonts_proxy::Normal,   D(Theme, GlobalDefaultFonts, Normal))
+        .def_readonly_static("Bold",     &global_default_fonts_proxy::Bold,     D(Theme, GlobalDefaultFonts, Bold))
+        .def_readonly_static("Mono",     &global_default_fonts_proxy::Mono,     D(Theme, GlobalDefaultFonts, Mono))
+        .def_readonly_static("MonoBold", &global_default_fonts_proxy::MonoBold, D(Theme, GlobalDefaultFonts, MonoBold))
+        .def_readonly_static("Icons",    &global_default_fonts_proxy::Icons,    D(Theme, GlobalDefaultFonts, Icons));
 }

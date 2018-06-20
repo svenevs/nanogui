@@ -3055,6 +3055,8 @@ static const char *__doc_nanogui_TabHeader_TabButton_TabButton = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_TabButton_calculateVisibleString = R"doc()doc";
 
+static const char *__doc_nanogui_TabHeader_TabButton_dots = R"doc()doc";
+
 static const char *__doc_nanogui_TabHeader_TabButton_drawActiveBorderAt = R"doc()doc";
 
 static const char *__doc_nanogui_TabHeader_TabButton_drawAtPosition = R"doc()doc";
@@ -3576,6 +3578,38 @@ static const char *__doc_nanogui_TextBox_updateCursor = R"doc()doc";
 static const char *__doc_nanogui_TextBox_value = R"doc()doc";
 
 static const char *__doc_nanogui_Theme = R"doc(Storage class for basic theme-related properties.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts =
+R"doc(The font face string identifiers that are always loaded / available
+for every Widget.
+
+In the (rare) event that a Widget does not have a Theme instance (this
+only happens when a Widget is constructed without a parent), these
+values are also used in the Widget font getter methods.
+
+The five available class-level string constants are ``Normal``,
+``Bold``, ``Mono``, ``MonoBold``, and ``Icons``.
+
+See also:
+    The *implementation* of nanogui::Widget::font.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Bold = R"doc(The ``"sans-bold"`` font face: see nanogui::Theme::mDefaultBoldFont.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_GlobalDefaultFonts = R"doc(This class shall not be instantiated.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_GlobalDefaultFonts_2 = R"doc(This class shall not be copied.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_GlobalDefaultFonts_3 = R"doc(This class shall not be moved.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Icons = R"doc(The ``"icons"`` font face: see nanogui::Theme::mDefaultIconFont.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Mono = R"doc(The ``"mono"`` font face: see nanogui::Theme::mDefaultMonoFont.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_MonoBold =
+R"doc(The ``"mono-bold"`` font face: see
+nanogui::Theme::mDefaultMonoBoldFont.)doc";
+
+static const char *__doc_nanogui_Theme_GlobalDefaultFonts_Normal = R"doc(The ``"sans"`` font face: see nanogui::Theme::mDefaultFont.)doc";
 
 static const char *__doc_nanogui_Theme_Theme = R"doc()doc";
 
